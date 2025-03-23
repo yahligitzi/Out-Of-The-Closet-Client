@@ -1,21 +1,27 @@
 import styles from "./uploadPhotos.style";
 import {
+  Alert,
   Box,
   Button,
   CircularProgress,
   IconButton,
   Paper,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import UploadIcon from "@mui/icons-material/Upload";
 import ImageIcon from "@mui/icons-material/Image";
 import { ChangeEvent, useState } from "react";
-import filesService from "../../services/files.service";
+import uploadService from "../../services/upload.service";
+import { SnackbarState } from "./uploadPhotos.types";
 
 export const UploadPhotos = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    open: false,
+  });
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
@@ -32,17 +38,25 @@ export const UploadPhotos = () => {
     const formData = new FormData();
 
     selectedFiles.forEach((file) => {
-      formData.append("files", file);
+      formData.append("images", file);
     });
 
-    filesService
+    uploadService
       .uploadImages(formData)
       .then(() => {
-        console.log("Files uploaded successfully!");
+        setSnackbar(() => ({
+          open: true,
+          message: "Files uploaded successfully!",
+          severity: "success",
+        }));
         setSelectedFiles([]);
       })
-      .catch((error) => {
-        console.error("Error uploading files:", error);
+      .catch(() => {
+        setSnackbar(() => ({
+          open: true,
+          message: "Error uploading files",
+          severity: "error",
+        }));
       })
       .finally(() => {
         setIsLoading(false);
@@ -127,6 +141,19 @@ export const UploadPhotos = () => {
           </Button>
         )}
       </Paper>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ open: false })}
+      >
+        <Alert
+          onClose={() => setSnackbar({ open: false })}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

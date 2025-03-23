@@ -1,10 +1,10 @@
 import apiClient from "./axiosInstance";
 
-const baseUrl = "/files";
+const baseUrl = "/upload";
 
 export default {
   uploadImages: async (formData: FormData) => {
-    await apiClient.post(`${baseUrl}`, formData, {
+    await apiClient.post(`${baseUrl}/images`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
