@@ -27,6 +27,7 @@ export const UploadPhotos = () => {
     const files = Array.from(event.target.files ?? []);
     const newFiles = files.slice(0, 3 - selectedFiles.length);
     setSelectedFiles((prev) => [...prev, ...newFiles]);
+    event.target.value = "";
   };
 
   const handleUpload = async () => {
