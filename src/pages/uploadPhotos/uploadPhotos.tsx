@@ -15,6 +15,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { ChangeEvent, useState } from "react";
 import uploadService from "../../services/upload.service";
 import { SnackbarState } from "./uploadPhotos.types";
+import { UPLOAD_PHOTOS_COUNT } from "./uploadPhotos.consts";
 
 export const UploadPhotos = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -25,43 +26,41 @@ export const UploadPhotos = () => {
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
-    const newFiles = files.slice(0, 3 - selectedFiles.length);
+    const newFiles = files.slice(0, UPLOAD_PHOTOS_COUNT - selectedFiles.length);
     setSelectedFiles((prev) => [...prev, ...newFiles]);
     event.target.value = "";
   };
 
   const handleUpload = async () => {
-    if (selectedFiles.length === 0) {
-      return;
-    }
+    if (selectedFiles.length !== 0) {
+      setIsLoading(true);
+      const formData = new FormData();
 
-    setIsLoading(true);
-    const formData = new FormData();
-
-    selectedFiles.forEach((file) => {
-      formData.append("images", file);
-    });
-
-    uploadService
-      .uploadImages(formData)
-      .then(() => {
-        setSnackbar(() => ({
-          open: true,
-          message: "Files uploaded successfully!",
-          severity: "success",
-        }));
-        setSelectedFiles([]);
-      })
-      .catch(() => {
-        setSnackbar(() => ({
-          open: true,
-          message: "Error uploading files",
-          severity: "error",
-        }));
-      })
-      .finally(() => {
-        setIsLoading(false);
+      selectedFiles.forEach((file) => {
+        formData.append("images", file);
       });
+
+      uploadService
+        .uploadImages(formData)
+        .then(() => {
+          setSnackbar(() => ({
+            open: true,
+            message: "Files uploaded successfully!",
+            severity: "success",
+          }));
+          setSelectedFiles([]);
+        })
+        .catch(() => {
+          setSnackbar(() => ({
+            open: true,
+            message: "Error uploading files",
+            severity: "error",
+          }));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
   return (
@@ -77,7 +76,7 @@ export const UploadPhotos = () => {
         <Box sx={styles.uploadContainer}>
           <Paper elevation={0} sx={styles.uploadBox}>
             <Typography variant="body1" component="div">
-              please upload 3 photos of your favorite items in your closet
+              {`please upload ${UPLOAD_PHOTOS_COUNT} photos of your favorite items in your closet`}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               these photos will help establish your new digital closet
@@ -96,7 +95,9 @@ export const UploadPhotos = () => {
                 accept="image/*"
                 hidden
                 onChange={handleFileSelect}
-                disabled={selectedFiles.length >= 3 || isLoading}
+                disabled={
+                  selectedFiles.length >= UPLOAD_PHOTOS_COUNT || isLoading
+                }
               />
             </Button>
           </Paper>
@@ -130,17 +131,16 @@ export const UploadPhotos = () => {
           )}
         </Box>
 
-        {selectedFiles.length === 3 && !isLoading && (
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleUpload}
-            sx={styles.uploadActionButton}
-          >
-            Upload photos
-          </Button>
-        )}
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          disabled={isLoading || selectedFiles.length !== UPLOAD_PHOTOS_COUNT}
+          onClick={handleUpload}
+          sx={styles.uploadActionButton}
+        >
+          Upload photos
+        </Button>
       </Paper>
       <Snackbar
         open={snackbar.open}

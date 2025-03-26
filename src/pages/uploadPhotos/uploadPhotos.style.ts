@@ -1,3 +1,5 @@
+import { colors } from "../../constants/styles";
+
 const styles = {
   root: {
     display: "flex",
@@ -6,7 +8,7 @@ const styles = {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#faf7f2",
+    backgroundColor: colors.lightBeige,
   },
   paper: {
     display: "flex",
@@ -14,7 +16,7 @@ const styles = {
     padding: "40px",
     width: "70%",
     textAlign: "center",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
   },
   title: {
     fontWeight: "bold",
@@ -29,12 +31,12 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     gap: "20px",
-    border: "1px solid #e0e0e0",
+    border: `1px solid ${colors.lightGray}`,
     borderRadius: 2,
   },
   uploadButton: {
-    bgcolor: "#333",
-    "&:hover": { bgcolor: "#555" },
+    bgcolor: colors.darkGray,
+    "&:hover": { bgcolor: colors.gray },
     textTransform: "none",
   },
   previewContainer: {
@@ -50,17 +52,18 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.softGray,
     borderRadius: 1,
   },
   uploadText: {
     fontSize: 100,
-    color: "#e0e0e0",
+    color: colors.lightGray,
   },
   uploadActionButton: {
     mt: 3,
-    bgcolor: "#333",
-    "&:hover": { bgcolor: "#555" },
+    bgcolor: colors.darkGray,
+    "&:hover": { bgcolor: colors.gray },
+    "&:disabled": { bgcolor: colors.lightGray, color: `${colors.gray}70` },
     textTransform: "none",
   },
   imagesPlaceholder: {
