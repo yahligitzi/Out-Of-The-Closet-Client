@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "../../contexts/snackbarContext";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 import { createNewUser } from "../../services/user.service";
 import { AxiosError } from "axios";
 import { PATHS } from "../../constants/routes";

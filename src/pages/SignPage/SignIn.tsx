@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "../../contexts/snackbarContext";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 import { PATHS } from "../../constants/routes";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -33,6 +33,8 @@ const SignIn = () => {
   const { setSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
+
+  const isAbleToSave = username.trim().length && password.trim().length;
 
   const signInUser = () => {
     // setSnackbar({
@@ -84,6 +86,7 @@ const SignIn = () => {
           variant="outlined"
           sx={{ textTransform: "none" }}
           onClick={signInUser}
+          disabled={!isAbleToSave}
         >
           Sign In
         </Button>
