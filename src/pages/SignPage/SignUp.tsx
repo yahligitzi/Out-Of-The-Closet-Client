@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Divider,
   Card as MuiCard,
@@ -9,6 +10,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "../../contexts/snackbarContext";
+import { createNewUser } from "../../services/user.service";
+import { AxiosError } from "axios";
+import { PATHS } from "../../constants/routes";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -27,10 +32,62 @@ const SignUp = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [fieldsError, setFieldsError] = useState<Record<string, string>>({});
 
   const navigate = useNavigate();
+  const { setSnackbar } = useSnackbar();
 
-  const validateNewUser = () => {};
+  const validateFields = () => {
+    const errorObject: Record<string, string> = {};
+
+    if (username.length < 2)
+      errorObject.username = "Username must be at least three characters";
+    if (!/^\S+@\S+\.\S+$/.test(email)) errorObject.email = "Invalid email";
+
+    if (password.length < 2)
+      errorObject.password = "Password must be at least three characters";
+
+    setFieldsError(errorObject);
+
+    return !Object.keys(errorObject).length;
+  };
+
+  const handleSignUp = async () => {
+    const allFieldsValid = validateFields();
+    console.log(allFieldsValid);
+
+    if (allFieldsValid) {
+      try {
+        // TODO: "save" user and his token
+        await createNewUser({
+          username,
+          password,
+          email,
+        });
+
+        setSnackbar({
+          open: true,
+          severity: "success",
+          message: "User sign up successfully",
+        });
+
+        navigate(PATHS.UPLOAD_PHOTOS);
+      } catch (err) {
+        if (err instanceof AxiosError && err.status === 409 && err.response)
+          setSnackbar({
+            open: true,
+            severity: "error",
+            message: err.response.data.error,
+          });
+        else
+          setSnackbar({
+            open: true,
+            severity: "error",
+            message: "Error in sign up",
+          });
+      }
+    }
+  };
 
   return (
     <Stack
@@ -42,6 +99,7 @@ const SignUp = () => {
       position="relative"
     >
       <Card variant="outlined">
+        <Avatar src={"vite.svg"} sx={{ alignSelf: "center" }} />
         <Typography
           component="h1"
           variant="h4"
@@ -57,7 +115,10 @@ const SignUp = () => {
             inputLabel: {
               shrink: true,
             },
+            htmlInput: { maxLength: 20 },
           }}
+          error={!!fieldsError.username}
+          helperText={fieldsError.username ?? ""}
         />
         <TextField
           value={email}
@@ -67,7 +128,10 @@ const SignUp = () => {
             inputLabel: {
               shrink: true,
             },
+            htmlInput: { maxLength: 20 },
           }}
+          error={!!fieldsError.email}
+          helperText={fieldsError.email ?? ""}
         />
         <TextField
           value={password}
@@ -77,12 +141,15 @@ const SignUp = () => {
             inputLabel: {
               shrink: true,
             },
+            htmlInput: { maxLength: 20 },
           }}
+          error={!!fieldsError.password}
+          helperText={fieldsError.password ?? ""}
         />
         <Button
           variant="outlined"
           sx={{ textTransform: "none" }}
-          onClick={validateNewUser}
+          onClick={handleSignUp}
         >
           Sign Up
         </Button>
@@ -96,7 +163,7 @@ const SignUp = () => {
         >
           <Typography>Already have an account?</Typography>
           <Button
-            onClick={() => navigate("/signin")}
+            onClick={() => navigate(PATHS.SIGN_IN)}
             sx={{
               textTransform: "none",
             }}

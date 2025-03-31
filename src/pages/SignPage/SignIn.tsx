@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Divider,
   Card as MuiCard,
@@ -9,6 +10,8 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "../../contexts/snackbarContext";
+import { PATHS } from "../../constants/routes";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -27,9 +30,17 @@ const SignIn = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const { setSnackbar } = useSnackbar();
+
   const navigate = useNavigate();
 
-  const signInUser = () => {};
+  const signInUser = () => {
+    // setSnackbar({
+    //   open: true,
+    //   message: "Files uploaded successfully!",
+    //   severity: "success",
+    // });
+  };
 
   return (
     <Stack
@@ -41,6 +52,7 @@ const SignIn = () => {
       position="relative"
     >
       <Card variant="outlined">
+        <Avatar src={"vite.svg"} sx={{ alignSelf: "center" }} />
         <Typography
           component="h1"
           variant="h4"
@@ -85,7 +97,7 @@ const SignIn = () => {
         >
           <Typography>Already have an account?</Typography>
           <Button
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate(PATHS.SIGN_UP)}
             sx={{
               textTransform: "none",
             }}

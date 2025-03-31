@@ -1,7 +1,12 @@
 import styles from "./App.style";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import { Box } from "@mui/material";
-import { ROUTES, RouteType } from "./constants/routes";
+import { PATHS, ROUTES, RouteType } from "./constants/routes";
 
 function App() {
   return (
@@ -11,6 +16,10 @@ function App() {
           {ROUTES.map(({ path, element: Component }: RouteType) => (
             <Route key={path} path={path} element={<Component />} />
           ))}
+          <Route
+            path="*"
+            element={<Navigate to={PATHS.SIGN_UP} replace={true} />}
+          />
         </Routes>
       </Router>
     </Box>

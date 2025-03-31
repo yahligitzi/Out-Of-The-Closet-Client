@@ -1,7 +1,7 @@
 import { JSX } from "@emotion/react/jsx-runtime";
 import { UploadPhotos } from "../pages/uploadPhotos/uploadPhotos";
-import SignIn from "../pages/SignIn/SignIn";
-import SignUp from "../pages/SignIn/SignUp";
+import SignIn from "../pages/SignPage/SignIn";
+import SignUp from "../pages/SignPage/SignUp";
 
 export interface RouteType {
   path: string;
@@ -9,24 +9,26 @@ export interface RouteType {
   element: () => JSX.Element;
 }
 
+export const PATHS = {
+  UPLOAD_PHOTOS: "/upload-photos",
+  SIGN_IN: "/signin",
+  SIGN_UP: "/signup",
+};
+
 export const ROUTES: RouteType[] = [
   {
-    path: "/", //TODO: Later change to upload-photos
+    path: PATHS.UPLOAD_PHOTOS,
     name: "העלאת תמונות",
     element: UploadPhotos,
   },
   {
-    path: "/signin",
+    path: PATHS.SIGN_IN,
     name: "כניסה",
     element: SignIn,
   },
   {
-    path: "/signup",
+    path: PATHS.SIGN_UP,
     name: "הרשמה",
     element: SignUp,
   },
 ];
-
-export const PATHS = {
-  UPLOAD_PHOTOS: "/upload-photos",
-};
