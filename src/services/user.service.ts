@@ -4,9 +4,9 @@ import apiClient from "./axiosInstance";
 const baseUrl = "/users";
 
 const createNewUser = async (userToCreate: CreateUserDto): Promise<User> =>
-  await apiClient.post(`${baseUrl}`, userToCreate);
+  await apiClient.post(baseUrl, userToCreate);
 
-const getExistingUser = async (username: string, password: string) =>
-  await apiClient.post(``);
+const loginExistingUser = async (username: string, password: string) =>
+  await apiClient.post(`${baseUrl}/login`, { username, password });
 
-export { createNewUser, getExistingUser };
+export { createNewUser, loginExistingUser };

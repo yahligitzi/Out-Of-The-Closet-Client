@@ -54,7 +54,6 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     const allFieldsValid = validateFields();
-    console.log(allFieldsValid);
 
     if (allFieldsValid) {
       try {
@@ -145,6 +144,7 @@ const SignUp = () => {
           }}
           error={!!fieldsError.password}
           helperText={fieldsError.password ?? ""}
+          type="password"
         />
         <Button
           variant="outlined"

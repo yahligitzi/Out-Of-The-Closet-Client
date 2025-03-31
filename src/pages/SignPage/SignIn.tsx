@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { PATHS } from "../../constants/routes";
+import { loginExistingUser } from "../../services/user.service";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -36,12 +37,31 @@ const SignIn = () => {
 
   const isAbleToSave = username.trim().length && password.trim().length;
 
-  const signInUser = () => {
-    // setSnackbar({
-    //   open: true,
-    //   message: "Files uploaded successfully!",
-    //   severity: "success",
-    // });
+  const handleSignIn = async () => {
+    try {
+      // TODO: "save" user and his token
+      const { data } = await loginExistingUser(username, password);
+
+      if (data) {
+        setSnackbar({
+          open: true,
+          message: "User signed in successfully",
+          severity: "success",
+        });
+        navigate(PATHS.UPLOAD_PHOTOS);
+      } else
+        setSnackbar({
+          open: true,
+          message: "One or more details are incorrect",
+          severity: "error",
+        });
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "An error occurred while trying to login",
+        severity: "success",
+      });
+    }
   };
 
   return (
@@ -70,6 +90,7 @@ const SignIn = () => {
             inputLabel: {
               shrink: true,
             },
+            htmlInput: { maxLength: 20 },
           }}
         />
         <TextField
@@ -80,12 +101,14 @@ const SignIn = () => {
             inputLabel: {
               shrink: true,
             },
+            htmlInput: { maxLength: 20 },
           }}
+          type="password"
         />
         <Button
           variant="outlined"
           sx={{ textTransform: "none" }}
-          onClick={signInUser}
+          onClick={handleSignIn}
           disabled={!isAbleToSave}
         >
           Sign In
