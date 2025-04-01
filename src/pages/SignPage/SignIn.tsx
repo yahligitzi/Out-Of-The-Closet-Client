@@ -1,31 +1,11 @@
-import {
-  Avatar,
-  Button,
-  Divider,
-  Card as MuiCard,
-  Stack,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { PATHS } from "../../constants/routes";
 import { loginExistingUser } from "../../services/user.service";
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: "auto",
-  maxWidth: "400px",
-  boxShadow:
-    "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
-}));
+import SignPageWrapper from "./SignPageWrapper";
+import styles from "./SignPage.style";
 
 const SignIn = () => {
   const [username, setUsername] = useState<string>("");
@@ -65,74 +45,46 @@ const SignIn = () => {
   };
 
   return (
-    <Stack
-      direction="column"
-      justifyContent="space-between"
-      sx={{
-        padding: 4,
-      }}
-      position="relative"
-    >
-      <Card variant="outlined">
-        <Avatar src={"vite.svg"} sx={{ alignSelf: "center" }} />
-        <Typography
-          component="h1"
-          variant="h4"
-          sx={{ width: "100%", textAlign: "center" }}
-        >
-          Sign In
-        </Typography>
-        <TextField
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          label="username"
-          slotProps={{
-            inputLabel: {
-              shrink: true,
-            },
-            htmlInput: { maxLength: 20 },
-          }}
-        />
-        <TextField
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          label="password"
-          slotProps={{
-            inputLabel: {
-              shrink: true,
-            },
-            htmlInput: { maxLength: 20 },
-          }}
-          type="password"
-        />
-        <Button
-          variant="outlined"
-          sx={{ textTransform: "none" }}
-          onClick={handleSignIn}
-          disabled={!isAbleToSave}
-        >
-          Sign In
+    <SignPageWrapper title="Sign In">
+      <TextField
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        label="username"
+        slotProps={{
+          inputLabel: {
+            shrink: true,
+          },
+          htmlInput: { maxLength: 20 },
+        }}
+      />
+      <TextField
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        label="password"
+        slotProps={{
+          inputLabel: {
+            shrink: true,
+          },
+          htmlInput: { maxLength: 20 },
+        }}
+        type="password"
+      />
+      <Button
+        variant="outlined"
+        sx={styles.buttonText}
+        onClick={handleSignIn}
+        disabled={!isAbleToSave}
+      >
+        Sign In
+      </Button>
+      <Divider>Or</Divider>
+      <div style={styles.switchModeContainer as React.CSSProperties}>
+        <Typography>Already have an account?</Typography>
+        <Button onClick={() => navigate(PATHS.SIGN_UP)} sx={styles.buttonText}>
+          Sign Up
         </Button>
-        <Divider>Or</Divider>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Typography>Already have an account?</Typography>
-          <Button
-            onClick={() => navigate(PATHS.SIGN_UP)}
-            sx={{
-              textTransform: "none",
-            }}
-          >
-            Sign Up
-          </Button>
-        </div>
-      </Card>
-    </Stack>
+      </div>
+    </SignPageWrapper>
   );
 };
 
