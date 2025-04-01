@@ -6,6 +6,7 @@ import { PATHS } from "../../constants/routes";
 import { loginExistingUser } from "../../services/user.service";
 import SignPageWrapper from "./SignPageWrapper";
 import styles from "./SignPage.style";
+import { MAX_FIELDS_LENGTH } from "./SignIn.consts";
 
 const SignIn = () => {
   const [username, setUsername] = useState<string>("");
@@ -54,7 +55,7 @@ const SignIn = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: 20 },
+          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
         }}
       />
       <TextField
@@ -65,7 +66,7 @@ const SignIn = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: 20 },
+          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
         }}
         type="password"
       />

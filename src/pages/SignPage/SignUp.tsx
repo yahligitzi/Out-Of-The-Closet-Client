@@ -7,6 +7,11 @@ import { AxiosError } from "axios";
 import { PATHS } from "../../constants/routes";
 import SignPageWrapper from "./SignPageWrapper";
 import styles from "./SignPage.style";
+import {
+  MAX_FIELDS_LENGTH,
+  MIN_PASSWORD_LENGTH,
+  MIN_USERNAME_LENGTH,
+} from "./SignIn.consts";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
@@ -20,12 +25,12 @@ const SignUp = () => {
   const validateFields = () => {
     const errorObject: Record<string, string> = {};
 
-    if (username.length < 2)
-      errorObject.username = "Username must be at least three characters";
+    if (username.length < MIN_USERNAME_LENGTH - 1)
+      errorObject.username = `Username must be at least ${MIN_USERNAME_LENGTH} characters`;
     if (!/^\S+@\S+\.\S+$/.test(email)) errorObject.email = "Invalid email";
 
-    if (password.length < 2)
-      errorObject.password = "Password must be at least three characters";
+    if (password.length < MIN_PASSWORD_LENGTH - 1)
+      errorObject.password = `Password must be at least ${MIN_PASSWORD_LENGTH} characters`;
 
     setFieldsError(errorObject);
 
@@ -78,7 +83,7 @@ const SignUp = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: 20 },
+          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
         }}
         error={!!fieldsError.username}
         helperText={fieldsError.username ?? ""}
@@ -91,7 +96,7 @@ const SignUp = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: 20 },
+          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
         }}
         error={!!fieldsError.email}
         helperText={fieldsError.email ?? ""}
@@ -104,7 +109,7 @@ const SignUp = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: 20 },
+          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
         }}
         error={!!fieldsError.password}
         helperText={fieldsError.password ?? ""}
