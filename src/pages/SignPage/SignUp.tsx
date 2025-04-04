@@ -12,6 +12,7 @@ import {
   MIN_PASSWORD_LENGTH,
   MIN_USERNAME_LENGTH,
 } from "./SignIn.consts";
+import { useUser } from "../../contexts/UserContext";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
@@ -20,6 +21,7 @@ const SignUp = () => {
   const [fieldsError, setFieldsError] = useState<Record<string, string>>({});
 
   const navigate = useNavigate();
+  const { setUser } = useUser();
   const { setSnackbar } = useSnackbar();
 
   const validateFields = () => {
@@ -42,12 +44,12 @@ const SignUp = () => {
 
     if (allFieldsValid) {
       try {
-        // TODO: "save" user and his token
-        await createNewUser({
+        const { data } = await createNewUser({
           username,
           password,
           email,
         });
+        const { token, ...user } = data;
 
         setSnackbar({
           open: true,
@@ -55,6 +57,8 @@ const SignUp = () => {
           message: "User sign up successfully",
         });
 
+        localStorage.setItem("token", token);
+        setUser(user);
         navigate(PATHS.UPLOAD_PHOTOS);
       } catch (err) {
         if (err instanceof AxiosError && err.status === 409 && err.response)

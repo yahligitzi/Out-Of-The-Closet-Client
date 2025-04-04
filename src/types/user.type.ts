@@ -3,7 +3,8 @@ export type User = {
   password: string;
   email: string;
   id: string;
-  token: string;
 };
 
-export type CreateUserDto = Omit<Omit<User, "id">, "token">;
+export type CreateUserDto = Omit<User, "id">;
+
+export type CreateUserResDto = User & { token: string };

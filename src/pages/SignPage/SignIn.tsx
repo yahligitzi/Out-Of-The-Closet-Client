@@ -7,12 +7,14 @@ import { loginExistingUser } from "../../services/user.service";
 import SignPageWrapper from "./SignPageWrapper";
 import styles from "./SignPage.style";
 import { MAX_FIELDS_LENGTH } from "./SignIn.consts";
+import { useUser } from "../../contexts/UserContext";
 
 const SignIn = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const { setSnackbar } = useSnackbar();
+  const { setUser } = useUser();
 
   const navigate = useNavigate();
 
@@ -20,15 +22,17 @@ const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
-      // TODO: "save" user and his token
       const { data } = await loginExistingUser(username, password);
 
       if (data) {
+        const { token, ...user } = data;
         setSnackbar({
           open: true,
           message: "User signed in successfully",
           severity: "success",
         });
+        localStorage.setItem("token", token);
+        setUser(user);
         navigate(PATHS.UPLOAD_PHOTOS);
       } else
         setSnackbar({
