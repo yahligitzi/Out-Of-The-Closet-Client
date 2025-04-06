@@ -44,7 +44,7 @@ const SignIn = () => {
       setSnackbar({
         open: true,
         message: "An error occurred while trying to login",
-        severity: "success",
+        severity: "error",
       });
     }
   };
