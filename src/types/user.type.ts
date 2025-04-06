@@ -4,6 +4,6 @@ export type User = {
   id: string;
 };
 
-export type CreateUserDto = Omit<User, "id">;
+export type CreateUserDto = Omit<User, "id"> & { password: string };
 
 export type CreateUserResDto = User & { token: string };
