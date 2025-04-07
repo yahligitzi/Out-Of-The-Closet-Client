@@ -6,8 +6,9 @@ import { PATHS } from "../../constants/routes";
 import { loginExistingUser } from "../../services/user.service";
 import SignPageWrapper from "./SignPageWrapper";
 import styles from "./SignPage.style";
-import { MAX_FIELDS_LENGTH } from "./SignIn.consts";
+import { MAX_USERNAME_LENGTH, MAX_PASSWORD_LENGTH } from "./SignIn.consts";
 import { useUser } from "../../contexts/UserContext";
+import { addAuthHeader } from "../../services/axiosInstance";
 
 const SignIn = () => {
   const [username, setUsername] = useState<string>("");
@@ -18,7 +19,7 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const isAbleToSave = username.trim().length && password.trim().length;
+  const isAbleToSignIn = username.trim().length && password.trim().length;
 
   const handleSignIn = async () => {
     try {
@@ -32,6 +33,7 @@ const SignIn = () => {
           severity: "success",
         });
         localStorage.setItem("token", token);
+        addAuthHeader(token);
         setUser(user);
         navigate(PATHS.UPLOAD_PHOTOS);
       } else
@@ -59,7 +61,7 @@ const SignIn = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
+          htmlInput: { maxLength: MAX_USERNAME_LENGTH },
         }}
       />
       <TextField
@@ -70,7 +72,7 @@ const SignIn = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
+          htmlInput: { maxLength: MAX_PASSWORD_LENGTH },
         }}
         type="password"
       />
@@ -78,13 +80,13 @@ const SignIn = () => {
         variant="outlined"
         sx={styles.buttonText}
         onClick={handleSignIn}
-        disabled={!isAbleToSave}
+        disabled={!isAbleToSignIn}
       >
         Sign In
       </Button>
       <Divider>Or</Divider>
       <div style={styles.switchModeContainer as React.CSSProperties}>
-        <Typography>Already have an account?</Typography>
+        <Typography>Create an account</Typography>
         <Button onClick={() => navigate(PATHS.SIGN_UP)} sx={styles.buttonText}>
           Sign Up
         </Button>

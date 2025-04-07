@@ -1,12 +1,12 @@
 import { createContext, useContext, useState } from "react";
 import { User } from "../types/user.type";
 
-interface UserType {
+interface UserContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const UserContext = createContext<UserType | null>(null);
+const UserContext = createContext<UserContextType | null>(null);
 
 type UserContextProvider = {
   children: React.ReactNode;

@@ -8,11 +8,14 @@ import { PATHS } from "../../constants/routes";
 import SignPageWrapper from "./SignPageWrapper";
 import styles from "./SignPage.style";
 import {
-  MAX_FIELDS_LENGTH,
+  MAX_USERNAME_LENGTH,
+  MAX_EMAIL_LENGTH,
+  MAX_PASSWORD_LENGTH,
   MIN_PASSWORD_LENGTH,
   MIN_USERNAME_LENGTH,
 } from "./SignIn.consts";
 import { useUser } from "../../contexts/UserContext";
+import { addAuthHeader } from "../../services/axiosInstance";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
@@ -27,11 +30,11 @@ const SignUp = () => {
   const validateFields = () => {
     const errorObject: Record<string, string> = {};
 
-    if (username.length < MIN_USERNAME_LENGTH - 1)
+    if (username.length < MIN_USERNAME_LENGTH)
       errorObject.username = `Username must be at least ${MIN_USERNAME_LENGTH} characters`;
     if (!/^\S+@\S+\.\S+$/.test(email)) errorObject.email = "Invalid email";
 
-    if (password.length < MIN_PASSWORD_LENGTH - 1)
+    if (password.length < MIN_PASSWORD_LENGTH)
       errorObject.password = `Password must be at least ${MIN_PASSWORD_LENGTH} characters`;
 
     setFieldsError(errorObject);
@@ -57,6 +60,7 @@ const SignUp = () => {
           message: "User sign up successfully",
         });
 
+        addAuthHeader(token);
         localStorage.setItem("token", token);
         setUser(user);
         navigate(PATHS.UPLOAD_PHOTOS);
@@ -87,7 +91,7 @@ const SignUp = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
+          htmlInput: { maxLength: MAX_USERNAME_LENGTH },
         }}
         error={!!fieldsError.username}
         helperText={fieldsError.username ?? ""}
@@ -100,7 +104,7 @@ const SignUp = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
+          htmlInput: { maxLength: MAX_EMAIL_LENGTH },
         }}
         error={!!fieldsError.email}
         helperText={fieldsError.email ?? ""}
@@ -113,7 +117,7 @@ const SignUp = () => {
           inputLabel: {
             shrink: true,
           },
-          htmlInput: { maxLength: MAX_FIELDS_LENGTH },
+          htmlInput: { maxLength: MAX_PASSWORD_LENGTH },
         }}
         error={!!fieldsError.password}
         helperText={fieldsError.password ?? ""}

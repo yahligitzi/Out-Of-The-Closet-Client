@@ -11,6 +11,7 @@ import { PATHS, ROUTES, RouteType } from "./constants/routes";
 import { useEffect } from "react";
 import { useUser } from "./contexts/UserContext";
 import { validateUserToken } from "./services/user.service";
+import { addAuthHeader } from "./services/axiosInstance";
 
 const App = () => {
   const location = useLocation();
@@ -28,7 +29,8 @@ const App = () => {
 
       if (!user && token) {
         try {
-          const { data } = await validateUserToken(token);
+          addAuthHeader(token);
+          const { data } = await validateUserToken();
           setUser(data);
           isUserSigned = true;
         } catch (e) {

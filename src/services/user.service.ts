@@ -12,15 +12,7 @@ const loginExistingUser = async (username: string, password: string) =>
     password,
   });
 
-const validateUserToken = async (token: string) =>
-  apiClient.post<User | null>(
-    `${baseUrl}/token`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+const validateUserToken = async () =>
+  apiClient.post<User | null>(`${baseUrl}/token`, {});
 
 export { createNewUser, loginExistingUser, validateUserToken };
