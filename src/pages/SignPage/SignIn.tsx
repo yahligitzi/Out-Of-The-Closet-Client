@@ -1,5 +1,5 @@
 import { Button, Divider, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { PATHS } from "../../constants/routes";
@@ -15,9 +15,13 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>("");
 
   const { setSnackbar } = useSnackbar();
-  const { setUser } = useUser();
+  const { user, setUser } = useUser();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(PATHS.UPLOAD_PHOTOS);
+  }, [user]);
 
   const isAbleToSignIn = username.trim().length && password.trim().length;
 
@@ -35,7 +39,6 @@ const SignIn = () => {
         localStorage.setItem("token", token);
         addAuthHeader(token);
         setUser(user);
-        navigate(PATHS.UPLOAD_PHOTOS);
       } else
         setSnackbar({
           open: true,

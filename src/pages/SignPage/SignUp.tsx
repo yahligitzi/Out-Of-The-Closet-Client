@@ -1,5 +1,5 @@
 import { Button, Divider, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { createNewUser } from "../../services/user.service";
@@ -24,8 +24,12 @@ const SignUp = () => {
   const [fieldsError, setFieldsError] = useState<Record<string, string>>({});
 
   const navigate = useNavigate();
-  const { setUser } = useUser();
+  const { user, setUser } = useUser();
   const { setSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    navigate(PATHS.UPLOAD_PHOTOS);
+  }, [user]);
 
   const validateFields = () => {
     const errorObject: Record<string, string> = {};
@@ -63,7 +67,6 @@ const SignUp = () => {
         addAuthHeader(token);
         localStorage.setItem("token", token);
         setUser(user);
-        navigate(PATHS.UPLOAD_PHOTOS);
       } catch (err) {
         if (err instanceof AxiosError && err.status === 409 && err.response)
           setSnackbar({

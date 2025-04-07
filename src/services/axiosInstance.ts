@@ -10,4 +10,12 @@ export const addAuthHeader = (token: string) => {
   });
 };
 
+export const removeAuthHeader = () => {
+  apiClient.interceptors.request.use((config) => {
+    config.headers.Authorization = null;
+
+    return config;
+  });
+};
+
 export default apiClient;
