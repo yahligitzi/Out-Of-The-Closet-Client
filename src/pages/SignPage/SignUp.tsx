@@ -28,7 +28,7 @@ const SignUp = () => {
   const { setSnackbar } = useSnackbar();
 
   useEffect(() => {
-    navigate(PATHS.UPLOAD_PHOTOS);
+    if (user) navigate(PATHS.UPLOAD_PHOTOS);
   }, [user]);
 
   const validateFields = () => {
