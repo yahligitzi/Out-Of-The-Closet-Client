@@ -1,24 +1,25 @@
 import styles from "./App.style";
+import { Route, Routes } from "react-router-dom";
+import { Box, CircularProgress } from "@mui/material";
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Navigate,
-  redirect,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import { Box } from "@mui/material";
-import { PATHS, ROUTES, RouteType } from "./constants/routes";
-import { useEffect } from "react";
+  PRIVATE_ROUTES,
+  PUBLIC_ROUTES,
+  ROUTES,
+  RouteType,
+} from "./constants/routes";
+import { useEffect, useState } from "react";
 import { useUser } from "./contexts/UserContext";
 import { validateUserToken } from "./services/user.service";
 import { addAuthHeader, removeAuthHeader } from "./services/axiosInstance";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 const App = () => {
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const { user, setUser } = useUser();
 
   useEffect(() => {
     const verifyUser = async () => {
+      setIsLoadingUser(true);
       const token = localStorage.getItem("token");
 
       if (!user && token) {
@@ -33,43 +34,30 @@ const App = () => {
           console.error(e);
         }
       }
+
+      setIsLoadingUser(false);
     };
 
     verifyUser();
   }, []);
 
-  const isPathAuthenticated = async (isPublicRoute?: boolean) => {
-    const token = localStorage.getItem("token");
-
-    if (isPublicRoute || !!token) return null;
-
-    throw redirect(PATHS.SIGN_IN);
-  };
-
   return (
     <Box sx={styles.root}>
-      <RouterProvider
-        router={createBrowserRouter(
-          createRoutesFromElements(
-            <Route path="/">
-              {ROUTES.map(
-                ({ path, element: Component, isPublicRoute }: RouteType) => (
-                  <Route
-                    key={path}
-                    path={path}
-                    element={<Component />}
-                    loader={() => isPathAuthenticated(isPublicRoute)}
-                  />
-                )
-              )}
-              <Route
-                path="*"
-                element={<Navigate to={PATHS.SIGN_IN} replace={true} />}
-              />
-            </Route>
-          )
-        )}
-      />
+      {isLoadingUser ? (
+        <CircularProgress sx={styles.loader} />
+      ) : (
+        <Routes>
+          <Route element={<PrivateRoutes />}>
+            {PRIVATE_ROUTES.map(({ path, element: Component }: RouteType) => (
+              <Route key={path} path={path} element={<Component />} />
+            ))}
+          </Route>
+
+          {PUBLIC_ROUTES.map(({ path, element: Component }: RouteType) => (
+            <Route key={path} path={path} element={<Component />} />
+          ))}
+        </Routes>
+      )}
     </Box>
   );
 };
