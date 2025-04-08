@@ -11,9 +11,9 @@ import Grid from "@mui/material/Grid2";
 import UploadIcon from "@mui/icons-material/Upload";
 import ImageIcon from "@mui/icons-material/Image";
 import { ChangeEvent, useState } from "react";
-import uploadService from "../../services/upload.service";
 import { UPLOAD_PHOTOS_COUNT } from "./uploadPhotos.consts";
 import { useSnackbar } from "../../contexts/SnackbarContext";
+import userItemsService from "../../services/userItems.service";
 
 export const UploadPhotos = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -36,8 +36,8 @@ export const UploadPhotos = () => {
         formData.append("images", file);
       });
 
-      uploadService
-        .uploadImages(formData)
+      userItemsService
+        .addUserItems(formData)
         .then(() => {
           setSnackbar(() => ({
             open: true,
