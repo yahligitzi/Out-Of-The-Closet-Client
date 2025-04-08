@@ -1,7 +1,8 @@
 import styles from "./App.style";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import {
+  PATHS,
   PRIVATE_ROUTES,
   PUBLIC_ROUTES,
   ROUTES,
@@ -56,6 +57,8 @@ const App = () => {
           {PUBLIC_ROUTES.map(({ path, element: Component }: RouteType) => (
             <Route key={path} path={path} element={<Component />} />
           ))}
+
+          <Route path="*" element={<Navigate to={PATHS.SIGN_IN} replace />} />
         </Routes>
       )}
     </Box>
