@@ -8,4 +8,8 @@ export default {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
+  generateOutFit: async (): Promise<{ items: string[] }> => {
+    const { data } = await apiClient.get(`${baseUrl}/outfit`);
+    return data;
+  },
 };

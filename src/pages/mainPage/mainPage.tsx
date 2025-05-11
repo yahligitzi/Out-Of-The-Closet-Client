@@ -7,21 +7,26 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import chatBotService from "../../services/chatBot.service";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import itemsService from "../../services/items.service";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useState } from "react";
-import { SnackbarState } from "../uploadPhotos/uploadPhotos.types";
+import { JSX } from "@emotion/react/jsx-runtime";
 
 export const SearchPage = () => {
-  const [snackbar, setSnackbar] = useState<SnackbarState>({
-    open: false,
-  });
-  // ToDo: add a dialog before to pick an item to make an outfit from 
+  const { setSnackbar, snackbar } = useSnackbar();
+  const [items, setItems] = useState<JSX.Element[]>();
+
+  // ToDo: add a dialog before to pick an item to make an outfit from
   const handleGenerateClicked = () => {
-    chatBotService
+    itemsService
       .generateOutFit()
-      .then(() => {
-        // Todo: what to do with the outfit
+      .then(({ items }) => {
+        const outfit: JSX.Element[] = items.map((item) => {
+          return <img src={item} alt="outfit" />;
+        });
+
+        setItems(outfit);
       })
       .catch(() => {
         setSnackbar(() => ({
@@ -29,21 +34,24 @@ export const SearchPage = () => {
           message: "Error generating an outfit",
           severity: "error",
         }));
-      })
-  }
+      });
+  };
 
   return (
     <Box sx={styles.root}>
       <Paper elevation={0} sx={styles.paper}>
         <Typography variant="h4" component="h1" sx={styles.title}>
-          my closet
+          My Closet
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
-          search and generate your ootd
+          Generate your outfit
         </Typography>
         <IconButton sx={styles.icon} onClick={handleGenerateClicked}>
-          <AutoAwesomeIcon />
+          <AutoAwesomeIcon color={"primary"} />
         </IconButton>
+        {items?.length !== 0 && (
+          <Box sx={{ display: "flex", flexDirection: "column" }}>{items}</Box>
+        )}
       </Paper>
       <Snackbar
         open={snackbar.open}

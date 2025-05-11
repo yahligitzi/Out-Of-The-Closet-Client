@@ -23,8 +23,10 @@ const styles = {
     marginBottom: "5px",
   },
   icon: {
-    width: "4vw"
-  }
+    alignSelf: "center",
+    paddingTop: "20px",
+    width: "4vw",
+  },
 };
 
 export default styles;
