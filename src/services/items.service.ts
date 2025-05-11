@@ -1,9 +1,9 @@
 import apiClient from "./axiosInstance";
 
-const baseUrl = "/user-items";
+const baseUrl = "/items";
 
 export default {
-  addUserItems: async (formData: FormData) => {
+  addItems: async (formData: FormData) => {
     await apiClient.post(`${baseUrl}/add`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });

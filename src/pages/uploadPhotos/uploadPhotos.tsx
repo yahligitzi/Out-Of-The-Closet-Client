@@ -13,7 +13,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import { ChangeEvent, useState } from "react";
 import { UPLOAD_PHOTOS_COUNT } from "./uploadPhotos.consts";
 import { useSnackbar } from "../../contexts/SnackbarContext";
-import userItemsService from "../../services/userItems.service";
+import itemsService from "../../services/items.service";
 
 export const UploadPhotos = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -36,8 +36,8 @@ export const UploadPhotos = () => {
         formData.append("images", file);
       });
 
-      userItemsService
-        .addUserItems(formData)
+      itemsService
+        .addItems(formData)
         .then(() => {
           setSnackbar(() => ({
             open: true,
