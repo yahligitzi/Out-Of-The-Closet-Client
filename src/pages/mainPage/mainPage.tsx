@@ -2,6 +2,7 @@ import styles from "./mainPage.style";
 import {
   Alert,
   Box,
+  CircularProgress,
   IconButton,
   Paper,
   Snackbar,
@@ -16,9 +17,12 @@ import { JSX } from "@emotion/react/jsx-runtime";
 export const SearchPage = () => {
   const { setSnackbar, snackbar } = useSnackbar();
   const [items, setItems] = useState<JSX.Element[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // ToDo: add a dialog before to pick an item to make an outfit from
   const handleGenerateClicked = () => {
+    setIsLoading(true);
+
     itemsService
       .generateOutFit()
       .then(({ items }) => {
@@ -34,6 +38,9 @@ export const SearchPage = () => {
           message: "Error generating an outfit",
           severity: "error",
         }));
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -49,6 +56,7 @@ export const SearchPage = () => {
         <IconButton sx={styles.icon} onClick={handleGenerateClicked}>
           <AutoAwesomeIcon color={"primary"} />
         </IconButton>
+        {isLoading && <CircularProgress style={{ alignSelf: "center" }} />}
         {items?.length !== 0 && (
           <Box sx={{ display: "flex", flexDirection: "column" }}>{items}</Box>
         )}

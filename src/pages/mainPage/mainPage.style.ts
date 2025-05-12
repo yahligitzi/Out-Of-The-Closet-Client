@@ -26,6 +26,10 @@ const styles = {
     alignSelf: "center",
     paddingTop: "20px",
     width: "4vw",
+
+    "&:focus": {
+      outline: "none",
+    },
   },
 };
 
