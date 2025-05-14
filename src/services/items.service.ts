@@ -1,3 +1,4 @@
+import { Item } from "../pages/MainPage/MainPage";
 import apiClient from "./axiosInstance";
 
 const baseUrl = "/items";
@@ -8,4 +9,6 @@ export default {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },
+  getItems: async (): Promise<Item[]> =>
+    (await apiClient.post(`${baseUrl}/get`)).data,
 };

@@ -20,7 +20,7 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) navigate(PATHS.UPLOAD_PHOTOS);
+    if (user) navigate(PATHS.MAIN);
   }, [user]);
 
   const isAbleToSignIn = username.trim().length && password.trim().length;
