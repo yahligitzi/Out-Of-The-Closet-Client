@@ -1,20 +1,19 @@
 import {
   Box,
   Card,
-  CardContent,
+  CircularProgress,
+  IconButton,
   ImageListItem,
   InputAdornment,
-  Skeleton,
-  Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
-import { Search } from "@mui/icons-material";
+import { AddCircleOutline, Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import FilterBox from "./FilterBox";
+import { PATHS } from "../../constants/routes";
 
 export type ItemTag = {
   name: string;
@@ -84,6 +83,8 @@ const MainPage = () => {
         style={{
           display: "flex",
           flexDirection: "row",
+          height: "100%",
+          width: "100%",
         }}
       >
         <div
@@ -95,37 +96,48 @@ const MainPage = () => {
           <FilterBox />
         </div>
 
-        {isLoading ? (
-          <Box
-            sx={{
-              width: "100%",
-            }}
-          >
-            {Array.from({ length: 3 }, (_, i) => i + 1).map((_, i) => (
-              <Skeleton key={i} height={200} sx={{ margin: 0 }} />
-            ))}
-          </Box>
-        ) : (
-          <Box
-            display="grid"
-            gap={2}
-            sx={{
-              gridTemplateColumns: {
-                xs: "1fr",
-                sm: "repeat(auto-fit, minmax(250px, 1fr))",
-              },
-              width: "100%",
-            }}
-          >
-            {displayedItems?.map(({ imageUrl }, i) => (
-              <Card>
-                <ImageListItem>
-                  <img src={imageUrl} />
-                </ImageListItem>
-              </Card>
-            ))}
-          </Box>
-        )}
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {isLoading ? (
+            <CircularProgress sx={{ marginTop: 10 }} />
+          ) : (
+            <>
+              <IconButton
+                sx={{ position: "absolute", right: 0 }}
+                onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
+              >
+                <AddCircleOutline />
+              </IconButton>
+              <Box
+                display="grid"
+                gap={2}
+                sx={{
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "repeat(auto-fit, minmax(250px, 1fr))",
+                  },
+                  justifyItems: "center",
+                  alignItems: "center",
+                }}
+              >
+                {displayedItems?.map(({ imageUrl }, i) => (
+                  <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
+                    <ImageListItem>
+                      <img src={imageUrl} alt={`item-${i}`} />
+                    </ImageListItem>
+                  </Card>
+                ))}
+              </Box>
+            </>
+          )}
+        </div>
       </div>
       {/* <ItemCard /> */}
       {/* <Button onClick={() => itemsService.getItems()}>משהוא</Button>
