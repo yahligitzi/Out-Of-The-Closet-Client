@@ -1,5 +1,9 @@
 import { Typography } from "@mui/material";
 
+const options = [
+  "New", "Price ascending", "Price descending", "Rating"
+]
+
 const FilterBox = () => {
   return (
     <div

@@ -1,11 +1,13 @@
 import {
   Box,
+  Button,
   Card,
   CircularProgress,
   IconButton,
   ImageListItem,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import itemsService from "../../services/items.service";
@@ -14,6 +16,8 @@ import { AddCircleOutline, Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import FilterBox from "./FilterBox";
 import { PATHS } from "../../constants/routes";
+import tagsService from "../../services/tags.service";
+import { useUser } from "../../contexts/UserContext";
 
 export type ItemTag = {
   name: string;
@@ -27,12 +31,19 @@ export type Item = {
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
+  const { user } = useUser();
 
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],
     queryFn: itemsService.getItems,
   });
 
+  const { data: TagsByCategory } = useQuery({
+    queryKey: ["tags", user?.id],
+    queryFn: () => tagsService.getTagByCategory(user?.id ?? ""),
+  });
+
+  const categories = [...new Set(TagsByCategory?.map(tag => tag.categoryName))];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +89,6 @@ const MainPage = () => {
           },
         }}
       />
-
       <div
         style={{
           display: "flex",
@@ -94,6 +104,14 @@ const MainPage = () => {
           }}
         >
           <FilterBox />
+          <div>
+            {categories.map(category => {
+              return (<>
+              <Typography>{category}</Typography> 
+              {TagsByCategory?.map(tag => {if(tag.categoryName === category) return <Button>{tag.name}</Button>})}
+              </>)
+            })}
+          </div>
         </div>
 
         <div
