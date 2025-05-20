@@ -1,17 +1,16 @@
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
-import { useUser } from "../../contexts/UserContext";
-import { useQuery } from "@tanstack/react-query";
-import tagsService from "../../services/tags.service";
 
-const FilterBox = () => {
-  const { user } = useUser();
+interface Props {
+  TagsByCategory: {
+    categoryName: string | null;
+    name: string;
+    tagId: string;
+    categoryId: string;
+  }[] | undefined
+}
 
-  const { data: TagsByCategory } = useQuery({
-    queryKey: ["tags", user?.id],
-    queryFn: () => tagsService.getTagByCategory(user?.id ?? ""),
-  });
-
-  const categories = [...new Set(TagsByCategory?.map(tag => tag.categoryName))];
+const FilterBox = (props: Props) => {
+  const categories = [...new Set(props.TagsByCategory?.map(tag => tag.categoryName))];
   return (
     <div
       style={{
@@ -34,7 +33,7 @@ const FilterBox = () => {
         {categories.map(category => {
           return (<>
             <Typography sx={{ fontWeight: "700" }}>{category}</Typography>
-            {TagsByCategory?.map(tag =>
+            {props.TagsByCategory?.map(tag =>
               tag.categoryName === category && <FormControlLabel control={<Checkbox sx={{
                 '&.Mui-checked': {
                   color: "black",

@@ -5,6 +5,8 @@ import {
   IconButton,
   ImageListItem,
   InputAdornment,
+  Tab,
+  Tabs,
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +16,8 @@ import { AddCircleOutline, Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import FilterBox from "./FilterBox";
 import { PATHS } from "../../constants/routes";
+import { useUser } from "../../contexts/UserContext";
+import tagsService from "../../services/tags.service";
 
 export type ItemTag = {
   name: string;
@@ -32,6 +36,15 @@ const MainPage = () => {
     queryKey: ["initialData"],
     queryFn: itemsService.getItems,
   });
+
+  const { user } = useUser();
+
+  const { data: TagsByCategory } = useQuery({
+    queryKey: ["tags", user?.id],
+    queryFn: () => tagsService.getTagByCategory(user?.id ?? ""),
+  });
+
+  const types = [...new Set(TagsByCategory?.filter(tag => tag.categoryName == "Type"))];
 
   const navigate = useNavigate();
 
@@ -89,13 +102,10 @@ const MainPage = () => {
         <div
           style={{
             height: "100%",
-            width: 150,
           }}
         >
-          <FilterBox />
-
+          <FilterBox TagsByCategory={TagsByCategory} />
         </div>
-
         <div
           style={{
             height: "100%",
@@ -127,6 +137,11 @@ const MainPage = () => {
                   alignItems: "center",
                 }}
               >
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <Tabs value={types}>
+                    {types.map(type => <Tab label={type.name} />)}
+                  </Tabs>
+                </Box>
                 {displayedItems?.map(({ imageUrl }, i) => (
                   <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
                     <ImageListItem>
