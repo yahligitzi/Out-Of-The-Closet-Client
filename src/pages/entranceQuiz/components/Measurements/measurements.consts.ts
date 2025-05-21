@@ -2,19 +2,19 @@ import { MeasurementField } from "./measurements.types";
 
 export const MEASUREMENT_FIELDS: MeasurementField[] = [
   {
-    field: "bust",
+    field: "bustSize",
     label: "Bust",
     helperText: "Measure around the fullest part of your bust",
     unit: "cm",
   },
   {
-    field: "waist",
+    field: "waistSize",
     label: "Waist",
     helperText: "Measure around your natural waistline",
     unit: "cm",
   },
   {
-    field: "hips",
+    field: "hipsSize",
     label: "Hips",
     helperText: "Measure around the fullest part of your hips",
     unit: "cm",

@@ -1,7 +1,7 @@
 export interface MeasurementOptions {
-  bust: string;
-  waist: string;
-  hips: string;
+  bustSize: string;
+  waistSize: string;
+  hipsSize: string;
   height: string;
 }
 

@@ -18,9 +18,9 @@ export const SkinTone: FC<SkinToneProps> = ({ selectedTone, onSelect }) => {
             sx={{
               ...styles.toneBox,
               backgroundColor: tone.color,
-              ...(selectedTone === tone.value ? styles.selectedTone : {}),
+              ...(selectedTone === tone.color ? styles.selectedTone : {}),
             }}
-            onClick={() => onSelect(tone.value)}
+            onClick={() => onSelect(tone.color)}
           />
         ))}
       </Box>

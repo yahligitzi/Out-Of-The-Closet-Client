@@ -8,4 +8,4 @@ export const skinTones = [
   { value: "very-dark", color: "#483024", label: "Very Dark" },
 ] as const;
 
-export type SkinToneValue = (typeof skinTones)[number]["value"];
+export type SkinToneValue = (typeof skinTones)[number]["color"];

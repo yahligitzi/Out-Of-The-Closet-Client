@@ -12,13 +12,13 @@ import { GenderSelection } from "./components/GenderSelection/GenderSelection";
 import { Measurements } from "./components/Measurements/Measurements";
 import { StylePreferences } from "./components/StylePreferences/StylePreferences";
 import { SkinTone } from "./components/SkinTone/SkinTone";
-import quizService from "../../services/quiz.service";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useNavigate } from "react-router-dom";
 import { QuizData, QuizStep } from "./entranceQuiz.types";
 import { Gender } from "./components/GenderSelection/genderSelection.consts";
 import { StyleOption } from "./components/StylePreferences/stylePreferences.types";
 import { SkinToneValue } from "./components/SkinTone/skinTone.consts";
+import { submitQuiz } from "../../services/user.service";
 
 export const EntranceQuiz = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -69,7 +69,7 @@ export const EntranceQuiz = () => {
   const handleSubmitQuiz = async () => {
     try {
       setIsSubmitting(true);
-      quizData && (await quizService.submitQuiz(quizData));
+      quizData && (await submitQuiz(quizData));
       setSnackbar({
         open: true,
         message: "Quiz submitted successfully!",
@@ -99,6 +99,7 @@ export const EntranceQuiz = () => {
           onSelect={handleGenderSelect}
         />
       ),
+      isRequired: true,
     },
     {
       title: "Entrance quiz",
