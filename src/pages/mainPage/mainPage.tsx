@@ -27,7 +27,7 @@ export const SearchPage = () => {
       .generateOutFit()
       .then(({ items }) => {
         const outfit: JSX.Element[] = items.map((item) => {
-          return <img src={item} alt="outfit" />;
+          return <img src={item} alt="outfit" width={"100px"} />;
         });
 
         setItems(outfit);
@@ -58,7 +58,15 @@ export const SearchPage = () => {
         </IconButton>
         {isLoading && <CircularProgress style={{ alignSelf: "center" }} />}
         {items?.length !== 0 && (
-          <Box sx={{ display: "flex", flexDirection: "column" }}>{items}</Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {items}
+          </Box>
         )}
       </Paper>
       <Snackbar
