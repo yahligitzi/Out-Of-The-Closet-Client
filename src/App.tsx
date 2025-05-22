@@ -5,7 +5,6 @@ import {
   PATHS,
   PRIVATE_ROUTES,
   PUBLIC_ROUTES,
-  ROUTES,
   RouteType,
 } from "./constants/routes";
 import { useEffect, useState } from "react";
