@@ -1,8 +1,8 @@
 import { JSX } from "@emotion/react/jsx-runtime";
-import { UploadPhotos } from "../pages/entranceQuiz/components/uploadPhotos/uploadPhotos";
 import SignIn from "../pages/SignPage/SignIn";
 import SignUp from "../pages/SignPage/SignUp";
 import { EntranceQuiz } from "../pages/entranceQuiz/EntranceQuiz";
+import { SearchPage } from "../pages/mainPage/mainPage";
 
 export interface RouteType {
   path: string;
@@ -14,6 +14,7 @@ export const PATHS = {
   SIGN_IN: "/signin",
   SIGN_UP: "/signup",
   ENTRANCE_QUIZ: "/entrance-quiz",
+  SEARCH: "/search",
 };
 
 export const PUBLIC_ROUTES: RouteType[] = [
@@ -34,5 +35,10 @@ export const PRIVATE_ROUTES: RouteType[] = [
     path: PATHS.ENTRANCE_QUIZ,
     name: "Entrance Quiz",
     element: EntranceQuiz,
+  },
+  {
+    path: PATHS.SEARCH,
+    name: "חיפוש",
+    element: SearchPage,
   },
 ];
