@@ -15,10 +15,8 @@ import { SkinTone } from "./components/SkinTone/SkinTone";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useNavigate } from "react-router-dom";
 import { QuizData, QuizStep } from "./entranceQuiz.types";
-import { Gender } from "./components/GenderSelection/genderSelection.consts";
-import { StyleOption } from "./components/StylePreferences/stylePreferences.types";
-import { SkinToneValue } from "./components/SkinTone/skinTone.consts";
 import { submitQuiz } from "../../services/user.service";
+import { PATHS } from "../../constants/routes";
 
 export const EntranceQuiz = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -28,41 +26,19 @@ export const EntranceQuiz = () => {
 
   const [quizData, setQuizData] = useState<QuizData>();
 
-  const handleGenderSelect = (gender: Gender) => {
+  const handleChange = (
+    field: string,
+    value: File[] | string | Object,
+    parentField?: keyof QuizData
+  ) => {
     setQuizData((prev) => ({
       ...prev,
-      gender,
-    }));
-  };
-
-  const handleMeasurementChange = (field: string, value: string) => {
-    setQuizData((prev) => ({
-      ...prev,
-      measurements: {
-        ...(prev?.measurements ?? {}),
-        [field]: value,
-      },
-    }));
-  };
-
-  const handleStyleSelect = (style: StyleOption) => {
-    setQuizData((prev) => ({
-      ...prev,
-      preferredStyle: style,
-    }));
-  };
-
-  const handleSkinToneSelect = (tone: SkinToneValue) => {
-    setQuizData((prev) => ({
-      ...prev,
-      skinTone: tone,
-    }));
-  };
-
-  const handlePhotosChange = (photos: File[]) => {
-    setQuizData((prev) => ({
-      ...prev,
-      photos,
+      [parentField ?? field]: parentField
+        ? {
+            ...((prev?.[parentField] as Object) ?? {}),
+            [field]: value,
+          }
+        : value,
     }));
   };
 
@@ -75,7 +51,7 @@ export const EntranceQuiz = () => {
         message: "Quiz submitted successfully!",
         severity: "success",
       });
-      navigate("/dashboard"); // Navigate to dashboard after successful submission
+      navigate(PATHS.SEARCH);
     } catch (error) {
       setSnackbar({
         open: true,
@@ -96,7 +72,7 @@ export const EntranceQuiz = () => {
       component: (
         <GenderSelection
           selectedGender={quizData?.gender}
-          onSelect={handleGenderSelect}
+          onSelect={(gender) => handleChange("gender", gender)}
         />
       ),
       isRequired: true,
@@ -108,7 +84,9 @@ export const EntranceQuiz = () => {
       component: (
         <Measurements
           measurements={quizData?.measurements}
-          onMeasurementChange={handleMeasurementChange}
+          onMeasurementChange={(field, measurement) =>
+            handleChange(field, measurement, "measurements")
+          }
         />
       ),
     },
@@ -120,7 +98,9 @@ export const EntranceQuiz = () => {
         <StylePreferences
           gender={quizData?.gender}
           selectedStyle={quizData?.preferredStyle}
-          onSelect={handleStyleSelect}
+          onSelect={(preferredStyle) =>
+            handleChange("preferredStyle", preferredStyle)
+          }
         />
       ),
     },
@@ -131,7 +111,7 @@ export const EntranceQuiz = () => {
       component: (
         <SkinTone
           selectedTone={quizData?.skinTone}
-          onSelect={handleSkinToneSelect}
+          onSelect={(skinTone) => handleChange("skinTone", skinTone)}
         />
       ),
     },
@@ -142,7 +122,7 @@ export const EntranceQuiz = () => {
       component: (
         <UploadPhotos
           photos={quizData?.photos}
-          onPhotosChange={handlePhotosChange}
+          onPhotosChange={(photos) => handleChange("photos", photos)}
         />
       ),
       isRequired: true,

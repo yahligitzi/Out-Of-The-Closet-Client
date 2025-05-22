@@ -9,8 +9,8 @@ export const Measurements: FC<MeasurementsProps> = ({
   onMeasurementChange,
 }) => {
   const handleInputChange = (field: MeasurementName, value: string) => {
-    // Only allow numbers and decimal point
-    if (value === "" || /^\d*\.?\d*$/.test(value)) {
+    // Only allow numbers
+    if (value === "" || /^\d+$/.test(value)) {
       onMeasurementChange(field, value);
     }
   };
@@ -18,7 +18,7 @@ export const Measurements: FC<MeasurementsProps> = ({
   return (
     <Box sx={styles.container}>
       <Typography variant="body1" sx={styles.description}>
-        Please provide your measurements to help us find the perfect fit for you
+        Provide your measurements to help us find the perfect fit for you
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={styles.subtitle}>
         All measurements should be in centimeters

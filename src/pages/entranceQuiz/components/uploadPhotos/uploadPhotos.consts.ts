@@ -1,1 +1,1 @@
-export const UPLOAD_PHOTOS_COUNT = 4;
+export const UPLOAD_PHOTOS_COUNT = 3;

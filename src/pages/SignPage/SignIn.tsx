@@ -20,7 +20,9 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) navigate(PATHS.ENTRANCE_QUIZ);
+    if (user) {
+      navigate(!user.gender ? PATHS.ENTRANCE_QUIZ : PATHS.SEARCH);
+    }
   }, [user]);
 
   const isAbleToSignIn = username.trim().length && password.trim().length;

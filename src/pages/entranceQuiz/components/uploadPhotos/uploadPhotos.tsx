@@ -1,29 +1,17 @@
 import styles from "./uploadPhotos.style";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  IconButton,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import UploadIcon from "@mui/icons-material/Upload";
 import ImageIcon from "@mui/icons-material/Image";
 import CloseIcon from "@mui/icons-material/Close";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC } from "react";
 import { UPLOAD_PHOTOS_COUNT } from "./uploadPhotos.consts";
-import { useSnackbar } from "../../../../contexts/SnackbarContext";
-import itemsService from "../../../../services/items.service";
 import { UploadPhotosProps } from "./uploadPhotos.types";
 
 export const UploadPhotos: FC<UploadPhotosProps> = ({
   photos,
   onPhotosChange,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { setSnackbar } = useSnackbar();
-
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
     const newFiles = files.slice(
@@ -36,39 +24,6 @@ export const UploadPhotos: FC<UploadPhotosProps> = ({
 
   const handleRemovePhoto = (indexToRemove: number) => {
     onPhotosChange(photos?.filter((_, index) => index !== indexToRemove) ?? []);
-  };
-
-  // TODO: handle upload on submit
-  const handleUpload = async () => {
-    if (photos?.length !== 0) {
-      setIsLoading(true);
-      const formData = new FormData();
-
-      photos?.forEach((file) => {
-        formData.append("images", file);
-      });
-
-      itemsService
-        .addItems(formData)
-        .then(() => {
-          setSnackbar(() => ({
-            open: true,
-            message: "Files uploaded successfully!",
-            severity: "success",
-          }));
-          onPhotosChange([]);
-        })
-        .catch(() => {
-          setSnackbar(() => ({
-            open: true,
-            message: "Error uploading files",
-            severity: "error",
-          }));
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
   };
 
   const isDisabled = (photos?.length ?? 0) >= UPLOAD_PHOTOS_COUNT;
