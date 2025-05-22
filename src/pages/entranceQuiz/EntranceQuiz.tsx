@@ -51,7 +51,7 @@ export const EntranceQuiz = () => {
         message: "Quiz submitted successfully!",
         severity: "success",
       });
-      navigate(PATHS.SEARCH);
+      navigate(PATHS.MAIN);
     } catch (error) {
       setSnackbar({
         open: true,

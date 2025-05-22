@@ -21,7 +21,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (user) {
-      navigate(!user.gender ? PATHS.ENTRANCE_QUIZ : PATHS.SEARCH);
+      navigate(!user.gender ? PATHS.ENTRANCE_QUIZ : PATHS.MAIN);
     }
   }, [user]);
 

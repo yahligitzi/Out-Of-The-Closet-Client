@@ -14,7 +14,7 @@ import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useState } from "react";
 import { JSX } from "@emotion/react/jsx-runtime";
 
-export const SearchPage = () => {
+export const MainPage = () => {
   const { setSnackbar, snackbar } = useSnackbar();
   const [items, setItems] = useState<JSX.Element[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
