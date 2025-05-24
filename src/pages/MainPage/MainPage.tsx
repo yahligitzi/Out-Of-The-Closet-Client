@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
-import { AddCircleOutline, Search } from "@mui/icons-material";
+import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
 import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
@@ -109,6 +109,17 @@ const MainPage = () => {
                 onClick={() => setSearchValue(searchInput)}
               >
                 <Search />
+              </InputAdornment>
+            ),
+            startAdornment: searchInput && (
+              <InputAdornment
+                position="start"
+                onClick={() => {
+                  setSearchInput("");
+                  setSearchValue("");
+                }}
+              >
+                <Clear />
               </InputAdornment>
             ),
           },
