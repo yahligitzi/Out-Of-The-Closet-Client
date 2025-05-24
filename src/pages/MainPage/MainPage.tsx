@@ -81,11 +81,20 @@ const MainPage = () => {
         });
 
         itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.every(
-            (tag: ItemTag) =>
+          tags.every((tag: ItemTag) => {
+            const tagsInCategory = tags.filter(
+              (currTag: ItemTag) => currTag.categoryId === tag.categoryId
+            );
+
+            return (
               !filtersByCategory[tag.categoryId] ||
-              filtersByCategory[tag.categoryId].includes(tag.tagId)
-          )
+              filtersByCategory[tag.categoryId].some((currTag) =>
+                tagsInCategory
+                  .map(({ tagId }: { tagId: string }) => tagId)
+                  .includes(currTag)
+              )
+            );
+          })
         );
       }
 
