@@ -3,6 +3,7 @@ import SignIn from "../pages/SignPage/SignIn";
 import SignUp from "../pages/SignPage/SignUp";
 import MainPage from "../pages/MainPage";
 import { EntranceQuiz } from "../pages/entranceQuiz/EntranceQuiz";
+import UploadPhotosWrapper from "../pages/UploadPhotos/uploadPhotosWrapper";
 export interface RouteType {
   path: string;
   name?: string;
@@ -14,6 +15,7 @@ export const PATHS = {
   SIGN_UP: "/signup",
   ENTRANCE_QUIZ: "/entrance-quiz",
   MAIN: "/main",
+  UPLOAD_PHOTOS: "/upload-photos",
 };
 
 export const PUBLIC_ROUTES: RouteType[] = [
@@ -39,5 +41,10 @@ export const PRIVATE_ROUTES: RouteType[] = [
     path: PATHS.MAIN,
     name: "עמוד ראשי",
     element: MainPage,
+  },
+  {
+    path: PATHS.UPLOAD_PHOTOS,
+    name: "העלאת תמונות",
+    element: UploadPhotosWrapper,
   },
 ];

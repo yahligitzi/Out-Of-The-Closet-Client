@@ -15,6 +15,8 @@ import { AddCircleOutline, Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
+import { PATHS } from "../../constants/routes";
+import { useNavigate } from "react-router-dom";
 
 export type ItemTag = {
   name: string;
@@ -43,7 +45,7 @@ const MainPage = () => {
 
   const tagsByCategory = allItems?.flatMap((item) => item.tags);
   const types = tagsByCategory?.filter((tag) => tag.categoryName === "Type");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (allItems) setDisplayedItems(allItems);
@@ -125,7 +127,7 @@ const MainPage = () => {
             <>
               <IconButton
                 sx={{ position: "absolute", right: 0 }}
-                // onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
+                onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
               >
                 <AddCircleOutline />
               </IconButton>
