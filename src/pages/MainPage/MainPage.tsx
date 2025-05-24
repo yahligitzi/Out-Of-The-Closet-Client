@@ -70,13 +70,13 @@ const MainPage = () => {
         );
 
       if (checkedFilterBox.length !== 0) {
-        const filtersByCategory: Record<string, string[]> = {};
+        const selectedFiltersByCategory: Record<string, string[]> = {};
 
         checkedFilterBox.forEach(({ tagId, categoryId }) => {
-          if (!filtersByCategory[categoryId]) {
-            filtersByCategory[categoryId] = [tagId];
+          if (!selectedFiltersByCategory[categoryId]) {
+            selectedFiltersByCategory[categoryId] = [tagId];
           } else {
-            filtersByCategory[categoryId].push(tagId);
+            selectedFiltersByCategory[categoryId].push(tagId);
           }
         });
 
@@ -87,8 +87,8 @@ const MainPage = () => {
             );
 
             return (
-              !filtersByCategory[tag.categoryId] ||
-              filtersByCategory[tag.categoryId].some((currTag) =>
+              !selectedFiltersByCategory[tag.categoryId] ||
+              selectedFiltersByCategory[tag.categoryId].some((currTag) =>
                 tagsInCategory
                   .map(({ tagId }: { tagId: string }) => tagId)
                   .includes(currTag)
