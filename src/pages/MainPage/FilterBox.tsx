@@ -1,7 +1,8 @@
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import styles from "./FilterBox.style";
 
-interface Props {
-  TagsByCategory: {
+type FilterBoxProps = {
+  tagsByCategory: {
     categoryName: string | null;
     name: string;
     tagId: string;
@@ -9,32 +10,18 @@ interface Props {
   }[] | undefined
 }
 
-const FilterBox = (props: Props) => {
-  const categories = [...new Set(props.TagsByCategory?.map(tag => tag.categoryName))];
+const FilterBox = ({ tagsByCategory }: FilterBoxProps) => {
+  const categories = [...new Set(tagsByCategory?.map(tag => tag.categoryName))];
   return (
-    <div
-      style={{
-        border: "1px solid lightGray",
-        borderRadius: 6,
-        maxHeight: "100%",
-        marginTop: "1vh",
-        width: "14vw"
-      }}
-    >
-      <div style={{
-        width: "15vw",
-        display: "flex",
-        flexDirection: "column",
-        marginLeft: "1.5vh",
-        marginTop: "1vh",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-      }}>
+    <div style={styles.container}>
+      <div style={styles.categoriesBox}>
         {categories.map(category => {
           return (<>
-            <Typography sx={{ fontWeight: "700" }}>{category}</Typography>
-            {props.TagsByCategory?.map(tag =>
-              tag.categoryName === category && <FormControlLabel control={<Checkbox sx={{
+            <Typography sx={{ fontWeight: "700" }} key={category}>{category}</Typography>
+            {Array.from(
+              new Map(tagsByCategory?.map(item => [item.name, item])).values()
+            )?.map(tag =>
+              tag.categoryName === category && <FormControlLabel key={tag.tagId} control={<Checkbox sx={{
                 '&.Mui-checked': {
                   color: "black",
                 },

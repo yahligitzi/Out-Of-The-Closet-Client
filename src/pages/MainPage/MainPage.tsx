@@ -16,12 +16,12 @@ import { AddCircleOutline, Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import FilterBox from "./FilterBox";
 import { PATHS } from "../../constants/routes";
-import { useUser } from "../../contexts/UserContext";
-import tagsService from "../../services/tags.service";
 
 export type ItemTag = {
   name: string;
   tagId: string;
+  categoryId: string;
+  categoryName: string;
 };
 
 export type Item = {
@@ -37,15 +37,10 @@ const MainPage = () => {
     queryFn: itemsService.getItems,
   });
 
-  const { user } = useUser();
-
-  const { data: TagsByCategory } = useQuery({
-    queryKey: ["tags", user?.id],
-    queryFn: () => tagsService.getTagByCategory(user?.id ?? ""),
-  });
-
-  const types = [...new Set(TagsByCategory?.filter(tag => tag.categoryName == "Type"))];
-
+  const tagsByCategory = allItems?.flatMap(item => item.tags)
+  const types = Array.from(
+    new Map(tagsByCategory?.filter(tag => tag.categoryName == "Type")?.map(item => [item.tagId, item])).values()
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -99,13 +94,8 @@ const MainPage = () => {
           width: "100%",
         }}
       >
-        <div
-          style={{
-            height: "100%",
-          }}
-        >
-          <FilterBox TagsByCategory={TagsByCategory} />
-        </div>
+
+        <FilterBox tagsByCategory={tagsByCategory} />
         <div
           style={{
             height: "100%",
@@ -138,8 +128,8 @@ const MainPage = () => {
                 }}
               >
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <Tabs value={types}>
-                    {types.map(type => <Tab label={type.name} />)}
+                  <Tabs value={0}>
+                    {types.map(type => <Tab label={type.name} key={type.tagId} />)}
                   </Tabs>
                 </Box>
                 {displayedItems?.map(({ imageUrl }, i) => (
