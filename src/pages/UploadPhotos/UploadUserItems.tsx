@@ -12,7 +12,7 @@ import itemsService from "../../services/items.service";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 
-const UploadPhotosWrapper = () => {
+const UploadUserItems = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [photos, setPhotos] = useState<File[]>();
 
@@ -56,4 +56,4 @@ const UploadPhotosWrapper = () => {
   );
 };
 
-export default UploadPhotosWrapper;
+export default UploadUserItems;

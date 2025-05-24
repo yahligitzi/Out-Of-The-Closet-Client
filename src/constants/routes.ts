@@ -3,7 +3,8 @@ import SignIn from "../pages/SignPage/SignIn";
 import SignUp from "../pages/SignPage/SignUp";
 import MainPage from "../pages/MainPage";
 import { EntranceQuiz } from "../pages/entranceQuiz/EntranceQuiz";
-import UploadPhotosWrapper from "../pages/UploadPhotos/uploadPhotosWrapper";
+import UploadUserItems from "../pages/UploadPhotos/UploadUserItems";
+
 export interface RouteType {
   path: string;
   name?: string;
@@ -45,6 +46,6 @@ export const PRIVATE_ROUTES: RouteType[] = [
   {
     path: PATHS.UPLOAD_PHOTOS,
     name: "העלאת תמונות",
-    element: UploadPhotosWrapper,
+    element: UploadUserItems,
   },
 ];
