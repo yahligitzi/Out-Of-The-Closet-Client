@@ -5,6 +5,8 @@ import {
   IconButton,
   ImageListItem,
   InputAdornment,
+  Tab,
+  Tabs,
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +20,8 @@ import { PATHS } from "../../constants/routes";
 export type ItemTag = {
   name: string;
   tagId: string;
+  categoryId: string;
+  categoryName: string;
 };
 
 export type Item = {
@@ -33,6 +37,10 @@ const MainPage = () => {
     queryFn: itemsService.getItems,
   });
 
+  const tagsByCategory = allItems?.flatMap(item => item.tags)
+  const types = Array.from(
+    new Map(tagsByCategory?.filter(tag => tag.categoryName === "Type")?.map(item => [item.tagId, item])).values()
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +86,6 @@ const MainPage = () => {
           },
         }}
       />
-
       <div
         style={{
           display: "flex",
@@ -87,15 +94,8 @@ const MainPage = () => {
           width: "100%",
         }}
       >
-        <div
-          style={{
-            height: "100%",
-            width: 150,
-          }}
-        >
-          <FilterBox />
-        </div>
 
+        <FilterBox tagsByCategory={tagsByCategory} />
         <div
           style={{
             height: "100%",
@@ -127,6 +127,11 @@ const MainPage = () => {
                   alignItems: "center",
                 }}
               >
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '45vw' }}>
+                  <Tabs value={0} variant="scrollable" scrollButtons="auto">
+                    {types.map(type => <Tab label={type.name} key={type.tagId} />)}
+                  </Tabs>
+                </Box>
                 {displayedItems?.map(({ imageUrl }, i) => (
                   <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
                     <ImageListItem>

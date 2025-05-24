@@ -1,16 +1,35 @@
-import { Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import styles from "./FilterBox.style";
 
-const FilterBox = () => {
+type FilterBoxProps = {
+  tagsByCategory: {
+    categoryName: string | null;
+    name: string;
+    tagId: string;
+    categoryId: string;
+  }[] | undefined
+}
+
+const FilterBox = ({ tagsByCategory }: FilterBoxProps) => {
+  const categories = [...new Set(tagsByCategory?.map(tag => tag.categoryName))];
   return (
-    <div
-      style={{
-        border: "1px solid black",
-        borderRadius: 2,
-        maxHeight: "100%",
-      }}
-    >
-      <Typography>filter component</Typography>
-    </div>
+    <div style={styles.container}>
+      <div style={styles.categoriesBox}>
+        {categories.map(category => {
+          return (<div key={category}>
+            <Typography sx={{ fontWeight: "700" }} key={category}>{category}</Typography>
+            {Array.from(
+              new Map(tagsByCategory?.map(item => [item.name, item])).values()
+            )?.map(tag =>
+              tag.categoryName === category && <FormControlLabel key={tag.tagId} control={<Checkbox key={tag.name} sx={{
+                '&.Mui-checked': {
+                  color: "black",
+                },
+              }} />} label={tag.name} />
+            )}
+          </div>)
+        })}
+      </div>    </div>
   );
 };
 
