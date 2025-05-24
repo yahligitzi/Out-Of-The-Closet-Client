@@ -1,5 +1,6 @@
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import styles from "./FilterBox.style";
+import { useMemo } from "react";
 
 type FilterBoxProps = {
   tagsByCategory:
@@ -16,58 +17,56 @@ type FilterBoxProps = {
 };
 
 const FilterBox = ({ tagsByCategory, setChecked }: FilterBoxProps) => {
-  const categories = [
-    ...new Set(tagsByCategory?.map((tag) => tag.categoryName)),
-  ];
+  const categories = useMemo(
+    () => [...new Set(tagsByCategory?.map((tag) => tag.categoryName))],
+    [tagsByCategory]
+  );
+
   return (
     <div style={styles.container}>
       <div style={styles.categoriesBox}>
-        {categories.map((category) => {
-          return (
-            <div key={category}>
-              <Typography sx={{ fontWeight: "700" }} key={category}>
-                {category}
-              </Typography>
-              {Array.from(
-                new Map(
-                  tagsByCategory?.map((item) => [item.name, item])
-                ).values()
-              )?.map(
-                (tag) =>
-                  tag.categoryName === category && (
-                    <FormControlLabel
-                      key={tag.tagId}
-                      control={
-                        <Checkbox
-                          key={tag.name}
-                          sx={{
-                            "&.Mui-checked": {
-                              color: "black",
-                            },
-                          }}
-                          onChange={(_, checked) => {
-                            if (checked)
-                              setChecked((prev) =>
-                                prev.concat({
-                                  tagId: tag.tagId,
-                                  categoryId: tag.categoryId,
-                                })
-                              );
-                            else
-                              setChecked((prev) =>
-                                prev.filter(({ tagId }) => tagId !== tag.tagId)
-                              );
-                          }}
-                        />
-                      }
-                      label={tag.name}
-                    />
-                  )
-              )}
-            </div>
-          );
-        })}
-      </div>{" "}
+        {categories.map((category) => (
+          <div key={category}>
+            <Typography sx={{ fontWeight: "700" }} key={category}>
+              {category}
+            </Typography>
+            {Array.from(
+              new Map(tagsByCategory?.map((item) => [item.name, item])).values()
+            )?.map(
+              (tag) =>
+                tag.categoryName === category && (
+                  <FormControlLabel
+                    key={tag.tagId}
+                    control={
+                      <Checkbox
+                        key={tag.name}
+                        sx={{
+                          "&.Mui-checked": {
+                            color: "black",
+                          },
+                        }}
+                        onChange={(_, checked) => {
+                          if (checked)
+                            setChecked((prev) =>
+                              prev.concat({
+                                tagId: tag.tagId,
+                                categoryId: tag.categoryId,
+                              })
+                            );
+                          else
+                            setChecked((prev) =>
+                              prev.filter(({ tagId }) => tagId !== tag.tagId)
+                            );
+                        }}
+                      />
+                    }
+                    label={tag.name}
+                  />
+                )
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

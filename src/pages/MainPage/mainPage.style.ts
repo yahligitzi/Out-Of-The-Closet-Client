@@ -1,4 +1,4 @@
-const styles: { [key: string]: React.CSSProperties } = {
+const styles = {
   root: {
     display: "flex",
     flexDirection: "column",
@@ -14,6 +14,10 @@ const styles: { [key: string]: React.CSSProperties } = {
   itemsGrid: {
     justifyItems: "center",
     alignItems: "center",
+    gridTemplateColumns: {
+      xs: "1fr",
+      sm: "repeat(auto-fit, minmax(250px, 1fr))",
+    },
   },
   tabWrapper: {
     borderBottom: 1,
@@ -27,6 +31,12 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: "column",
     alignItems: "center",
   },
+  searchBar: {
+    ".MuiOutlinedInput-root": {
+      borderRadius: 5,
+    },
+  },
+  uploadPhotosBtn: { position: "absolute", right: 0 },
 };
 
 export default styles;

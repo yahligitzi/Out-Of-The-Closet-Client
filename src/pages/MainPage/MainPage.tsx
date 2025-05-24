@@ -12,23 +12,12 @@ import {
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
 import { AddCircleOutline, Search } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
-
-export type ItemTag = {
-  name: string;
-  tagId: string;
-  categoryId: string;
-  categoryName: string;
-};
-
-export type Item = {
-  imageUrl: string;
-  tags: ItemTag[];
-};
+import { Item, ItemTag } from "../../types/tag.type";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
@@ -43,9 +32,16 @@ const MainPage = () => {
     queryFn: itemsService.getItems,
   });
 
-  const tagsByCategory = allItems?.flatMap((item) => item.tags);
-  const types = tagsByCategory?.filter((tag) => tag.categoryName === "Type");
   const navigate = useNavigate();
+
+  const tagsByCategory: ItemTag[] = useMemo(
+    () => allItems?.flatMap((item) => item.tags) ?? [],
+    [allItems]
+  );
+  const types = useMemo(
+    () => tagsByCategory?.filter((tag) => tag.categoryName === "Type"),
+    [tagsByCategory]
+  );
 
   useEffect(() => {
     if (allItems) setDisplayedItems(allItems);
@@ -61,12 +57,12 @@ const MainPage = () => {
       let itemsToDisplay = [...allItems];
       if (tabSelection)
         itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.some((tag) => tag.tagId === tabSelection)
+          tags.some((tag: ItemTag) => tag.tagId === tabSelection)
         );
 
       if (searchValue.length)
         itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.some((tag) => tag.name.includes(searchValue))
+          tags.some((tag: ItemTag) => tag.name.includes(searchValue))
         );
 
       if (checkedFilterBox.length !== 0) {
@@ -81,11 +77,11 @@ const MainPage = () => {
         });
 
         itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.every((tag) => {
-            if (filtersByCategory[tag.categoryId])
-              return filtersByCategory[tag.categoryId].includes(tag.tagId);
-            return true;
-          })
+          tags.every(
+            (tag: ItemTag) =>
+              !filtersByCategory[tag.categoryId] ||
+              filtersByCategory[tag.categoryId].includes(tag.tagId)
+          )
         );
       }
 
@@ -94,17 +90,13 @@ const MainPage = () => {
   };
 
   return (
-    <div style={styles.root}>
+    <div style={styles.root as React.CSSProperties}>
       <TextField
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         placeholder="Search"
         variant="outlined"
-        sx={{
-          ".MuiOutlinedInput-root": {
-            borderRadius: 5,
-          },
-        }}
+        sx={styles.searchBar}
         slotProps={{
           input: {
             endAdornment: (
@@ -115,33 +107,23 @@ const MainPage = () => {
           },
         }}
       />
-      <div style={styles.itemAndFiltersContainer}>
+      <div style={styles.itemAndFiltersContainer as React.CSSProperties}>
         <FilterBox
           tagsByCategory={tagsByCategory}
           setChecked={setCheckedFilterBox}
         />
-        <div style={styles.container}>
+        <div style={styles.container as React.CSSProperties}>
           {isLoading ? (
             <CircularProgress sx={{ marginTop: 10 }} />
           ) : (
             <>
               <IconButton
-                sx={{ position: "absolute", right: 0 }}
+                sx={styles.uploadPhotosBtn}
                 onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
               >
                 <AddCircleOutline />
               </IconButton>
-              <Box
-                display="grid"
-                gap={2}
-                sx={{
-                  ...styles.itemsGrid,
-                  gridTemplateColumns: {
-                    xs: "1fr",
-                    sm: "repeat(auto-fit, minmax(250px, 1fr))",
-                  },
-                }}
-              >
+              <Box display="grid" gap={2} sx={styles.itemsGrid}>
                 <Box sx={styles.tabWrapper}>
                   <Tabs
                     value={tabSelection ?? false}
