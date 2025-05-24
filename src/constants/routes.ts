@@ -3,7 +3,6 @@ import SignIn from "../pages/SignPage/SignIn";
 import SignUp from "../pages/SignPage/SignUp";
 import MainPage from "../pages/MainPage";
 import { EntranceQuiz } from "../pages/entranceQuiz/EntranceQuiz";
-import { UploadPhotos } from "../pages/entranceQuiz/components/uploadPhotos/uploadPhotos";
 export interface RouteType {
   path: string;
   name?: string;
