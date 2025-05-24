@@ -22,6 +22,7 @@ import { Item, ItemTag } from "../../types/tag.type";
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
   const [tabSelection, setTabSelection] = useState<string | null>(null);
+  const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
@@ -95,15 +96,18 @@ const MainPage = () => {
   return (
     <div style={styles.root as React.CSSProperties}>
       <TextField
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
         placeholder="Search"
         variant="outlined"
         sx={styles.searchBar}
         slotProps={{
           input: {
             endAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment
+                position="start"
+                onClick={() => setSearchValue(searchInput)}
+              >
                 <Search />
               </InputAdornment>
             ),

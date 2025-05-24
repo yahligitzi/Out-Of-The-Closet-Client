@@ -49,7 +49,7 @@ const UploadUserItems = () => {
           sx={styles.navigationButton}
           startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          Submit
         </Button>
       </Paper>
     </Box>
