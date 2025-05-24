@@ -16,18 +16,18 @@ const FilterBox = ({ tagsByCategory }: FilterBoxProps) => {
     <div style={styles.container}>
       <div style={styles.categoriesBox}>
         {categories.map(category => {
-          return (<>
+          return (<div key={category}>
             <Typography sx={{ fontWeight: "700" }} key={category}>{category}</Typography>
             {Array.from(
               new Map(tagsByCategory?.map(item => [item.name, item])).values()
             )?.map(tag =>
-              tag.categoryName === category && <FormControlLabel key={tag.tagId} control={<Checkbox sx={{
+              tag.categoryName === category && <FormControlLabel key={tag.tagId} control={<Checkbox key={tag.name} sx={{
                 '&.Mui-checked': {
                   color: "black",
                 },
               }} />} label={tag.name} />
             )}
-          </>)
+          </div>)
         })}
       </div>    </div>
   );

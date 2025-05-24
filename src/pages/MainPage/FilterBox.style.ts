@@ -4,16 +4,17 @@ const styles = {
         borderRadius: 6,
         maxHeight: "100%",
         marginTop: "1vh",
-        minWidth: "25vw",
+        minWidth: "28vw",
     },
     categoriesBox: {
-        width: "15vw",
+        width: "22vw",
         Height: "30vh",
         display: "flex",
         flexDirection: "column",
         marginLeft: "1.5vh",
         marginTop: "1vh",
-        // overflowY: "scroll",
+        overflowY: "scroll",
+        overflowX: "scroll"
     }
   };
   

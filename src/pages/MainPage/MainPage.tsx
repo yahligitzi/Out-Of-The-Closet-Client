@@ -39,7 +39,7 @@ const MainPage = () => {
 
   const tagsByCategory = allItems?.flatMap(item => item.tags)
   const types = Array.from(
-    new Map(tagsByCategory?.filter(tag => tag.categoryName == "Type")?.map(item => [item.tagId, item])).values()
+    new Map(tagsByCategory?.filter(tag => tag.categoryName === "Type")?.map(item => [item.tagId, item])).values()
   );
   const navigate = useNavigate();
 
@@ -127,8 +127,8 @@ const MainPage = () => {
                   alignItems: "center",
                 }}
               >
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <Tabs value={0}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '45vw' }}>
+                  <Tabs value={0} variant="scrollable" scrollButtons="auto">
                     {types.map(type => <Tab label={type.name} key={type.tagId} />)}
                   </Tabs>
                 </Box>
