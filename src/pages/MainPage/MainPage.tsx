@@ -42,10 +42,16 @@ const MainPage = () => {
     () => allItems?.flatMap((item) => item.tags) ?? [],
     [allItems]
   );
-  const types = useMemo(
-    () => tagsByCategory?.filter((tag) => tag.categoryName === "Type"),
-    [tagsByCategory]
-  );
+
+  const types = useMemo(() => {
+    const seenTags = new Set<string>();
+    return (tagsByCategory ?? []).filter((tag) => {
+      if (tag.categoryName === "Type" && !seenTags.has(tag.tagId)) {
+        seenTags.add(tag.tagId);
+        return true;
+      }
+    });
+  }, [tagsByCategory]);
 
   useEffect(() => {
     if (allItems) setDisplayedItems(allItems);
@@ -150,27 +156,27 @@ const MainPage = () => {
               >
                 <AddCircleOutline />
               </IconButton>
+              <Box sx={styles.tabWrapper}>
+                <Tabs
+                  value={tabSelection ?? false}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  onChange={(e, newValue) => {
+                    e.stopPropagation();
+                    setTabSelection(newValue);
+                  }}
+                  onClick={() => setTabSelection(null)}
+                >
+                  {types?.map((type) => (
+                    <Tab
+                      label={type.name}
+                      key={type.tagId}
+                      value={type.tagId}
+                    />
+                  ))}
+                </Tabs>
+              </Box>
               <Box display="grid" gap={2} sx={styles.itemsGrid}>
-                <Box sx={styles.tabWrapper}>
-                  <Tabs
-                    value={tabSelection ?? false}
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    onChange={(e, newValue) => {
-                      e.stopPropagation();
-                      setTabSelection(newValue);
-                    }}
-                    onClick={() => setTabSelection(null)}
-                  >
-                    {types?.map((type) => (
-                      <Tab
-                        label={type.name}
-                        key={type.tagId}
-                        value={type.tagId}
-                      />
-                    ))}
-                  </Tabs>
-                </Box>
                 {displayedItems?.map(({ imageUrl }, i) => (
                   <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
                     <ImageListItem>
