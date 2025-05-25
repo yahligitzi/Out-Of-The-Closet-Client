@@ -45,7 +45,7 @@ const MainPage = () => {
 
   const types = useMemo(() => {
     const seenTags = new Set<string>();
-    return (tagsByCategory ?? []).filter((tag) => {
+    return tagsByCategory.filter((tag) => {
       if (tag.categoryName === "Type" && !seenTags.has(tag.tagId)) {
         seenTags.add(tag.tagId);
         return true;
