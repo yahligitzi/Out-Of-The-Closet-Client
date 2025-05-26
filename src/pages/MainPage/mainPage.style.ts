@@ -30,6 +30,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    gap: "2%",
   },
   searchBar: {
     ".MuiOutlinedInput-root": {
