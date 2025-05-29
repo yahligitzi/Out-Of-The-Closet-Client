@@ -1,4 +1,4 @@
-import { colors } from "../constants/styles";
+import { colors } from "../../constants/styles";
 
 const styles = {
   button: {

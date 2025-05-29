@@ -16,9 +16,9 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
-import { colors } from "../constants/styles";
-import { ItemTag } from "../types/tag.type";
-import SelectButton from "./SelectButton";
+import { colors } from "../../constants/styles";
+import { ItemTag } from "../../types/tag.type";
+import SlidingDrawerCategoryPage from "../SlidingDrawerCategoryPage";
 
 const Puller = styled("div")(() => ({
   width: 30,
@@ -128,6 +128,22 @@ const FilterSlidingDrawer = ({
     null
   );
 
+  const relevantTags = useMemo(() => {
+    if (!selectedCategoryId) return [];
+
+    const seenTagsIds = new Set<string>();
+
+    return tagsByCategory.filter((tag) => {
+      if (
+        tag.categoryId === selectedCategoryId &&
+        !seenTagsIds.has(tag.tagId)
+      ) {
+        seenTagsIds.add(tag.tagId);
+        return true;
+      }
+    });
+  }, [selectedCategoryId]);
+
   useEffect(() => {
     if (!isDrawerOpen) setSelectedCategoryId(null);
   }, [isDrawerOpen]);
@@ -141,40 +157,6 @@ const FilterSlidingDrawer = ({
       }
     });
   }, [tagsByCategory]);
-
-  const labels = useMemo(() => {
-    if (selectedCategoryId) {
-      const seenTagsIds = new Set<string>();
-
-      return tagsByCategory.filter((tag) => {
-        if (
-          tag.categoryId === selectedCategoryId &&
-          !seenTagsIds.has(tag.tagId)
-        ) {
-          seenTagsIds.add(tag.tagId);
-          return true;
-        }
-      });
-    }
-
-    return [];
-  }, [selectedCategoryId]);
-
-  const isAllFromCategorySelected = useMemo(() => {
-    const amount = checked.filter(
-      (x) => x.categoryId === selectedCategoryId
-    ).length;
-
-    return amount === labels.length;
-  }, [checked, selectedCategoryId]);
-
-  const handleSelectAll = () => {
-    const toSelect = labels.filter(
-      (x) => !checked.find(({ tagId }) => x.tagId === tagId)
-    );
-
-    setChecked((prev) => prev.concat(toSelect));
-  };
 
   return (
     <>
@@ -226,121 +208,18 @@ const FilterSlidingDrawer = ({
       >
         {selectedCategoryId ? (
           <>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                zIndex: 100,
-              }}
-            >
-              <Box
-                sx={{
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 10,
-                  background: "white",
-                  // alignSelf: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 1,
-                }}
-              >
-                <Puller />
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton onClick={() => setSelectedCategoryId(null)}>
-                    <ArrowBackIos />
-                  </IconButton>
-                  <Typography variant="h6">Sort By</Typography>
-                  <SelectButton
-                    isAllSelected={isAllFromCategorySelected}
-                    clearFunc={() =>
-                      setChecked((prev) =>
-                        prev.filter((x) => x.categoryId !== selectedCategoryId)
-                      )
-                    }
-                    selectAllFunc={handleSelectAll}
-                  />
-                  {/* <Button
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: 10,
-                      borderColor: colors.lightGray,
-                      color: "white",
-                      background: colors.darkGray,
-                    }}
-                    variant="outlined"
-                  >
-                    Select All
-                  </Button> */}
-                </Box>
-                <Divider sx={{ width: "100%" }} />
-              </Box>
-              <Box
-                sx={{
-                  flex: 1,
-                  padding: "20px",
-                  // height: "100%",
-                  // boxSizing: "border-box",
-                }}
-              >
-                <List
-                  sx={{
-                    // width: "90%",
-                    // marginTop: "56px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
-                    // background: colors.lightGray,
-                  }}
-                >
-                  {labels.map((tag) => (
-                    <>
-                      <FormControlLabel
-                        key={tag.tagId}
-                        control={
-                          <Checkbox
-                            key={tag.name}
-                            checked={
-                              !!checked.find(({ tagId }) => tagId === tag.tagId)
-                            }
-                            sx={{
-                              "&.Mui-checked": {
-                                color: "black",
-                              },
-                            }}
-                            onChange={(_, checked) => {
-                              if (checked)
-                                setChecked((prev) =>
-                                  prev.concat({
-                                    tagId: tag.tagId,
-                                    categoryId: tag.categoryId,
-                                  })
-                                );
-                              else
-                                setChecked((prev) =>
-                                  prev.filter(
-                                    ({ tagId }) => tagId !== tag.tagId
-                                  )
-                                );
-                            }}
-                          />
-                        }
-                        label={tag.name}
-                      />
-                    </>
-                  ))}
-                </List>
-              </Box>
-            </Box>
+            <SlidingDrawerCategoryPage
+              handleGoBack={() => setSelectedCategoryId(null)}
+              selectedCategoryId={selectedCategoryId}
+              setChecked={setChecked}
+              checked={checked}
+              tags={relevantTags}
+              title={
+                tagsByCategory.find(
+                  ({ categoryId }) => selectedCategoryId === categoryId
+                )?.categoryName ?? ""
+              }
+            />
           </>
         ) : (
           <>

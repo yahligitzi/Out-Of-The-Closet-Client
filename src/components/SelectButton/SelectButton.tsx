@@ -4,7 +4,7 @@ import styles from "./SelectButton.style";
 type SelectButtonProps = {
   selectText?: string;
   clearText?: string;
-  isAllSelected: boolean;
+  areAllSelected: boolean;
   selectAllFunc: () => void;
   clearFunc: () => void;
 };
@@ -12,7 +12,7 @@ type SelectButtonProps = {
 const SelectButton = ({
   selectText = "Select All",
   clearText = "Clear",
-  isAllSelected,
+  areAllSelected,
   selectAllFunc,
   clearFunc,
 }: SelectButtonProps) => {
@@ -20,9 +20,9 @@ const SelectButton = ({
     <Button
       sx={styles.button}
       variant="outlined"
-      onClick={isAllSelected ? clearFunc : selectAllFunc}
+      onClick={areAllSelected ? clearFunc : selectAllFunc}
     >
-      {isAllSelected ? clearText : selectText}
+      {areAllSelected ? clearText : selectText}
     </Button>
   );
 };

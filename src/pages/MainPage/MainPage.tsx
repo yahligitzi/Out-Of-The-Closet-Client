@@ -5,15 +5,12 @@ import {
   IconButton,
   ImageListItem,
   InputAdornment,
-  Tab,
-  Tabs,
   TextField,
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
 import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
-import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +19,6 @@ import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
-  const [tabSelection, setTabSelection] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
   const [checkedFilterBox, setCheckedFilterBox] = useState<
@@ -58,18 +54,11 @@ const MainPage = () => {
     if (allItems) setDisplayedItems(allItems);
   }, [allItems]);
 
-  useEffect(
-    () => handleFilter(),
-    [searchValue, tabSelection, checkedFilterBox]
-  );
+  useEffect(() => handleFilter(), [searchValue, checkedFilterBox]);
 
   const handleFilter = () => {
     if (allItems?.length) {
       let itemsToDisplay = [...allItems];
-      if (tabSelection)
-        itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.some((tag: ItemTag) => tag.tagId === tabSelection)
-        );
 
       if (searchValue.length)
         itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
