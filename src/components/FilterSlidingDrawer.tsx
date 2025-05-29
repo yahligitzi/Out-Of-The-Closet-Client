@@ -1,17 +1,8 @@
-import {
-  ArrowBack,
-  ArrowBackIos,
-  ArrowForward,
-  ArrowForwardIos,
-  CheckBox,
-  Send,
-  Tune,
-} from "@mui/icons-material";
+import { ArrowBackIos, ArrowForwardIos, Tune } from "@mui/icons-material";
 import {
   Badge,
   Box,
   Button,
-  Card,
   Checkbox,
   Divider,
   FormControlLabel,
@@ -26,102 +17,99 @@ import {
 } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { colors } from "../constants/styles";
-import { grey } from "@mui/material/colors";
 import { ItemTag } from "../types/tag.type";
 import SelectButton from "./SelectButton";
 
-const Puller = styled("div")(({ theme }) => ({
+const Puller = styled("div")(() => ({
   width: 30,
   height: 6,
   backgroundColor: colors.lightGray,
   borderRadius: 3,
-  //   position: "absolute",
   marginTop: 8,
-  //   left: "calc(50% - 15px)",
 }));
 
-const Something = (
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      zIndex: 100,
-    }}
-  >
-    <Box
-      sx={{
-        position: "sticky",
-        top: 0,
-        zIndex: 10,
-        background: "white",
-        // alignSelf: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 1,
-      }}
-    >
-      <Puller />
-      <Typography variant="h6">Sort By</Typography>
-      <Divider sx={{ width: "100%" }} />
-    </Box>
-    <Box
-      sx={{
-        flex: 1,
-        padding: "20px",
-        // height: "100%",
-        // boxSizing: "border-box",
-      }}
-    >
-      <h1>Page Content</h1>
-      <p>Scroll down to see the sticky button at the bottom.</p>
-      <p>Additional content...</p>
-      <p>More content here...</p>
-      <p>Even more content...</p>
-      <p>Keep scrolling...</p>
-      <h1>Page Content</h1>
-      <p>Scroll down to see the sticky button at the bottom.</p>
-      <p>Additional content...</p>
-      <p>More content here...</p>
-      <p>Even more content...</p>
-      <p>Keep scrolling...</p>
-      <h1>Page Content</h1>
-    </Box>
-    <Box
-      sx={{
-        position: "sticky",
-        bottom: -1,
-        zIndex: 10,
-        display: "flex",
-      }}
-    >
-      <Button
-        sx={{
-          textTransform: "none",
-          flex: 1,
-          color: colors.darkGray,
-          background: "white",
-          borderRadius: 0,
-        }}
-        variant="text"
-      >
-        Clear
-      </Button>
-      <Button
-        sx={{
-          textTransform: "none",
-          flex: 2,
-          color: colors.darkGray,
-          background: "pink",
-          borderRadius: 0,
-        }}
-        variant="text"
-      >
-        Show Results
-      </Button>
-    </Box>
-  </Box>
-);
+// const Something = (
+//   <Box
+//     sx={{
+//       display: "flex",
+//       flexDirection: "column",
+//       zIndex: 100,
+//     }}
+//   >
+//     <Box
+//       sx={{
+//         position: "sticky",
+//         top: 0,
+//         zIndex: 10,
+//         background: "white",
+//         // alignSelf: "center",
+//         display: "flex",
+//         flexDirection: "column",
+//         alignItems: "center",
+//         gap: 1,
+//       }}
+//     >
+//       <Puller />
+//       <Typography variant="h6">Sort By</Typography>
+//       <Divider sx={{ width: "100%" }} />
+//     </Box>
+//     <Box
+//       sx={{
+//         flex: 1,
+//         padding: "20px",
+//         // height: "100%",
+//         // boxSizing: "border-box",
+//       }}
+//     >
+//       <h1>Page Content</h1>
+//       <p>Scroll down to see the sticky button at the bottom.</p>
+//       <p>Additional content...</p>
+//       <p>More content here...</p>
+//       <p>Even more content...</p>
+//       <p>Keep scrolling...</p>
+//       <h1>Page Content</h1>
+//       <p>Scroll down to see the sticky button at the bottom.</p>
+//       <p>Additional content...</p>
+//       <p>More content here...</p>
+//       <p>Even more content...</p>
+//       <p>Keep scrolling...</p>
+//       <h1>Page Content</h1>
+//     </Box>
+//     <Box
+//       sx={{
+//         position: "sticky",
+//         bottom: -1,
+//         zIndex: 10,
+//         display: "flex",
+//       }}
+//     >
+//       <Button
+//         sx={{
+//           textTransform: "none",
+//           flex: 1,
+//           color: colors.darkGray,
+//           background: "white",
+//           borderRadius: 0,
+//         }}
+//         variant="text"
+//       >
+//         Clear
+//       </Button>
+//       <Button
+//         sx={{
+//           textTransform: "none",
+//           flex: 2,
+//           color: colors.darkGray,
+//           background: "pink",
+//           borderRadius: 0,
+//         }}
+//         variant="text"
+//       >
+//         Show Results
+//       </Button>
+//     </Box>
+//   </Box>
+// );
 
 type FilterSlidingDrawerProps = {
   tagsByCategory: ItemTag[];
@@ -226,12 +214,13 @@ const FilterSlidingDrawer = ({
         swipeAreaWidth={56}
         disableSwipeToOpen={false}
         keepMounted
-        PaperProps={{
-          sx: {
-            height: "75vh",
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            // overflow: "visible",
+        slotProps={{
+          paper: {
+            sx: {
+              height: "60vh",
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+            },
           },
         }}
       >
@@ -267,7 +256,7 @@ const FilterSlidingDrawer = ({
                     alignItems: "center",
                   }}
                 >
-                  <IconButton>
+                  <IconButton onClick={() => setSelectedCategoryId(null)}>
                     <ArrowBackIos />
                   </IconButton>
                   <Typography variant="h6">Sort By</Typography>
@@ -389,12 +378,9 @@ const FilterSlidingDrawer = ({
               >
                 <List
                   sx={{
-                    // width: "90%",
-                    // marginTop: "56px",
                     display: "flex",
                     flexDirection: "column",
                     gap: 2,
-                    // background: colors.lightGray,
                   }}
                 >
                   {categories.map(({ categoryId, categoryName }) => (
@@ -404,7 +390,18 @@ const FilterSlidingDrawer = ({
                         onClick={() => setSelectedCategoryId(categoryId)}
                         sx={{ background: colors.white, padding: 1 }}
                       >
-                        <ListItemText>{categoryName}</ListItemText>
+                        <ListItemText
+                          sx={{
+                            gap: 10,
+                          }}
+                          slotProps={{
+                            primary: {
+                              fontWeight: 600,
+                              gap: 10,
+                            },
+                          }}
+                          primary={categoryName}
+                        />
                         <ListItemIcon>
                           <ArrowForwardIos />
                         </ListItemIcon>
@@ -435,18 +432,20 @@ const FilterSlidingDrawer = ({
                     borderRadius: 0,
                   }}
                   variant="text"
+                  onClick={() => setChecked([])}
                 >
-                  Clear
+                  Clear All
                 </Button>
                 <Button
                   sx={{
                     textTransform: "none",
                     flex: 2,
                     color: colors.darkGray,
-                    background: "pink",
+                    background: "#71c9e5",
                     borderRadius: 0,
                   }}
                   variant="text"
+                  onClick={() => setIsDrawerOpen(false)}
                 >
                   Show Results
                 </Button>

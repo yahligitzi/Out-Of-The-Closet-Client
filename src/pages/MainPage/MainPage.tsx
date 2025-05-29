@@ -111,77 +111,67 @@ const MainPage = () => {
 
   return (
     <div style={styles.root as React.CSSProperties}>
-      <TextField
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        placeholder="Search"
-        variant="outlined"
-        sx={styles.searchBar}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment
-                position="start"
-                onClick={() => setSearchValue(searchInput)}
-              >
-                <Search />
-              </InputAdornment>
-            ),
-            startAdornment: searchInput && (
-              <InputAdornment
-                position="start"
-                onClick={() => {
-                  setSearchInput("");
-                  setSearchValue("");
-                }}
-              >
-                <Clear />
-              </InputAdornment>
-            ),
-          },
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          gap: 5,
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
-      />
-      <div style={styles.itemAndFiltersContainer as React.CSSProperties}>
+      >
         <FilterSlidingDrawer
           tagsByCategory={tagsByCategory}
           checked={checkedFilterBox}
           setChecked={setCheckedFilterBox}
         />
-        {/* <FilterBox
-          tagsByCategory={tagsByCategory}
-          setChecked={setCheckedFilterBox}
-        /> */}
-        <div style={styles.container as React.CSSProperties}>
-          {isLoading ? (
-            <CircularProgress sx={{ marginTop: 10 }} />
-          ) : (
-            <>
-              <IconButton
-                sx={styles.uploadPhotosBtn}
-                onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
-              >
-                <AddCircleOutline />
-              </IconButton>
-              <Box sx={styles.tabWrapper}>
-                <Tabs
-                  value={tabSelection ?? false}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                  onChange={(e, newValue) => {
-                    e.stopPropagation();
-                    setTabSelection(newValue);
-                  }}
-                  onClick={() => setTabSelection(null)}
+        <TextField
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search"
+          variant="outlined"
+          sx={styles.searchBar}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment
+                  position="start"
+                  onClick={() => setSearchValue(searchInput)}
                 >
-                  {types?.map((type) => (
-                    <Tab
-                      label={type.name}
-                      key={type.tagId}
-                      value={type.tagId}
-                    />
-                  ))}
-                </Tabs>
-              </Box>
+                  <Search />
+                </InputAdornment>
+              ),
+              startAdornment: searchInput && (
+                <InputAdornment
+                  position="start"
+                  onClick={() => {
+                    setSearchInput("");
+                    setSearchValue("");
+                  }}
+                >
+                  <Clear />
+                </InputAdornment>
+              ),
+            },
+          }}
+        />
+
+        <IconButton onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}>
+          <AddCircleOutline />
+        </IconButton>
+      </div>
+
+      <div style={styles.container as React.CSSProperties}>
+        {isLoading ? (
+          <CircularProgress sx={{ marginTop: 10 }} />
+        ) : (
+          <>
+            <Box
+              sx={{
+                overflow: "auto",
+              }}
+            >
               <Box display="grid" gap={2} sx={styles.itemsGrid}>
                 {displayedItems?.map(({ imageUrl }, i) => (
                   <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
@@ -191,9 +181,9 @@ const MainPage = () => {
                   </Card>
                 ))}
               </Box>
-            </>
-          )}
-        </div>
+            </Box>
+          </>
+        )}
       </div>
     </div>
   );
