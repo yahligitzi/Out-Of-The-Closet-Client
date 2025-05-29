@@ -28,7 +28,7 @@ export const SnackbarContextProvider = ({
       {children}
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={() => setSnackbar({ open: false })}
       >
         <Alert

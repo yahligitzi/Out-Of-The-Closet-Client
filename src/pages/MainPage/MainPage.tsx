@@ -2,12 +2,15 @@ import {
   Box,
   Card,
   CircularProgress,
+  Dialog,
+  DialogTitle,
   IconButton,
   ImageListItem,
   InputAdornment,
   Tab,
   Tabs,
   TextField,
+  Typography,
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
@@ -24,6 +27,7 @@ const MainPage = () => {
   const [tabSelection, setTabSelection] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
@@ -152,7 +156,7 @@ const MainPage = () => {
             <>
               <IconButton
                 sx={styles.uploadPhotosBtn}
-                onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
+                onClick={() => setIsPopupOpen(true)}
               >
                 <AddCircleOutline />
               </IconButton>
@@ -185,6 +189,38 @@ const MainPage = () => {
                   </Card>
                 ))}
               </Box>
+              <Dialog onClose={() => setIsPopupOpen(false)} open={isPopupOpen}>
+                <DialogTitle>Upload image form</DialogTitle>
+                <Box sx={styles.dialogBox}>
+                  <Box
+                    sx={styles.dialogOptionBox}
+                    onClick={() =>
+                      navigate(PATHS.UPLOAD_PHOTOS, {
+                        state: { isLocal: true },
+                      })
+                    }
+                  >
+                    <Typography sx={styles.dialogOptionsTitle}>
+                      Local device
+                    </Typography>
+                    <Typography sx={styles.dialogOptionsBody}>
+                      select photos from camera roll
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={styles.dialogOptionBox}
+                    onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
+                  >
+                    <Typography sx={styles.dialogOptionsTitle}>
+                      By url
+                    </Typography>
+                    <Typography sx={styles.dialogOptionsBody}>
+                      insert the item url directly from the site for easy and
+                      quick upload
+                    </Typography>
+                  </Box>
+                </Box>
+              </Dialog>
             </>
           )}
         </div>
