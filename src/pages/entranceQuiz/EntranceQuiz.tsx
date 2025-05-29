@@ -123,6 +123,7 @@ export const EntranceQuiz = () => {
         <UploadPhotos
           photos={quizData?.photos}
           onPhotosChange={(photos) => handleChange("photos", photos)}
+          text={"These photos will help establish your new digital closet"}
         />
       ),
       isRequired: true,

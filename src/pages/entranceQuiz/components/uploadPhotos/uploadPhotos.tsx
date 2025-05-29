@@ -11,6 +11,7 @@ import { UploadPhotosProps } from "./uploadPhotos.types";
 export const UploadPhotos: FC<UploadPhotosProps> = ({
   photos,
   onPhotosChange,
+  text,
 }) => {
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
@@ -35,7 +36,7 @@ export const UploadPhotos: FC<UploadPhotosProps> = ({
         your closet
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={styles.subtitle}>
-        These photos will help establish your new digital closet
+        {text}
       </Typography>
 
       <Button
