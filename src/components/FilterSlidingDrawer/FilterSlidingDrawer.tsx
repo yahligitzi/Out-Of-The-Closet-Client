@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  styled,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
@@ -17,14 +16,6 @@ import { colors } from "../../constants/styles";
 import { ItemTag } from "../../types/tag.type";
 import TagsSelectionDrawer from "../TagsSelectionDrawer";
 import styles from "./FilterSlidingDrawer.style";
-
-const Puller = styled("div")(() => ({
-  width: 30,
-  height: 6,
-  backgroundColor: colors.lightGray,
-  borderRadius: 3,
-  marginTop: 8,
-}));
 
 type FilterSlidingDrawerProps = {
   tagsByCategory: ItemTag[];
@@ -125,7 +116,7 @@ const FilterSlidingDrawer = ({
           <>
             <Box sx={styles.drawerContainer}>
               <Box sx={styles.upperBar}>
-                <Puller />
+                <div style={styles.puller} />
                 <Typography variant="h6">Sort By</Typography>
                 <Divider sx={styles.divider} />
               </Box>

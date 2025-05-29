@@ -5,23 +5,13 @@ import {
   FormControlLabel,
   IconButton,
   List,
-  styled,
   Typography,
 } from "@mui/material";
-import { colors } from "../../constants/styles";
 import { ArrowBackIos } from "@mui/icons-material";
 import SelectButton from "../SelectButton";
 import { useMemo } from "react";
 import { ItemTag } from "../../types/tag.type";
 import styles from "./TagsSelectionDrawer.style";
-
-const Puller = styled("div")(() => ({
-  width: 30,
-  height: 6,
-  backgroundColor: colors.lightGray,
-  borderRadius: 3,
-  marginTop: 8,
-}));
 
 type TagsSelectionDrawerProps = {
   selectedCategoryId: string;
@@ -61,7 +51,7 @@ const TagsSelectionDrawer = ({
   return (
     <Box sx={styles.container}>
       <Box sx={styles.upperBarContainer}>
-        <Puller />
+        <div style={styles.puller} />
         <Box sx={styles.actionLine}>
           <IconButton onClick={handleGoBack}>
             <ArrowBackIos />

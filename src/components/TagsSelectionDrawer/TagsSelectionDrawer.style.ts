@@ -1,3 +1,5 @@
+import { colors } from "../../constants/styles";
+
 const styles = {
   container: {
     display: "flex",
@@ -36,6 +38,13 @@ const styles = {
     "&.Mui-checked": {
       color: "#71c9e5",
     },
+  },
+  puller: {
+    width: 30,
+    height: 6,
+    backgroundColor: colors.lightGray,
+    borderRadius: 3,
+    marginTop: 8,
   },
 };
 
