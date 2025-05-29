@@ -13,7 +13,7 @@ import { ArrowBackIos } from "@mui/icons-material";
 import SelectButton from "../SelectButton";
 import { useMemo } from "react";
 import { ItemTag } from "../../types/tag.type";
-import styles from "./SlidingDrawerCategoryPage.style";
+import styles from "./TagsSelectionDrawer.style";
 
 const Puller = styled("div")(() => ({
   width: 30,
@@ -23,7 +23,7 @@ const Puller = styled("div")(() => ({
   marginTop: 8,
 }));
 
-type SlidingDrawerCategoryPageProps = {
+type TagsSelectionDrawerProps = {
   selectedCategoryId: string;
   handleGoBack: () => void;
   tags: ItemTag[];
@@ -34,14 +34,14 @@ type SlidingDrawerCategoryPageProps = {
   title: string;
 };
 
-const SlidingDrawerCategoryPage = ({
+const TagsSelectionDrawer = ({
   selectedCategoryId,
   handleGoBack,
   tags,
   setChecked,
   checked,
   title,
-}: SlidingDrawerCategoryPageProps) => {
+}: TagsSelectionDrawerProps) => {
   const areAllSelected = useMemo(() => {
     const checkedAmount = checked.filter(
       ({ categoryId }) => categoryId === selectedCategoryId
@@ -115,4 +115,4 @@ const SlidingDrawerCategoryPage = ({
   );
 };
 
-export default SlidingDrawerCategoryPage;
+export default TagsSelectionDrawer;
