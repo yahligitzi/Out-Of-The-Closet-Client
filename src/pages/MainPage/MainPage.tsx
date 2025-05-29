@@ -18,6 +18,7 @@ import styles from "./mainPage.style";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { Item, ItemTag } from "../../types/tag.type";
+import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
@@ -141,10 +142,15 @@ const MainPage = () => {
         }}
       />
       <div style={styles.itemAndFiltersContainer as React.CSSProperties}>
-        <FilterBox
+        <FilterSlidingDrawer
           tagsByCategory={tagsByCategory}
+          checked={checkedFilterBox}
           setChecked={setCheckedFilterBox}
         />
+        {/* <FilterBox
+          tagsByCategory={tagsByCategory}
+          setChecked={setCheckedFilterBox}
+        /> */}
         <div style={styles.container as React.CSSProperties}>
           {isLoading ? (
             <CircularProgress sx={{ marginTop: 10 }} />
