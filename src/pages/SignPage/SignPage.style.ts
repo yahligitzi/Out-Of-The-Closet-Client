@@ -28,7 +28,7 @@ const styles = {
   logo: {
     height: 300,
     width: 300,
-    marginTop: "15vh",
+    marginTop: "10vh",
   },
   title: {
     width: "100%",
