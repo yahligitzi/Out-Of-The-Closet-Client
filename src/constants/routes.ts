@@ -4,6 +4,7 @@ import SignUp from "../pages/SignPage/SignUp";
 import MainPage from "../pages/MainPage";
 import { EntranceQuiz } from "../pages/entranceQuiz/EntranceQuiz";
 import UploadUserItems from "../pages/UploadPhotos/UploadUserItems";
+import SomePages from "../pages/SomePages/somePages";
 
 export interface RouteType {
   path: string;
@@ -17,6 +18,7 @@ export const PATHS = {
   ENTRANCE_QUIZ: "/entrance-quiz",
   MAIN: "/main",
   UPLOAD_PHOTOS: "/upload-photos",
+  GENERATE_OUTFIT: "/generate-outfit",
 };
 
 export const PUBLIC_ROUTES: RouteType[] = [
@@ -47,5 +49,10 @@ export const PRIVATE_ROUTES: RouteType[] = [
     path: PATHS.UPLOAD_PHOTOS,
     name: "העלאת תמונות",
     element: UploadUserItems,
+  },
+  {
+    path: PATHS.GENERATE_OUTFIT,
+    name: "",
+    element: SomePages,
   },
 ];

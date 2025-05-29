@@ -6,6 +6,7 @@ export type ItemTag = {
 };
 
 export type Item = {
+  id: string;
   imageUrl: string;
   tags: ItemTag[];
 };
