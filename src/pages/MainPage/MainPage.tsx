@@ -6,7 +6,6 @@ import {
   ImageListItem,
   InputAdornment,
   TextField,
-  Typography,
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
