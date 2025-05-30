@@ -40,16 +40,6 @@ const MainPage = () => {
     [allItems]
   );
 
-  const types = useMemo(() => {
-    const seenTags = new Set<string>();
-    return tagsByCategory.filter((tag) => {
-      if (tag.categoryName === "Type" && !seenTags.has(tag.tagId)) {
-        seenTags.add(tag.tagId);
-        return true;
-      }
-    });
-  }, [tagsByCategory]);
-
   useEffect(() => {
     if (allItems) setDisplayedItems(allItems);
   }, [allItems]);
@@ -99,17 +89,8 @@ const MainPage = () => {
   };
 
   return (
-    <div style={styles.root as React.CSSProperties}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          gap: 5,
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+    <Box sx={styles.root}>
+      <Box sx={styles.upperBar}>
         <FilterSlidingDrawer
           tagsByCategory={tagsByCategory}
           checked={checkedFilterBox}
@@ -149,18 +130,13 @@ const MainPage = () => {
         <IconButton onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}>
           <AddCircleOutline />
         </IconButton>
-      </div>
-
-      <div style={styles.container as React.CSSProperties}>
-        {isLoading ? (
-          <CircularProgress sx={{ marginTop: 10 }} />
-        ) : (
-          <>
-            <Box
-              sx={{
-                overflow: "auto",
-              }}
-            >
+      </Box>
+      <Box sx={styles.mainContentWrapper}>
+        <div style={styles.container as React.CSSProperties}>
+          {isLoading ? (
+            <CircularProgress sx={styles.loader} />
+          ) : (
+            <Box>
               <Box display="grid" gap={2} sx={styles.itemsGrid}>
                 {displayedItems?.map(({ imageUrl }, i) => (
                   <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
@@ -171,10 +147,10 @@ const MainPage = () => {
                 ))}
               </Box>
             </Box>
-          </>
-        )}
-      </div>
-    </div>
+          )}
+        </div>
+      </Box>
+    </Box>
   );
 };
 

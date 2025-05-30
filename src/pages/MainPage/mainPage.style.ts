@@ -2,14 +2,18 @@ const styles = {
   root: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
-    padding: 5,
   },
-  itemAndFiltersContainer: {
+  upperBar: {
+    position: "sticky",
+    top: 0,
+    zIndex: 10,
+    background: "white",
     display: "flex",
     flexDirection: "row",
-    height: "100%",
+    alignItems: "center",
+    gap: 1,
     width: "100%",
+    justifyContent: "space-between",
   },
   itemsGrid: {
     justifyItems: "center",
@@ -19,10 +23,9 @@ const styles = {
       sm: "repeat(auto-fit, minmax(250px, 1fr))",
     },
   },
-  tabWrapper: {
-    borderBottom: 1,
-    borderColor: "divider",
-    width: "45vw",
+  mainContentWrapper: {
+    flex: 1,
+    padding: "20px",
   },
   container: {
     height: "100%",
@@ -37,6 +40,7 @@ const styles = {
       borderRadius: 5,
     },
   },
+  loader: { marginTop: 10 },
 };
 
 export default styles;
