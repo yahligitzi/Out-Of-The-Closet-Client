@@ -6,6 +6,7 @@ import {
   ImageListItem,
   InputAdornment,
   TextField,
+  Typography,
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
@@ -136,16 +137,14 @@ const MainPage = () => {
           {isLoading ? (
             <CircularProgress sx={styles.loader} />
           ) : (
-            <Box>
-              <Box display="grid" gap={2} sx={styles.itemsGrid}>
-                {displayedItems?.map(({ imageUrl }, i) => (
-                  <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
-                    <ImageListItem>
-                      <img src={imageUrl} alt={`item-${i}`} />
-                    </ImageListItem>
-                  </Card>
-                ))}
-              </Box>
+            <Box display="grid" gap={2} sx={styles.itemsGrid}>
+              {displayedItems?.map(({ imageUrl }, i) => (
+                <Card sx={styles.imageCard} key={imageUrl}>
+                  <ImageListItem>
+                    <img src={imageUrl} alt={`item-${i}`} />
+                  </ImageListItem>
+                </Card>
+              ))}
             </Box>
           )}
         </div>
