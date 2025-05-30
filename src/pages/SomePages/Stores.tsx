@@ -41,7 +41,7 @@ const Stores = ({
             setSelectedStores([]);
           }}
         >
-          Unselect all
+          Clear
         </Button>
       );
 

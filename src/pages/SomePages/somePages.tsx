@@ -7,6 +7,7 @@ import { PATHS } from "../../constants/routes";
 import { Store } from "../../services/store.service";
 import { IconButton } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
+import { colors } from "../../constants/styles";
 
 enum Option {
   OnlyStore = "OnlyStore",
@@ -19,7 +20,7 @@ const SomePages = () => {
   const [selectedStores, setSelectedStores] = useState<Store[]>([]);
   const [currIndex, setCurrIndex] = useState<number>(-1);
 
-  const option = Option.OnlyStore;
+  const option = Option.Both;
 
   const calcNextStep = () => {
     if (steps[currIndex + 1].isAvailable) {
@@ -91,7 +92,7 @@ const SomePages = () => {
           top: 0,
           left: 0,
           "&:disabled": {
-            color: "red",
+            color: colors.lightGray,
           },
         }}
         onClick={goBack}

@@ -1,4 +1,11 @@
-import { Box, Button, Card, ImageListItem } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  ImageListItem,
+  Typography,
+} from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
 import styles from "./styles";
@@ -22,7 +29,7 @@ const Items = ({
 }: ItemProps) => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
 
-  const { isLoading, data: allItems } = useQuery({
+  const { data: allItems } = useQuery({
     queryKey: ["initialItems"],
     queryFn: itemsService.getItems,
     refetchOnWindowFocus: false,
@@ -50,7 +57,7 @@ const Items = ({
             setSelectedItems([]);
           }}
         >
-          Unselect all
+          Clear
         </Button>
       );
 
@@ -74,17 +81,22 @@ const Items = ({
   }, [allItems, selectedItems]);
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          background: "white",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
+          gap: 1,
         }}
       >
         <Button
@@ -101,11 +113,13 @@ const Items = ({
           Filter By
         </Button>
         {selectBtn}
-      </div>
+      </Box>
       <Box
         sx={{
-          overflowY: "auto",
-          height: "calc(100% - 75px)",
+          flex: 1,
+          padding: "20px",
+          // height: "100%",
+          // boxSizing: "border-box",
         }}
       >
         <Box
@@ -180,12 +194,15 @@ const Items = ({
           })}
         </Box>
       </Box>
-
-      <div
-        style={{
+      <Box
+        sx={{
+          position: "sticky",
+          bottom: -1,
+          zIndex: 10,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background: "white",
         }}
       >
         <Button
@@ -195,6 +212,7 @@ const Items = ({
             borderRadius: 10,
             borderColor: colors.lightGray,
             background: colors.darkGray,
+            margin: "2% 0",
             "&:disabled": {
               color: "white",
               background: colors.lightGray,
@@ -205,8 +223,8 @@ const Items = ({
         >
           Continue
         </Button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
