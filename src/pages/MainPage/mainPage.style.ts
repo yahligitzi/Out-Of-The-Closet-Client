@@ -18,9 +18,9 @@ const styles = {
   itemsGrid: {
     justifyItems: "center",
     alignItems: "center",
+    display: "grid",
     gridTemplateColumns: {
-      xs: "1fr",
-      sm: "repeat(auto-fit, minmax(250px, 1fr))",
+      xs: "repeat(2, 1fr)",
     },
   },
   mainContentWrapper: {
