@@ -46,6 +46,33 @@ const styles = {
     borderRadius: 3,
     marginTop: 8,
   },
+  colorBox: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.2s ease-in-out",
+    border: `1px solid ${colors.lightGray}`,
+    "&:hover": {
+      transform: "scale(1.1)",
+    },
+  },
+  selectedColorTag: {
+    border: `2px solid ${colors.darkGray}`,
+    transform: "scale(1.1)",
+  },
+  colorTagListWrapper: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 2,
+    justifyContent: "center",
+  },
+  colorBoxWithTitle: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 2,
+  },
 };
 
 export default styles;
