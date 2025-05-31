@@ -39,14 +39,24 @@ const styles = {
     display: "grid",
     gridTemplateColumns: {
       xs: "repeat(2, minmax(0, 1fr))",
+      md: "repeat(3, minmax(0, 1fr))",
     },
     gap: 2,
     justifyItems: "center",
     alignItems: "center",
   },
   imageCard: {
-    maxWidth: "50%",
+    width: "100%",
+    height: {
+      xs: 150,
+      md: 250,
+    },
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     boxSizing: "border-box",
+    borderRadius: 2,
+    backgroundColor: "#fff",
   },
   searchBar: {
     ".MuiOutlinedInput-root": {
@@ -54,6 +64,10 @@ const styles = {
     },
   },
   loader: { marginTop: 10 },
+  image: {
+    objectFit: "contain",
+    margin: "auto",
+  },
 };
 
 export default styles;

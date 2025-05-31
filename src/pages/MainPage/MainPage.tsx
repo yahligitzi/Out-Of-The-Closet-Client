@@ -138,7 +138,11 @@ const MainPage = () => {
               {displayedItems?.map(({ imageUrl }, i) => (
                 <Card sx={styles.imageCard} key={imageUrl}>
                   <ImageListItem>
-                    <img src={imageUrl} alt={`item-${i}`} />
+                    <img
+                      src={imageUrl}
+                      alt={`item-${i}`}
+                      style={styles.image as React.CSSProperties}
+                    />
                   </ImageListItem>
                 </Card>
               ))}
