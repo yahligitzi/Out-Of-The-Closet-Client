@@ -11,19 +11,21 @@ import {
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
-import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
+import { AddCircleOutline, Clear, Search, AutoAwesome } from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
 import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { Item, ItemTag } from "../../types/tag.type";
+import GeneratorModeDialog from "./GeneratorModeDialog";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
   const [tabSelection, setTabSelection] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
@@ -106,6 +108,10 @@ const MainPage = () => {
     }
   };
 
+  const handleGenerateClicked = () => {
+     setIsOpenDialog(true);
+  }
+
   return (
     <div style={styles.root as React.CSSProperties}>
       <TextField
@@ -154,6 +160,9 @@ const MainPage = () => {
               >
                 <AddCircleOutline />
               </IconButton>
+              <IconButton sx={styles.generateBtn} onClick={handleGenerateClicked}>
+                <AutoAwesome />
+              </IconButton>
               <Box sx={styles.tabWrapper}>
                 <Tabs
                   value={tabSelection ?? false}
@@ -175,6 +184,7 @@ const MainPage = () => {
                 </Tabs>
               </Box>
               <Box display="grid" gap={2} sx={styles.itemsGrid}>
+                <GeneratorModeDialog open={isOpenDialog} setOpen={setIsOpenDialog}/>
                 {displayedItems?.map(({ imageUrl }, i) => (
                   <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
                     <ImageListItem>

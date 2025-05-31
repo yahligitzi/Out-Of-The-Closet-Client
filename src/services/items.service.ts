@@ -1,4 +1,4 @@
-import { Item } from "../pages/MainPage/MainPage";
+import { Item } from "../types/tag.type";
 import apiClient from "./axiosInstance";
 
 const baseUrl = "/items";

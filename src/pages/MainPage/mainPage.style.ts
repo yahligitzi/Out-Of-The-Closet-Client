@@ -38,6 +38,7 @@ const styles = {
     },
   },
   uploadPhotosBtn: { position: "absolute", right: 0 },
+  generateBtn: { position: "absolute",right: 0, top: 95 }
 };
 
 export default styles;
