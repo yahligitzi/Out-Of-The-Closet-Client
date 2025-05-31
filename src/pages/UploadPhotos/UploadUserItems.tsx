@@ -13,8 +13,9 @@ import { Add, Close } from "@mui/icons-material";
 import styles from "../entranceQuiz/entranceQuiz.style";
 import itemsService from "../../services/items.service";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UploadPhotos } from "../entranceQuiz/components/uploadPhotos/uploadPhotos";
 import { useSnackbar } from "../../contexts/SnackbarContext";
+import { styles as urlItemStyle } from "./UploadPhotos.style";
+import { UploadPhotos } from "../entranceQuiz/components/uploadPhotos/uploadPhotos";
 
 interface AddUrlImageProps {
   value: string;
@@ -29,15 +30,7 @@ const AddUrlImage = ({
   onAdd,
   onRemove,
 }: AddUrlImageProps) => (
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 1,
-      marginTop: 2,
-    }}
-  >
+  <Box sx={urlItemStyle.urlBox}>
     <TextField
       fullWidth
       value={value}
@@ -94,8 +87,9 @@ const UploadUserItems = () => {
                 onRemove={
                   siteUrls.length > 1 && index !== siteUrls.length - 1
                     ? () => {
-                        const updated = siteUrls.filter((_, i) => i !== index);
-                        setSiteUrls(updated);
+                        setSiteUrls((prev) =>
+                          prev.filter((_, i) => i !== index)
+                        );
                       }
                     : undefined
                 }
@@ -115,7 +109,7 @@ const UploadUserItems = () => {
           disabled={
             uploadFromLocal
               ? !photos?.length || isSubmitting
-              : (siteUrls.length == 1 && siteUrls[0] == "") || isSubmitting
+              : siteUrls.some((url) => !url.length) || isSubmitting
           }
           onClick={async () => {
             setIsSubmitting(true);
