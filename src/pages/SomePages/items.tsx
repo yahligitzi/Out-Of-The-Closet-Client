@@ -1,14 +1,6 @@
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  ImageListItem,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, ImageListItem } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
-import styles from "./styles";
 import { useEffect, useMemo, useState } from "react";
 import { Item } from "../../types/tag.type";
 import { Tune } from "@mui/icons-material";
