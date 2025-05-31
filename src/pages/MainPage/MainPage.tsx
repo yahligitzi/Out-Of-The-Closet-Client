@@ -190,7 +190,9 @@ const MainPage = () => {
                 ))}
               </Box>
               <Dialog onClose={() => setIsPopupOpen(false)} open={isPopupOpen}>
-                <DialogTitle>Upload image form</DialogTitle>
+                <DialogTitle sx={styles.uploadImageTitle}>
+                  Upload image form
+                </DialogTitle>
                 <Box sx={styles.dialogBox}>
                   <Box
                     sx={styles.dialogOptionBox}

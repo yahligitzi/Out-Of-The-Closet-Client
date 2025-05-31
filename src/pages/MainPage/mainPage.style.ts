@@ -51,6 +51,10 @@ const styles = {
     textAlign: "center",
   },
 
+  uploadImageTitle: {
+    textAlign: "center",
+  },
+
   dialogOptionBox: {
     display: "flex",
     justifyContent: "center",
