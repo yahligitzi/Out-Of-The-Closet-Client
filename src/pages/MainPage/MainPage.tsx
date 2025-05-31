@@ -28,9 +28,7 @@ const MainPage = () => {
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],
     queryFn: itemsService.getItems,
-    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
   });
 
   const navigate = useNavigate();
