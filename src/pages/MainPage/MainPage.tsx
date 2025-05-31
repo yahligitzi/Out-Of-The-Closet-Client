@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Card,
   CircularProgress,
@@ -9,21 +10,26 @@ import {
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
-import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
+import { AddCircleOutline, Clear, Logout, Search } from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./mainPage.style";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { Item, ItemTag } from "../../types/tag.type";
 import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
+import { removeAuthHeader } from "../../services/axiosInstance";
+import { useUser } from "../../contexts/UserContext";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isSearchShown, setIsSearchShown] = useState<boolean>(true);
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
+
+  const { setUser } = useUser();
 
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],
@@ -43,6 +49,12 @@ const MainPage = () => {
   }, [allItems]);
 
   useEffect(() => handleFilter(), [searchValue, checkedFilterBox]);
+
+  const handleLogout = () => {
+    removeAuthHeader();
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   const handleFilter = () => {
     if (allItems?.length) {
@@ -89,45 +101,56 @@ const MainPage = () => {
   return (
     <Box sx={styles.root}>
       <Box sx={styles.upperBar}>
-        <FilterSlidingDrawer
-          tagsByCategory={tagsByCategory}
-          checked={checkedFilterBox}
-          setChecked={setCheckedFilterBox}
-        />
-        <TextField
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search"
-          variant="outlined"
-          sx={styles.searchBar}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment
-                  position="start"
-                  onClick={() => setSearchValue(searchInput)}
-                >
-                  <Search />
-                </InputAdornment>
-              ),
-              startAdornment: searchInput && (
-                <InputAdornment
-                  position="start"
-                  onClick={() => {
-                    setSearchInput("");
-                    setSearchValue("");
-                  }}
-                >
-                  <Clear />
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
+        <div style={styles.searchBarLine}>
+          <Avatar src={"logo.jpg"} />
 
-        <IconButton onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}>
-          <AddCircleOutline />
-        </IconButton>
+          <TextField
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search"
+            variant="outlined"
+            size="small"
+            sx={styles.searchBar}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment
+                    position="start"
+                    onClick={() => setSearchValue(searchInput)}
+                  >
+                    <Search />
+                  </InputAdornment>
+                ),
+                startAdornment: searchInput && (
+                  <InputAdornment
+                    position="start"
+                    onClick={() => {
+                      setSearchInput("");
+                      setSearchValue("");
+                    }}
+                  >
+                    <Clear />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+
+          <IconButton onClick={handleLogout}>
+            <Logout />
+          </IconButton>
+        </div>
+
+        <div style={styles.actionsLine}>
+          <FilterSlidingDrawer
+            tagsByCategory={tagsByCategory}
+            checked={checkedFilterBox}
+            setChecked={setCheckedFilterBox}
+          />
+          <IconButton onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}>
+            <AddCircleOutline />
+          </IconButton>
+        </div>
       </Box>
       <Box sx={styles.mainContentWrapper}>
         <div style={styles.container as React.CSSProperties}>
