@@ -4,6 +4,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
+    height: "100%",
   },
   title: {
     fontWeight: "bold",

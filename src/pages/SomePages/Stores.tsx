@@ -11,20 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import styles from "./styles";
+import { colors } from "../../constants/styles";
 
 type StoresProps = {
   selectedStores: Store[];
   setSelectedStores: React.Dispatch<React.SetStateAction<Store[]>>;
-  isContinueDisable: boolean;
-  onContinue: () => void;
 };
 
-const Stores = ({
-  selectedStores,
-  setSelectedStores,
-  isContinueDisable,
-  onContinue,
-}: StoresProps) => {
+const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
   const { isLoading, data } = useQuery({
     queryKey: ["initialStores"],
     queryFn: storeService.getStores,
@@ -60,6 +54,17 @@ const Stores = ({
     <div style={styles.root as React.CSSProperties}>
       <Typography variant="h4" component="h1" sx={styles.title}>
         Choose Stores
+      </Typography>
+      <Typography
+        variant="body1"
+        sx={{
+          color: colors.darkGray,
+          maxWidth: "400px",
+          textAlign: "center",
+        }}
+      >
+        Choosing a store lets our algorithm combine items from the store’s
+        collection to create personalized outfit suggestions
       </Typography>
       {isLoading ? (
         <Box display="grid" sx={styles.skeletonContainer}>
@@ -113,9 +118,6 @@ const Stores = ({
             }}
           >
             {selectBtn}
-            <Button onClick={onContinue} disabled={isContinueDisable}>
-              continue
-            </Button>
           </div>
         </>
       )}

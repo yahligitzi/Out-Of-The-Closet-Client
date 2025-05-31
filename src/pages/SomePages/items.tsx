@@ -9,16 +9,9 @@ import { colors } from "../../constants/styles";
 type ItemProps = {
   selectedItems: Item[];
   setSelectedItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  isContinueDisable: boolean;
-  onContinue: () => void;
 };
 
-const Items = ({
-  selectedItems,
-  setSelectedItems,
-  isContinueDisable,
-  onContinue,
-}: ItemProps) => {
+const Items = ({ selectedItems, setSelectedItems }: ItemProps) => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
 
   const { data: allItems } = useQuery({
@@ -185,36 +178,6 @@ const Items = ({
             );
           })}
         </Box>
-      </Box>
-      <Box
-        sx={{
-          position: "sticky",
-          bottom: -1,
-          zIndex: 10,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "white",
-        }}
-      >
-        <Button
-          sx={{
-            textTransform: "none",
-            color: "white",
-            borderRadius: 10,
-            borderColor: colors.lightGray,
-            background: colors.darkGray,
-            margin: "2% 0",
-            "&:disabled": {
-              color: "white",
-              background: colors.lightGray,
-            },
-          }}
-          disabled={isContinueDisable}
-          onClick={onContinue}
-        >
-          Continue
-        </Button>
       </Box>
     </Box>
   );

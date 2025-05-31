@@ -5,7 +5,16 @@ import { Item } from "../../types/tag.type";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../constants/routes";
 import { Store } from "../../services/store.service";
-import { IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { colors } from "../../constants/styles";
 
@@ -19,6 +28,7 @@ const SomePages = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [selectedStores, setSelectedStores] = useState<Store[]>([]);
   const [currIndex, setCurrIndex] = useState<number>(-1);
+  const [isBackPopupShown, setIsBackPopupShown] = useState<boolean>(false);
 
   const option = Option.Both;
 
@@ -37,10 +47,10 @@ const SomePages = () => {
         <Items
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
-          isContinueDisable={!selectedItems.length}
-          onContinue={calcNextStep}
         />
       ),
+
+      isContinueDisable: !selectedItems.length,
     },
     {
       isAvailable: option !== Option.OnlyCloset,
@@ -48,19 +58,18 @@ const SomePages = () => {
         <Stores
           selectedStores={selectedStores}
           setSelectedStores={setSelectedStores}
-          isContinueDisable={!selectedStores.length}
-          onContinue={calcNextStep}
         />
       ),
+      isContinueDisable: !selectedStores.length,
     },
     { isAvailable: true, component: <></> },
   ];
 
   const navigate = useNavigate();
 
-  const isBackBtnDisabled = useMemo(
+  const isGoingBackPossible = useMemo(
     () =>
-      ![1, 2].some(
+      [1, 2].some(
         (i) => currIndex - i >= 0 && steps[currIndex - i].isAvailable
       ),
     [currIndex, option]
@@ -84,24 +93,115 @@ const SomePages = () => {
     }
   };
 
+  const handleClosePopup = () => setIsBackPopupShown(false);
+
   return (
     <>
-      <IconButton
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          "&:disabled": {
-            color: colors.lightGray,
-          },
-        }}
-        onClick={goBack}
-        disabled={isBackBtnDisabled}
-      >
-        <ArrowBack />
-      </IconButton>
+      {currIndex >= 0 && (
+        <>
+          {steps[currIndex].component}
+          <Box
+            sx={{
+              position: "sticky",
+              bottom: -1,
+              zIndex: 10,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "white",
+              gap: 10,
+            }}
+          >
+            <Button
+              sx={{
+                textTransform: "none",
+                color: "white",
+                borderColor: colors.lightGray,
+                background: colors.darkGray,
+                margin: "2% 0",
+                "&:disabled": {
+                  color: "white",
+                  background: colors.lightGray,
+                },
+              }}
+              onClick={() => {
+                if (isGoingBackPossible) goBack();
+                else setIsBackPopupShown(true);
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              disabled={steps[currIndex].isContinueDisable}
+              onClick={calcNextStep}
+              sx={{
+                textTransform: "none",
+                color: "white",
+                borderColor: colors.lightGray,
+                background: colors.darkGray,
+                margin: "2% 0",
+                "&:disabled": {
+                  color: "white",
+                  background: colors.lightGray,
+                },
+              }}
+            >
+              Next
+            </Button>
+          </Box>
+        </>
+      )}
 
-      {currIndex >= 0 && steps[currIndex].component}
+      {isBackPopupShown && (
+        <Dialog open={isBackPopupShown} onClose={handleClosePopup}>
+          <DialogTitle>
+            Are you sure you want to exit generate outfit?
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              By clicking exit you will jump back to main page
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                handleClosePopup();
+                navigate(PATHS.MAIN);
+              }}
+              sx={{
+                textTransform: "none",
+                color: "white",
+                borderColor: colors.lightGray,
+                background: colors.darkGray,
+                margin: "2% 0",
+                "&:disabled": {
+                  color: "white",
+                  background: colors.lightGray,
+                },
+              }}
+            >
+              Exit
+            </Button>
+            <Button
+              onClick={handleClosePopup}
+              autoFocus
+              sx={{
+                textTransform: "none",
+                color: "white",
+                borderColor: colors.lightGray,
+                background: colors.darkGray,
+                margin: "2% 0",
+                "&:disabled": {
+                  color: "white",
+                  background: colors.lightGray,
+                },
+              }}
+            >
+              Continue Generating
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
 };
