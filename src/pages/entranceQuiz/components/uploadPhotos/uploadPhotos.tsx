@@ -11,7 +11,8 @@ import { UploadPhotosProps } from "./uploadPhotos.types";
 export const UploadPhotos: FC<UploadPhotosProps> = ({
   photos,
   onPhotosChange,
-  text,
+  primaryText,
+  secondryText,
 }) => {
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files ?? []);
@@ -32,11 +33,10 @@ export const UploadPhotos: FC<UploadPhotosProps> = ({
   return (
     <Box sx={styles.container}>
       <Typography variant="body1" sx={styles.description}>
-        Please upload {UPLOAD_PHOTOS_COUNT} photos of your favorite items in
-        your closet
+        {primaryText}
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={styles.subtitle}>
-        {text}
+        {secondryText}
       </Typography>
 
       <Button
