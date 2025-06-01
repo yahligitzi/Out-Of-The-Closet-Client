@@ -27,7 +27,7 @@ const ColorTagSelection = ({
           <div style={styles.colorBoxWithTitle as React.CSSProperties}>
             <Box
               onClick={() => {
-                if (!isTagSelected)
+                if (isTagSelected)
                   setChecked((prev) =>
                     prev.filter(({ tagId }) => tagId !== tag.tagId)
                   );
