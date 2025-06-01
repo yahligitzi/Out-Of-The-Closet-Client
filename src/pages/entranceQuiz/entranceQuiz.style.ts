@@ -36,6 +36,7 @@ const styles = {
     marginTop: "20px",
   },
   navigationButton: {
+    marginTop: 5,
     bgcolor: colors.darkGray,
     color: colors.white,
     "&:hover": { bgcolor: colors.gray },

@@ -1,21 +1,19 @@
-import { Stack, Card, Avatar, Typography } from "@mui/material";
+import { Card, Box } from "@mui/material";
 import styles from "./SignPage.style";
 
 type SignPageWrapperProps = {
-  title: string;
   children: React.ReactNode;
 };
-const SignPageWrapper = ({ title, children }: SignPageWrapperProps) => {
+const SignPageWrapper = ({ children }: SignPageWrapperProps) => {
   return (
-    <Stack sx={styles.stack}>
+    <Box sx={styles.root}>
+      <Box sx={styles.logoContainer}>
+        <img src={"logo.jpg"} style={styles.logo} />
+      </Box>
       <Card variant="outlined" sx={styles.cardRoot}>
-        <Avatar src={"vite.svg"} sx={styles.logo} />
-        <Typography component="h1" variant="h4" sx={styles.title}>
-          {title}
-        </Typography>
         {children}
       </Card>
-    </Stack>
+    </Box>
   );
 };
 

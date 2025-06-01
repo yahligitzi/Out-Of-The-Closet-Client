@@ -1,74 +1,61 @@
 import {
+  Avatar,
   Box,
   Card,
-  CircularProgress,
+  TextField,
   IconButton,
   ImageListItem,
   InputAdornment,
-  Tab,
-  Tabs,
-  TextField,
+  CircularProgress,
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
-import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
+import { AddCircleOutline, Clear, Logout, Search } from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
-import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
-import { PATHS } from "../../constants/routes";
-import { useNavigate } from "react-router-dom";
 import { Item, ItemTag } from "../../types/tag.type";
+import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
+import { removeAuthHeader } from "../../services/axiosInstance";
+import { useUser } from "../../contexts/UserContext";
+import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
-  const [tabSelection, setTabSelection] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
 
+  const { setUser } = useUser();
+
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],
     queryFn: itemsService.getItems,
-    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
   });
-
-  const navigate = useNavigate();
 
   const tagsByCategory: ItemTag[] = useMemo(
     () => allItems?.flatMap((item) => item.tags) ?? [],
     [allItems]
   );
 
-  const types = useMemo(() => {
-    const seenTags = new Set<string>();
-    return tagsByCategory.filter((tag) => {
-      if (tag.categoryName === "Type" && !seenTags.has(tag.tagId)) {
-        seenTags.add(tag.tagId);
-        return true;
-      }
-    });
-  }, [tagsByCategory]);
-
   useEffect(() => {
     if (allItems) setDisplayedItems(allItems);
   }, [allItems]);
 
-  useEffect(
-    () => handleFilter(),
-    [searchValue, tabSelection, checkedFilterBox]
-  );
+  useEffect(() => handleFilter(), [searchValue, checkedFilterBox]);
+
+  const handleLogout = () => {
+    removeAuthHeader();
+    localStorage.removeItem("token");
+    setUser(null);
+  };
 
   const handleFilter = () => {
     if (allItems?.length) {
       let itemsToDisplay = [...allItems];
-      if (tabSelection)
-        itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.some((tag: ItemTag) => tag.tagId === tabSelection)
-        );
 
       if (searchValue.length)
         itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
@@ -86,110 +73,120 @@ const MainPage = () => {
           }
         });
 
-        itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.every((tag: ItemTag) => {
+        itemsToDisplay = itemsToDisplay.filter(({ tags }) => {
+          const uniqueValidCategories = new Set();
+
+          tags.forEach((tag: ItemTag) => {
             const tagsInCategory = tags.filter(
               (currTag: ItemTag) => currTag.categoryId === tag.categoryId
             );
 
-            return (
+            const isValid =
               !selectedFiltersByCategory[tag.categoryId] ||
               selectedFiltersByCategory[tag.categoryId].some((currTag) =>
                 tagsInCategory
                   .map(({ tagId }: { tagId: string }) => tagId)
                   .includes(currTag)
-              )
-            );
-          })
-        );
+              );
+
+            if (selectedFiltersByCategory[tag.categoryId] && isValid)
+              uniqueValidCategories.add(tag.categoryId);
+
+            return isValid;
+          });
+
+          return (
+            uniqueValidCategories.size ===
+            Object.keys(selectedFiltersByCategory).length
+          );
+        });
       }
 
       setDisplayedItems(itemsToDisplay);
     }
   };
 
+  console.log({ displayedItems });
+
   return (
-    <div style={styles.root as React.CSSProperties}>
-      <TextField
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        placeholder="Search"
-        variant="outlined"
-        sx={styles.searchBar}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment
-                position="start"
-                onClick={() => setSearchValue(searchInput)}
-              >
-                <Search />
-              </InputAdornment>
-            ),
-            startAdornment: searchInput && (
-              <InputAdornment
-                position="start"
-                onClick={() => {
-                  setSearchInput("");
-                  setSearchValue("");
-                }}
-              >
-                <Clear />
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
-      <div style={styles.itemAndFiltersContainer as React.CSSProperties}>
-        <FilterBox
-          tagsByCategory={tagsByCategory}
-          setChecked={setCheckedFilterBox}
-        />
+    <Box sx={styles.root}>
+      <Box sx={styles.upperBar}>
+        <div style={styles.headerLine}>
+          <Avatar src={"logo.jpg"} sx={styles.logo} />
+          <IconButton onClick={handleLogout} sx={styles.logoutBtn}>
+            <Logout />
+          </IconButton>
+        </div>
+
+        <div style={styles.actionsLine}>
+          <FilterSlidingDrawer
+            tagsByCategory={tagsByCategory}
+            checked={checkedFilterBox}
+            setChecked={setCheckedFilterBox}
+          />
+
+          <TextField
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search"
+            variant="outlined"
+            size="small"
+            sx={styles.searchBar}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment
+                    position="start"
+                    onClick={() => setSearchValue(searchInput)}
+                  >
+                    <Search />
+                  </InputAdornment>
+                ),
+                startAdornment: searchInput && (
+                  <InputAdornment
+                    position="start"
+                    onClick={() => {
+                      setSearchInput("");
+                      setSearchValue("");
+                    }}
+                  >
+                    <Clear />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+
+          <IconButton onClick={() => setIsPopupOpen(true)}>
+            <AddCircleOutline />
+          </IconButton>
+        </div>
+      </Box>
+      <Box sx={styles.mainContentWrapper}>
         <div style={styles.container as React.CSSProperties}>
           {isLoading ? (
-            <CircularProgress sx={{ marginTop: 10 }} />
+            <CircularProgress sx={styles.loader} />
           ) : (
-            <>
-              <IconButton
-                sx={styles.uploadPhotosBtn}
-                onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
-              >
-                <AddCircleOutline />
-              </IconButton>
-              <Box sx={styles.tabWrapper}>
-                <Tabs
-                  value={tabSelection ?? false}
-                  variant="scrollable"
-                  scrollButtons="auto"
-                  onChange={(e, newValue) => {
-                    e.stopPropagation();
-                    setTabSelection(newValue);
-                  }}
-                  onClick={() => setTabSelection(null)}
-                >
-                  {types?.map((type) => (
-                    <Tab
-                      label={type.name}
-                      key={type.tagId}
-                      value={type.tagId}
+            <Box display="grid" gap={2} sx={styles.itemsGrid}>
+              {displayedItems?.map(({ imageUrl, id }) => (
+                <Card sx={styles.imageCard} key={id}>
+                  <ImageListItem>
+                    <img
+                      src={imageUrl}
+                      style={styles.image as React.CSSProperties}
                     />
-                  ))}
-                </Tabs>
-              </Box>
-              <Box display="grid" gap={2} sx={styles.itemsGrid}>
-                {displayedItems?.map(({ imageUrl }, i) => (
-                  <Card sx={{ maxWidth: "50%" }} key={imageUrl}>
-                    <ImageListItem>
-                      <img src={imageUrl} alt={`item-${i}`} />
-                    </ImageListItem>
-                  </Card>
-                ))}
-              </Box>
-            </>
+                  </ImageListItem>
+                </Card>
+              ))}
+            </Box>
           )}
+          <UploadImageDialog
+            isPopupOpen={isPopupOpen}
+            setIsPopupOpen={setIsPopupOpen}
+          />
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

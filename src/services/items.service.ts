@@ -1,4 +1,4 @@
-import { Item } from "../pages/MainPage/MainPage";
+import { Item } from "../types/tag.type";
 import apiClient from "./axiosInstance";
 
 const baseUrl = "/items";
@@ -14,5 +14,9 @@ export default {
   generateOutFit: async (): Promise<{ items: string[] }> => {
     const { data } = await apiClient.get(`${baseUrl}/outfit`);
     return data;
+  },
+
+  addItemsByUrl: async (urls: string[]) => {
+    await apiClient.post("scraper/scrape-by-link", { urls });
   },
 };

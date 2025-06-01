@@ -1,4 +1,4 @@
-import { Button, Divider, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
@@ -85,7 +85,7 @@ const SignUp = () => {
   };
 
   return (
-    <SignPageWrapper title="Sign Up">
+    <SignPageWrapper>
       <TextField
         value={username}
         onChange={(e) => setUsername(e.target.value)}
@@ -130,12 +130,12 @@ const SignUp = () => {
         Sign Up
       </Button>
       <Divider>Or</Divider>
-      <div style={styles.switchModeContainer as React.CSSProperties}>
+      <Box sx={styles.switchModeContainer}>
         <Typography>Already have an account?</Typography>
         <Button onClick={() => navigate(PATHS.SIGN_IN)} sx={styles.buttonText}>
           Sign In
         </Button>
-      </div>
+      </Box>
     </SignPageWrapper>
   );
 };
