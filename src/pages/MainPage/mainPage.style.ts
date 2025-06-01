@@ -2,44 +2,89 @@ const styles = {
   root: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
-    padding: 5,
+    height: "100vh",
   },
-  itemAndFiltersContainer: {
+  upperBar: {
+    position: "sticky",
+    top: 0,
+    zIndex: 10,
+    background: "white",
     display: "flex",
-    flexDirection: "row",
-    height: "100%",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 1,
+    width: "100%",
+    justifyContent: "space-between",
+    boxSizing: "border-box",
+  },
+  headerLine: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    background: "#fffdf1",
     width: "100%",
   },
-  itemsGrid: {
-    justifyItems: "center",
-    alignItems: "center",
-    gridTemplateColumns: {
-      xs: "1fr",
-      sm: "repeat(auto-fit, minmax(250px, 1fr))",
-    },
+  actionsLine: {
+    display: "flex",
+    background: "white",
+    justifyContent: "space-between",
   },
-  tabWrapper: {
-    borderBottom: 1,
-    borderColor: "divider",
-    width: "45vw",
+  mainContentWrapper: {
+    flex: 1,
+    padding: "20px",
+    overflowY: "auto",
+    minHeight: 0,
   },
   container: {
-    height: "100%",
     width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     gap: "2%",
+    minHeight: 0,
+    boxSizing: "border-box",
+  },
+  itemsGrid: {
+    width: "100%",
+    boxSizing: "border-box",
+    display: "grid",
+    gridTemplateColumns: {
+      xs: "repeat(2, minmax(0, 1fr))",
+      md: "repeat(3, minmax(0, 1fr))",
+    },
+    gap: 2,
+    justifyItems: "center",
+    alignItems: "center",
+  },
+  imageCard: {
+    width: "100%",
+    height: {
+      xs: 150,
+      md: 250,
+    },
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxSizing: "border-box",
+    borderRadius: 2,
+    backgroundColor: "#fff",
   },
   searchBar: {
     ".MuiOutlinedInput-root": {
       borderRadius: 5,
     },
+    width: "50%",
   },
-  uploadPhotosBtn: {
-    position: "absolute",
-    right: 0,
+  loader: { marginTop: 10 },
+  image: {
+    objectFit: "contain",
+    margin: "auto",
+  },
+  logo: {
+    marginLeft: 2,
+  },
+  logoutBtn: {
+    marginRight: 2,
   },
 };
 
