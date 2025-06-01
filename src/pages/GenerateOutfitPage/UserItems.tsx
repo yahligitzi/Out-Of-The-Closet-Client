@@ -3,7 +3,7 @@ import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
 import { Item } from "../../types/tag.type";
 import SelectButton from "../../components/SelectButton";
-import ItemsPage from "../MainPage/ItemsPage";
+import ItemsPage from "../../components/ItemsPage";
 
 type UserItemsProps = {
   selectedItems: Item[];

@@ -1,10 +1,10 @@
 import { IconButton } from "@mui/material";
-import ItemsPage from "./ItemsPage";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useState } from "react";
 import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
 import { useQuery } from "@tanstack/react-query";
 import itemsService from "../../services/items.service";
+import ItemsPage from "../../components/ItemsPage";
 
 const MainPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
