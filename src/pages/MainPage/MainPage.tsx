@@ -2,42 +2,42 @@ import {
   Avatar,
   Box,
   Card,
-  CircularProgress,
+  TextField,
   IconButton,
   ImageListItem,
   InputAdornment,
-  TextField,
+  CircularProgress,
 } from "@mui/material";
 import itemsService from "../../services/items.service";
 import { useQuery } from "@tanstack/react-query";
 import { AddCircleOutline, Clear, Logout, Search } from "@mui/icons-material";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./mainPage.style";
-import { PATHS } from "../../constants/routes";
-import { useNavigate } from "react-router-dom";
 import { Item, ItemTag } from "../../types/tag.type";
 import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 import { removeAuthHeader } from "../../services/axiosInstance";
 import { useUser } from "../../contexts/UserContext";
+import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
+import { PATHS } from "../../constants/routes";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
-  const [isSearchShown, setIsSearchShown] = useState<boolean>(true);
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
 
   const { setUser } = useUser();
+  const navigate = useNavigate();
 
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],
     queryFn: itemsService.getItems,
     refetchOnReconnect: false,
   });
-
-  const navigate = useNavigate();
 
   const tagsByCategory: ItemTag[] = useMemo(
     () => allItems?.flatMap((item) => item.tags) ?? [],
@@ -163,7 +163,6 @@ const MainPage = () => {
                   <ImageListItem>
                     <img
                       src={imageUrl}
-                      alt={`item-${i}`}
                       style={styles.image as React.CSSProperties}
                     />
                   </ImageListItem>
@@ -171,6 +170,10 @@ const MainPage = () => {
               ))}
             </Box>
           )}
+          <UploadImageDialog
+            isPopupOpen={isPopupOpen}
+            setIsPopupOpen={setIsPopupOpen}
+          />
         </div>
       </Box>
     </Box>
