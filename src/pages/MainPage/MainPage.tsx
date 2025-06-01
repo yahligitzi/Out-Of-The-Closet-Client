@@ -1,29 +1,29 @@
 import {
   Box,
+  Tab,
+  Tabs,
   Card,
-  CircularProgress,
+  TextField,
   IconButton,
   ImageListItem,
   InputAdornment,
-  Tab,
-  Tabs,
-  TextField,
+  CircularProgress,
 } from "@mui/material";
-import itemsService from "../../services/items.service";
-import { useQuery } from "@tanstack/react-query";
-import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
-import { useEffect, useMemo, useState } from "react";
 import FilterBox from "./FilterBox";
 import styles from "./mainPage.style";
-import { PATHS } from "../../constants/routes";
-import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
 import { Item, ItemTag } from "../../types/tag.type";
+import itemsService from "../../services/items.service";
+import { AddCircleOutline, Clear, Search } from "@mui/icons-material";
+import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
   const [tabSelection, setTabSelection] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
@@ -33,8 +33,6 @@ const MainPage = () => {
     queryFn: itemsService.getItems,
     refetchOnReconnect: false,
   });
-
-  const navigate = useNavigate();
 
   const tagsByCategory: ItemTag[] = useMemo(
     () => allItems?.flatMap((item) => item.tags) ?? [],
@@ -150,7 +148,7 @@ const MainPage = () => {
             <>
               <IconButton
                 sx={styles.uploadPhotosBtn}
-                onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}
+                onClick={() => setIsPopupOpen(true)}
               >
                 <AddCircleOutline />
               </IconButton>
@@ -183,6 +181,10 @@ const MainPage = () => {
                   </Card>
                 ))}
               </Box>
+              <UploadImageDialog
+                isPopupOpen={isPopupOpen}
+                setIsPopupOpen={setIsPopupOpen}
+              />
             </>
           )}
         </div>

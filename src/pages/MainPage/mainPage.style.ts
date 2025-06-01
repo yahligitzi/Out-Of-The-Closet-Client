@@ -37,7 +37,10 @@ const styles = {
       borderRadius: 5,
     },
   },
-  uploadPhotosBtn: { position: "absolute", right: 0 },
+  uploadPhotosBtn: {
+    position: "absolute",
+    right: 0,
+  },
 };
 
 export default styles;
