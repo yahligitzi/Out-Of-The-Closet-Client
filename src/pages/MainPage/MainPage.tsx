@@ -18,8 +18,6 @@ import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 import { removeAuthHeader } from "../../services/axiosInstance";
 import { useUser } from "../../contexts/UserContext";
 import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
-import { PATHS } from "../../constants/routes";
-import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
@@ -31,7 +29,6 @@ const MainPage = () => {
   >([]);
 
   const { setUser } = useUser();
-  const navigate = useNavigate();
 
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],
@@ -147,7 +144,7 @@ const MainPage = () => {
             checked={checkedFilterBox}
             setChecked={setCheckedFilterBox}
           />
-          <IconButton onClick={() => navigate(PATHS.UPLOAD_PHOTOS)}>
+          <IconButton onClick={() => setIsPopupOpen(true)}>
             <AddCircleOutline />
           </IconButton>
         </div>
