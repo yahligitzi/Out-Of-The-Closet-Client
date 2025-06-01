@@ -17,17 +17,17 @@ const styles = {
     justifyContent: "space-between",
     boxSizing: "border-box",
   },
-  searchBarLine: {
+  headerLine: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     background: "#fffdf1",
     width: "100%",
-    padding: 2,
   },
   actionsLine: {
     display: "flex",
     background: "white",
+    justifyContent: "space-between",
   },
   mainContentWrapper: {
     flex: 1,
@@ -73,11 +73,18 @@ const styles = {
     ".MuiOutlinedInput-root": {
       borderRadius: 5,
     },
+    width: "50%",
   },
   loader: { marginTop: 10 },
   image: {
     objectFit: "contain",
     margin: "auto",
+  },
+  logo: {
+    marginLeft: 2,
+  },
+  logoutBtn: {
+    marginRight: 2,
   },
 };
 

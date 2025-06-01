@@ -98,8 +98,19 @@ const MainPage = () => {
   return (
     <Box sx={styles.root}>
       <Box sx={styles.upperBar}>
-        <div style={styles.searchBarLine}>
-          <Avatar src={"logo.jpg"} />
+        <div style={styles.headerLine}>
+          <Avatar src={"logo.jpg"} sx={styles.logo} />
+          <IconButton onClick={handleLogout} sx={styles.logoutBtn}>
+            <Logout />
+          </IconButton>
+        </div>
+
+        <div style={styles.actionsLine}>
+          <FilterSlidingDrawer
+            tagsByCategory={tagsByCategory}
+            checked={checkedFilterBox}
+            setChecked={setCheckedFilterBox}
+          />
 
           <TextField
             value={searchInput}
@@ -133,17 +144,6 @@ const MainPage = () => {
             }}
           />
 
-          <IconButton onClick={handleLogout}>
-            <Logout />
-          </IconButton>
-        </div>
-
-        <div style={styles.actionsLine}>
-          <FilterSlidingDrawer
-            tagsByCategory={tagsByCategory}
-            checked={checkedFilterBox}
-            setChecked={setCheckedFilterBox}
-          />
           <IconButton onClick={() => setIsPopupOpen(true)}>
             <AddCircleOutline />
           </IconButton>
