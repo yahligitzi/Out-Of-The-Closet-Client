@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import UserItems from "./UserItems";
-import Stores from "./Stores";
+import UserItems from "./component/UserItems";
+import Stores from "./component/Stores";
 import { Item } from "../../types/tag.type";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../constants/routes";
@@ -14,8 +14,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { colors } from "../../constants/styles";
-import Outfit from "./outfit";
+import Outfit from "./component/Outfit";
+import styles from "./GenerateOutfitPage.style";
 
 enum Option {
   OnlyStore = "OnlyStore",
@@ -99,30 +99,9 @@ const GenerateOutfitPage = () => {
       {currIndex >= 0 && (
         <>
           {steps[currIndex].component}
-          <Box
-            sx={{
-              position: "sticky",
-              bottom: -1,
-              zIndex: 10,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "white",
-              gap: 10,
-            }}
-          >
+          <Box sx={styles.navigationLine}>
             <Button
-              sx={{
-                textTransform: "none",
-                color: "white",
-                borderColor: colors.lightGray,
-                background: colors.darkGray,
-                margin: "2% 0",
-                "&:disabled": {
-                  color: "white",
-                  background: colors.lightGray,
-                },
-              }}
+              sx={styles.genericButton}
               onClick={() => {
                 if (isGoingBackPossible) goBack();
                 else setIsBackPopupShown(true);
@@ -133,17 +112,7 @@ const GenerateOutfitPage = () => {
             <Button
               disabled={steps[currIndex].isContinueDisable}
               onClick={calcNextStep}
-              sx={{
-                textTransform: "none",
-                color: "white",
-                borderColor: colors.lightGray,
-                background: colors.darkGray,
-                margin: "2% 0",
-                "&:disabled": {
-                  color: "white",
-                  background: colors.lightGray,
-                },
-              }}
+              sx={styles.nextButton}
             >
               Next
             </Button>
@@ -167,34 +136,14 @@ const GenerateOutfitPage = () => {
                 handleClosePopup();
                 navigate(PATHS.MAIN);
               }}
-              sx={{
-                textTransform: "none",
-                color: "white",
-                borderColor: colors.lightGray,
-                background: colors.darkGray,
-                margin: "2% 0",
-                "&:disabled": {
-                  color: "white",
-                  background: colors.lightGray,
-                },
-              }}
+              sx={styles.genericButton}
             >
               Exit
             </Button>
             <Button
               onClick={handleClosePopup}
               autoFocus
-              sx={{
-                textTransform: "none",
-                color: "white",
-                borderColor: colors.lightGray,
-                background: colors.darkGray,
-                margin: "2% 0",
-                "&:disabled": {
-                  color: "white",
-                  background: colors.lightGray,
-                },
-              }}
+              sx={styles.genericButton}
             >
               Continue Generating
             </Button>

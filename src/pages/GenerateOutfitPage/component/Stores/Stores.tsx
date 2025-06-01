@@ -1,5 +1,4 @@
 import React from "react";
-import storeService, { Store } from "../../services/store.service";
 import { useQuery } from "@tanstack/react-query";
 import {
   Box,
@@ -9,9 +8,10 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import styles from "./styles";
-import { colors } from "../../constants/styles";
-import SelectButton from "../../components/SelectButton";
+import storeService, { Store } from "../../../../services/store.service";
+import SelectButton from "../../../../components/SelectButton";
+import { colors } from "../../../../constants/styles";
+import styles from "./stores.style";
 
 type StoresProps = {
   selectedStores: Store[];
@@ -32,14 +32,7 @@ const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
       <Typography variant="h4" component="h1" sx={styles.title}>
         Choose Stores
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          color: colors.darkGray,
-          maxWidth: "400px",
-          textAlign: "center",
-        }}
-      >
+      <Typography variant="body1" sx={styles.text}>
         Choosing a store lets our algorithm combine items from the store’s
         collection to create personalized outfit suggestions
       </Typography>

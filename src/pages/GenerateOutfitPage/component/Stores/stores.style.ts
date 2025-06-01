@@ -1,3 +1,5 @@
+import { colors } from "../../../../constants/styles";
+
 const styles = {
   root: {
     display: "flex",
@@ -9,6 +11,11 @@ const styles = {
   title: {
     fontWeight: "bold",
     margin: "5px 0",
+  },
+  text: {
+    color: colors.darkGray,
+    maxWidth: "400px",
+    textAlign: "center",
   },
   skeletonContainer: {
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -27,11 +34,6 @@ const styles = {
   selectedImageCard: {
     border: "2px solid gray",
     transform: "scale(1.02)",
-  },
-
-  itemsImageListConstinaer: {
-    justifyItems: "center",
-    alignItems: "center",
   },
 };
 
