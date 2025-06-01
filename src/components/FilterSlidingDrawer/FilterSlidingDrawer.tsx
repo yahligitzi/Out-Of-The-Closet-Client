@@ -161,7 +161,7 @@ const FilterSlidingDrawer = ({
                   variant="text"
                   onClick={() => setIsDrawerOpen(false)}
                 >
-                  Show Results
+                  Apply Filters
                 </Button>
               </Box>
             </Box>
