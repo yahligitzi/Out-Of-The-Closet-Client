@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Items from "./items";
+import UserItems from "./UserItems";
 import Stores from "./Stores";
 import { Item } from "../../types/tag.type";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +13,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
 } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
 import { colors } from "../../constants/styles";
+import Outfit from "./outfit";
 
 enum Option {
   OnlyStore = "OnlyStore",
@@ -24,7 +23,7 @@ enum Option {
   Both = "Both",
 }
 
-const SomePages = () => {
+const GenerateOutfitPage = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [selectedStores, setSelectedStores] = useState<Store[]>([]);
   const [currIndex, setCurrIndex] = useState<number>(-1);
@@ -44,7 +43,7 @@ const SomePages = () => {
     {
       isAvailable: option !== Option.OnlyStore,
       component: (
-        <Items
+        <UserItems
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
         />
@@ -62,7 +61,7 @@ const SomePages = () => {
       ),
       isContinueDisable: !selectedStores.length,
     },
-    { isAvailable: true, component: <></> },
+    { isAvailable: true, component: <Outfit /> },
   ];
 
   const navigate = useNavigate();
@@ -206,4 +205,4 @@ const SomePages = () => {
   );
 };
 
-export default SomePages;
+export default GenerateOutfitPage;

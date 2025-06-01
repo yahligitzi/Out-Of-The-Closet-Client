@@ -4,7 +4,7 @@ import SignUp from "../pages/SignPage/SignUp";
 import MainPage from "../pages/MainPage";
 import { EntranceQuiz } from "../pages/entranceQuiz/EntranceQuiz";
 import UploadUserItems from "../pages/UploadPhotos/UploadUserItems";
-import SomePages from "../pages/SomePages/somePages";
+import GenerateOutfitPage from "../pages/GenerateOutfitPage/GenerateOutfitPage";
 
 export interface RouteType {
   path: string;
@@ -52,7 +52,7 @@ export const PRIVATE_ROUTES: RouteType[] = [
   },
   {
     path: PATHS.GENERATE_OUTFIT,
-    name: "",
-    element: SomePages,
+    name: "יצירת תלבושת",
+    element: GenerateOutfitPage,
   },
 ];

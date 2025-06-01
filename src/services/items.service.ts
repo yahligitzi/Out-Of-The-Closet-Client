@@ -11,6 +11,7 @@ export default {
   },
   getItems: async (): Promise<Item[]> =>
     (await apiClient.post(`${baseUrl}/by-user`)).data,
+
   generateOutFit: async (): Promise<{ items: string[] }> => {
     const { data } = await apiClient.get(`${baseUrl}/outfit`);
     return data;
@@ -19,4 +20,6 @@ export default {
   addItemsByUrl: async (urls: string[]) => {
     await apiClient.post("scraper/scrape-by-link", { urls });
   },
+
+  deleteItemById: (itemId: string) => apiClient.delete(`${baseUrl}/${itemId}`),
 };

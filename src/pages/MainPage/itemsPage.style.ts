@@ -68,6 +68,7 @@ const styles = {
     boxSizing: "border-box",
     borderRadius: 2,
     backgroundColor: "#fff",
+    position: "relative",
   },
   searchBar: {
     ".MuiOutlinedInput-root": {

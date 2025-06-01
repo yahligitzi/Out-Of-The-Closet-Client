@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import storeService, { Store } from "../../services/store.service";
 import { useQuery } from "@tanstack/react-query";
 import {
   Box,
-  Button,
   Card,
   ImageList,
   ImageListItem,
@@ -12,6 +11,7 @@ import {
 } from "@mui/material";
 import styles from "./styles";
 import { colors } from "../../constants/styles";
+import SelectButton from "../../components/SelectButton";
 
 type StoresProps = {
   selectedStores: Store[];
@@ -19,36 +19,13 @@ type StoresProps = {
 };
 
 const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
-  const { isLoading, data } = useQuery({
+  const { isLoading, data: stores } = useQuery({
     queryKey: ["initialStores"],
     queryFn: storeService.getStores,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     refetchOnMount: false,
   });
-
-  const selectBtn = useMemo(() => {
-    if (selectedStores.length === data?.length)
-      return (
-        <Button
-          onClick={() => {
-            setSelectedStores([]);
-          }}
-        >
-          Clear
-        </Button>
-      );
-
-    return (
-      <Button
-        onClick={() => {
-          if (data?.length) setSelectedStores(data);
-        }}
-      >
-        Select all
-      </Button>
-    );
-  }, [data, selectedStores]);
 
   return (
     <div style={styles.root as React.CSSProperties}>
@@ -80,8 +57,8 @@ const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
       ) : (
         <>
           <ImageList sx={styles.imageListContianer} gap={10}>
-            {data ? (
-              data.map(({ logoUrl, name }) => {
+            {stores ? (
+              stores.map(({ logoUrl, name }) => {
                 const isSelected = !!selectedStores.find(
                   (store) => store.name === name
                 );
@@ -117,7 +94,11 @@ const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
               flexDirection: "row",
             }}
           >
-            {selectBtn}
+            <SelectButton
+              areAllSelected={selectedStores.length === stores?.length}
+              clearFunc={() => setSelectedStores([])}
+              selectAllFunc={() => stores?.length && setSelectedStores(stores)}
+            />
           </div>
         </>
       )}
