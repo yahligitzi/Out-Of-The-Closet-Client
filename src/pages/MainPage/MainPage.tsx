@@ -73,27 +73,40 @@ const MainPage = () => {
           }
         });
 
-        itemsToDisplay = itemsToDisplay.filter(({ tags }) =>
-          tags.every((tag: ItemTag) => {
+        itemsToDisplay = itemsToDisplay.filter(({ tags }) => {
+          const uniqueValidCategories = new Set();
+
+          tags.forEach((tag: ItemTag) => {
             const tagsInCategory = tags.filter(
               (currTag: ItemTag) => currTag.categoryId === tag.categoryId
             );
 
-            return (
+            const isValid =
               !selectedFiltersByCategory[tag.categoryId] ||
               selectedFiltersByCategory[tag.categoryId].some((currTag) =>
                 tagsInCategory
                   .map(({ tagId }: { tagId: string }) => tagId)
                   .includes(currTag)
-              )
-            );
-          })
-        );
+              );
+
+            if (selectedFiltersByCategory[tag.categoryId] && isValid)
+              uniqueValidCategories.add(tag.categoryId);
+
+            return isValid;
+          });
+
+          return (
+            uniqueValidCategories.size ===
+            Object.keys(selectedFiltersByCategory).length
+          );
+        });
       }
 
       setDisplayedItems(itemsToDisplay);
     }
   };
+
+  console.log({ displayedItems });
 
   return (
     <Box sx={styles.root}>
@@ -155,8 +168,8 @@ const MainPage = () => {
             <CircularProgress sx={styles.loader} />
           ) : (
             <Box display="grid" gap={2} sx={styles.itemsGrid}>
-              {displayedItems?.map(({ imageUrl }, i) => (
-                <Card sx={styles.imageCard} key={imageUrl}>
+              {displayedItems?.map(({ imageUrl, id }) => (
+                <Card sx={styles.imageCard} key={id}>
                   <ImageListItem>
                     <img
                       src={imageUrl}

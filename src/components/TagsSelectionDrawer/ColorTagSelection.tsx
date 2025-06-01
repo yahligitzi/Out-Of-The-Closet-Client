@@ -24,7 +24,10 @@ const ColorTagSelection = ({
         );
 
         return (
-          <div style={styles.colorBoxWithTitle as React.CSSProperties}>
+          <div
+            style={styles.colorBoxWithTitle as React.CSSProperties}
+            key={tag.tagId}
+          >
             <Box
               onClick={() => {
                 if (isTagSelected)
