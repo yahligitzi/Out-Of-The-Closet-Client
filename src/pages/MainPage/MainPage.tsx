@@ -58,6 +58,7 @@ const MainPage = () => {
           allItems={allItems}
           isLoadingItems={isLoading}
           handleDeleteItem={deleteItem}
+          setIsAddingItemsPopupOpen={setIsPopupOpen}
         >
           <IconButton onClick={() => setIsPopupOpen(true)}>
             <AddCircleOutline />

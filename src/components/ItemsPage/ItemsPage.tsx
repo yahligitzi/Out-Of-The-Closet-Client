@@ -15,11 +15,12 @@ import { Item, ItemTag } from "../../types/tag.type";
 import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 import { removeAuthHeader } from "../../services/axiosInstance";
 import { useUser } from "../../contexts/UserContext";
-import itemsService from "../../services/items.service";
+import ItemsEmptyState from "../ItemsEmptyState/ItemsEmptyState";
 
 type ItemsPageProps = {
   onClickItem?: (itemTag: Item) => void;
   isAbleToDelete?: boolean;
+  setIsAddingItemsPopupOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
   allItems: Item[] | undefined;
   isLoadingItems: boolean;
@@ -30,15 +31,16 @@ type ItemsPageProps = {
 
 const ItemsPage = ({
   isAbleToDelete,
+  setIsAddingItemsPopupOpen,
   onClickItem = () => {},
   children,
   allItems,
   isLoadingItems,
   selectedItems = [],
-  isSelectedStyle,
+  isSelectedStyle = {},
   handleDeleteItem = () => {},
 }: ItemsPageProps) => {
-  const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
+  const [displayedItems, setDisplayedItems] = useState<Item[]>();
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
   const [checkedFilterBox, setCheckedFilterBox] = useState<
@@ -54,7 +56,7 @@ const ItemsPage = ({
 
   useEffect(() => {
     if (allItems) {
-      if (displayedItems.length) {
+      if (displayedItems?.length) {
         handleFilter();
       } else {
         setDisplayedItems(allItems);
@@ -176,41 +178,49 @@ const ItemsPage = ({
       </Box>
       <Box sx={styles.mainContentWrapper}>
         <div style={styles.container as React.CSSProperties}>
-          {isLoadingItems ? (
+          {isLoadingItems || !displayedItems ? (
             <CircularProgress sx={styles.loader} />
           ) : (
-            <Box display="grid" gap={2} sx={styles.itemsGrid}>
-              {displayedItems?.map(({ imageUrl, id, tags }) => {
-                const isSelected = selectedItems.find((item) => item.id === id);
+            <>
+              {displayedItems?.length ? (
+                <Box display="grid" gap={2} sx={styles.itemsGrid}>
+                  {displayedItems?.map(({ imageUrl, id, tags }) => {
+                    const isSelected = selectedItems.find(
+                      (item) => item.id === id
+                    );
 
-                return (
-                  <Card
-                    sx={{
-                      ...styles.imageCard,
-                      ...(isSelected ? isSelectedStyle : {}),
-                    }}
-                    key={id}
-                    onClick={() => onClickItem({ imageUrl, id, tags })}
-                  >
-                    {isAbleToDelete && (
-                      <IconButton
-                        size="small"
-                        sx={styles.deleteButton}
-                        onClick={() => handleDeleteItem(id)}
+                    return (
+                      <Card
+                        sx={{
+                          ...styles.imageCard,
+                          ...(isSelected ? isSelectedStyle : {}),
+                        }}
+                        key={id}
+                        onClick={() => onClickItem({ imageUrl, id, tags })}
                       >
-                        <Close fontSize="small" />
-                      </IconButton>
-                    )}
-                    <ImageListItem>
-                      <img
-                        src={imageUrl}
-                        style={styles.image as React.CSSProperties}
-                      />
-                    </ImageListItem>
-                  </Card>
-                );
-              })}
-            </Box>
+                        {isAbleToDelete && (
+                          <IconButton
+                            size="small"
+                            sx={styles.deleteButton}
+                            onClick={() => handleDeleteItem(id)}
+                          >
+                            <Close fontSize="small" />
+                          </IconButton>
+                        )}
+                        <ImageListItem>
+                          <img
+                            src={imageUrl}
+                            style={styles.image as React.CSSProperties}
+                          />
+                        </ImageListItem>
+                      </Card>
+                    );
+                  })}
+                </Box>
+              ) : (
+                <ItemsEmptyState setIsPopupOpen={setIsAddingItemsPopupOpen} />
+              )}
+            </>
           )}
         </div>
       </Box>
