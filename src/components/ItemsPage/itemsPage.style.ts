@@ -82,6 +82,13 @@ const styles = {
   logoutBtn: {
     marginRight: 2,
   },
+  deleteButton: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    zIndex: 10,
+    backgroundColor: "rgba(255,255,255,0.7)",
+  },
 };
 
 export default styles;

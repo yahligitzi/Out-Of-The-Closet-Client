@@ -22,9 +22,7 @@ const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
   const { isLoading, data: stores } = useQuery({
     queryKey: ["initialStores"],
     queryFn: storeService.getStores,
-    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
   });
 
   return (

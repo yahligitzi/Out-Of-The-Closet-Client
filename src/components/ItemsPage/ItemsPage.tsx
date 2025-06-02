@@ -25,6 +25,7 @@ type ItemsPageProps = {
   isLoadingItems: boolean;
   selectedItems?: Item[];
   isSelectedStyle?: React.CSSProperties;
+  handleDeleteItem?: (id: string) => void;
 };
 
 const ItemsPage = ({
@@ -35,6 +36,7 @@ const ItemsPage = ({
   isLoadingItems,
   selectedItems = [],
   isSelectedStyle,
+  handleDeleteItem = () => {},
 }: ItemsPageProps) => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
@@ -51,7 +53,13 @@ const ItemsPage = ({
   );
 
   useEffect(() => {
-    if (allItems) setDisplayedItems(allItems);
+    if (allItems) {
+      if (displayedItems.length) {
+        handleFilter();
+      } else {
+        setDisplayedItems(allItems);
+      }
+    }
   }, [allItems]);
 
   useEffect(() => handleFilter(), [searchValue, checkedFilterBox]);
@@ -114,8 +122,6 @@ const ItemsPage = ({
       setDisplayedItems(itemsToDisplay);
     }
   };
-
-  console.log({ displayedItems });
 
   return (
     <>
@@ -189,16 +195,8 @@ const ItemsPage = ({
                     {isAbleToDelete && (
                       <IconButton
                         size="small"
-                        sx={{
-                          position: "absolute",
-                          top: 8,
-                          left: 8,
-                          zIndex: 10,
-                          backgroundColor: "rgba(255,255,255,0.7)", // optional: for better visibility
-                        }}
-                        onClick={() => {
-                          itemsService.deleteItemById(id);
-                        }}
+                        sx={styles.deleteButton}
+                        onClick={() => handleDeleteItem(id)}
                       >
                         <Close fontSize="small" />
                       </IconButton>

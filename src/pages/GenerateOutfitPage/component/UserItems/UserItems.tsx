@@ -14,9 +14,7 @@ const UserItems = ({ selectedItems, setSelectedItems }: UserItemsProps) => {
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialItems"],
     queryFn: itemsService.getItems,
-    refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    refetchOnMount: false,
   });
 
   const handleClickOnItem = ({ imageUrl, id, tags }: Item) => {
