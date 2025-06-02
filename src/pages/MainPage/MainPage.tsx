@@ -18,9 +18,10 @@ import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 import { removeAuthHeader } from "../../services/axiosInstance";
 import { useUser } from "../../contexts/UserContext";
 import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
+import ItemsEmptyState from "../../components/ItemsEmptyState/ItemsEmptyState";
 
 const MainPage = () => {
-  const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
+  const [displayedItems, setDisplayedItems] = useState<Item[]>();
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
@@ -106,8 +107,6 @@ const MainPage = () => {
     }
   };
 
-  console.log({ displayedItems });
-
   return (
     <Box sx={styles.root}>
       <Box sx={styles.upperBar}>
@@ -164,21 +163,27 @@ const MainPage = () => {
       </Box>
       <Box sx={styles.mainContentWrapper}>
         <div style={styles.container as React.CSSProperties}>
-          {isLoading ? (
+          {isLoading || !displayedItems ? (
             <CircularProgress sx={styles.loader} />
           ) : (
-            <Box display="grid" gap={2} sx={styles.itemsGrid}>
-              {displayedItems?.map(({ imageUrl, id }) => (
-                <Card sx={styles.imageCard} key={id}>
-                  <ImageListItem>
-                    <img
-                      src={imageUrl}
-                      style={styles.image as React.CSSProperties}
-                    />
-                  </ImageListItem>
-                </Card>
-              ))}
-            </Box>
+            <>
+              {displayedItems?.length ? (
+                <Box display="grid" gap={2} sx={styles.itemsGrid}>
+                  {displayedItems?.map(({ imageUrl, id }) => (
+                    <Card sx={styles.imageCard} key={id}>
+                      <ImageListItem>
+                        <img
+                          src={imageUrl}
+                          style={styles.image as React.CSSProperties}
+                        />
+                      </ImageListItem>
+                    </Card>
+                  ))}
+                </Box>
+              ) : (
+                <ItemsEmptyState setIsPopupOpen={setIsPopupOpen} />
+              )}
+            </>
           )}
           <UploadImageDialog
             isPopupOpen={isPopupOpen}
