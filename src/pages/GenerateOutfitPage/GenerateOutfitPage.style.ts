@@ -1,6 +1,11 @@
 import { colors } from "../../constants/styles";
 
 const styles = {
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
+  },
   navigationLine: {
     position: "sticky",
     bottom: -1,

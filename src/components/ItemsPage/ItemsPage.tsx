@@ -118,7 +118,7 @@ const ItemsPage = ({
   console.log({ displayedItems });
 
   return (
-    <Box sx={styles.root}>
+    <>
       <Box sx={styles.upperBar}>
         <div style={styles.headerLine}>
           <Avatar src={"logo.jpg"} sx={styles.logo} />
@@ -216,7 +216,7 @@ const ItemsPage = ({
           )}
         </div>
       </Box>
-    </Box>
+    </>
   );
 };
 

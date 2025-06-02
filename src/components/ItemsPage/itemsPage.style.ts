@@ -1,9 +1,4 @@
 const styles = {
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh",
-  },
   upperBar: {
     position: "sticky",
     top: 0,

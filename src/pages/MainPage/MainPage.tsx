@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useState } from "react";
 import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
@@ -17,15 +17,23 @@ const MainPage = () => {
 
   return (
     <>
-      <ItemsPage
-        isAbleToDelete={true}
-        allItems={allItems}
-        isLoadingItems={isLoading}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+        }}
       >
-        <IconButton onClick={() => setIsPopupOpen(true)}>
-          <AddCircleOutline />
-        </IconButton>
-      </ItemsPage>
+        <ItemsPage
+          isAbleToDelete={true}
+          allItems={allItems}
+          isLoadingItems={isLoading}
+        >
+          <IconButton onClick={() => setIsPopupOpen(true)}>
+            <AddCircleOutline />
+          </IconButton>
+        </ItemsPage>
+      </Box>
       <UploadImageDialog
         isPopupOpen={isPopupOpen}
         setIsPopupOpen={setIsPopupOpen}

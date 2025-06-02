@@ -97,7 +97,7 @@ const GenerateOutfitPage = () => {
   return (
     <>
       {currIndex >= 0 && (
-        <>
+        <Box sx={styles.root}>
           {steps[currIndex].component}
           <Box sx={styles.navigationLine}>
             <Button
@@ -117,7 +117,7 @@ const GenerateOutfitPage = () => {
               Next
             </Button>
           </Box>
-        </>
+        </Box>
       )}
 
       {isBackPopupShown && (
