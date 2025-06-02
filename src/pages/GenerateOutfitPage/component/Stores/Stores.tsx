@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import storeService, { Store } from "../../../../services/store.service";
 import SelectButton from "../../../../components/SelectButton";
-import { colors } from "../../../../constants/styles";
 import styles from "./stores.style";
 
 type StoresProps = {
