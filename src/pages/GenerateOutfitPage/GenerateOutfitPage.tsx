@@ -31,6 +31,8 @@ const GenerateOutfitPage = () => {
 
   const option = Option.Both;
 
+  const navigate = useNavigate();
+
   const calcNextStep = () => {
     if (steps[currIndex + 1].isAvailable) {
       setCurrIndex((prev) => prev + 1);
@@ -38,6 +40,16 @@ const GenerateOutfitPage = () => {
       setCurrIndex((prev) => prev + 2);
     }
   };
+
+  useEffect(() => {
+    // TODO - check, have i got option from navigation - if not throw to main
+
+    if (option) {
+      calcNextStep();
+    } else {
+      navigate(PATHS.MAIN);
+    }
+  }, []);
 
   const steps = [
     {
@@ -64,8 +76,6 @@ const GenerateOutfitPage = () => {
     { isAvailable: true, component: <Outfit /> },
   ];
 
-  const navigate = useNavigate();
-
   const isGoingBackPossible = useMemo(
     () =>
       [1, 2].some(
@@ -73,16 +83,6 @@ const GenerateOutfitPage = () => {
       ),
     [currIndex, option]
   );
-
-  useEffect(() => {
-    // TODO - check, have i got option from navigation - if not throw to main
-
-    if (option) {
-      calcNextStep();
-    } else {
-      navigate(PATHS.MAIN);
-    }
-  }, []);
 
   const goBack = () => {
     if (steps[currIndex - 1].isAvailable) {
