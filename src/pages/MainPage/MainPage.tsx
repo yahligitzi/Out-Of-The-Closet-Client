@@ -4,6 +4,7 @@ import { useState } from "react";
 import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import itemsService from "../../services/items.service";
+import userItemsService from "../../services/userItems.service";
 import ItemsPage from "../../components/ItemsPage";
 import { Item } from "../../types/tag.type";
 import { useSnackbar } from "../../contexts/SnackbarContext";
@@ -21,7 +22,7 @@ const MainPage = () => {
   });
 
   const { mutate: deleteItem } = useMutation({
-    mutationFn: itemsService.deleteItemById,
+    mutationFn: userItemsService.deleteItemById,
     onSuccess: ({ data: deletedItemId }) => {
       queryClient.setQueryData<Item[]>(["initialData"], (prevItems) =>
         prevItems?.filter((item) => item.id !== deletedItemId)

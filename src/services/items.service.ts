@@ -20,6 +20,4 @@ export default {
   addItemsByUrl: async (urls: string[]) => {
     await apiClient.post("scraper/scrape-by-link", { urls });
   },
-
-  deleteItemById: (itemId: string) => apiClient.delete(`${baseUrl}/${itemId}`),
 };
