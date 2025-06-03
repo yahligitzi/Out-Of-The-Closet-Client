@@ -30,6 +30,8 @@ const styles = {
   imageCard: {
     cursor: "pointer",
     transition: "all 0.2s ease-in-out",
+    display: "flex",
+    alignItems: "center",
   },
   selectedImageCard: {
     border: `2px solid ${colors.lightBlue} `,
