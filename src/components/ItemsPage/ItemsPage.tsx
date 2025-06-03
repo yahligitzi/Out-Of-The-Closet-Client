@@ -18,27 +18,25 @@ import { useUser } from "../../contexts/UserContext";
 import ItemsEmptyState from "../ItemsEmptyState/ItemsEmptyState";
 
 type ItemsPageProps = {
-  onClickItem?: (itemTag: Item) => void;
-  isAbleToDelete?: boolean;
+  onItemClick?: (itemTag: Item) => void;
   setIsAddingItemsPopupOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
   allItems: Item[] | undefined;
   isLoadingItems: boolean;
   selectedItems?: Item[];
-  isSelectedStyle?: React.CSSProperties;
+  selectedStyle?: React.CSSProperties;
   handleDeleteItem?: (id: string) => void;
 };
 
 const ItemsPage = ({
-  isAbleToDelete,
   setIsAddingItemsPopupOpen,
-  onClickItem = () => {},
+  onItemClick,
   children,
   allItems,
   isLoadingItems,
   selectedItems = [],
-  isSelectedStyle = {},
-  handleDeleteItem = () => {},
+  selectedStyle = {},
+  handleDeleteItem,
 }: ItemsPageProps) => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>();
   const [searchInput, setSearchInput] = useState<string>("");
@@ -193,12 +191,14 @@ const ItemsPage = ({
                       <Card
                         sx={{
                           ...styles.imageCard,
-                          ...(isSelected ? isSelectedStyle : {}),
+                          ...(isSelected ? selectedStyle : {}),
                         }}
                         key={id}
-                        onClick={() => onClickItem({ imageUrl, id, tags })}
+                        onClick={() =>
+                          onItemClick && onItemClick({ imageUrl, id, tags })
+                        }
                       >
-                        {isAbleToDelete && (
+                        {handleDeleteItem && (
                           <IconButton
                             size="small"
                             sx={styles.deleteButton}

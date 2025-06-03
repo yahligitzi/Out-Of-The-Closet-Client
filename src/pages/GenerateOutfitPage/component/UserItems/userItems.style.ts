@@ -2,7 +2,7 @@ import { colors } from "../../../../constants/styles";
 
 const styles = {
   selectedItemStyle: {
-    border: `1px solid ${colors.lightGray}`,
+    border: `2px solid ${colors.lightBlue}`,
     transform: "scale(1.05)",
     transition: "all 0.2s ease-in-out",
   },

@@ -16,23 +16,27 @@ const styles = {
     background: "white",
     gap: 10,
   },
-  genericButton: {
+  backButton: {
     textTransform: "none",
-    color: "white",
-    borderColor: colors.lightGray,
-    background: colors.darkGray,
-    margin: "2% 0",
+    borderColor: colors.lightBlue,
+    color: colors.lightBlue,
+    borderRadius: 10,
   },
   nextButton: {
     textTransform: "none",
+    background: colors.lightBlue,
     color: "white",
-    borderColor: colors.lightGray,
-    background: colors.darkGray,
+    borderRadius: 10,
     margin: "2% 0",
     "&:disabled": {
       color: "white",
       background: colors.lightGray,
     },
+  },
+  dialogRoot: { textAlign: "center" },
+  dialogActions: {
+    justifyContent: "space-between",
+    padding: "4%",
   },
 };
 

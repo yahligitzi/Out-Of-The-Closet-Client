@@ -27,12 +27,11 @@ const UserItems = ({ selectedItems, setSelectedItems }: UserItemsProps) => {
 
   return (
     <ItemsPage
-      isAbleToDelete={false}
       isLoadingItems={isLoading}
-      onClickItem={handleClickOnItem}
+      onItemClick={handleClickOnItem}
       allItems={allItems}
       selectedItems={selectedItems}
-      isSelectedStyle={styles.selectedItemStyle}
+      selectedStyle={styles.selectedItemStyle}
     >
       <SelectButton
         areAllSelected={selectedItems.length === allItems?.length}

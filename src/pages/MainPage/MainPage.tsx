@@ -8,6 +8,7 @@ import userItemsService from "../../services/userItems.service";
 import ItemsPage from "../../components/ItemsPage";
 import { Item } from "../../types/tag.type";
 import { useSnackbar } from "../../contexts/SnackbarContext";
+import styles from "./MainPage.style";
 
 const MainPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
@@ -47,15 +48,8 @@ const MainPage = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
-        }}
-      >
+      <Box sx={styles.root}>
         <ItemsPage
-          isAbleToDelete={true}
           allItems={allItems}
           isLoadingItems={isLoading}
           handleDeleteItem={deleteItem}

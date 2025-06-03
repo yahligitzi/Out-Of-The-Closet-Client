@@ -36,7 +36,7 @@ const styles = {
   },
   checkBox: {
     "&.Mui-checked": {
-      color: "#71c9e5",
+      color: colors.lightBlue,
     },
   },
   puller: {

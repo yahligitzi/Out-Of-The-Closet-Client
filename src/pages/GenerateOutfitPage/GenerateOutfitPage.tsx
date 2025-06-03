@@ -33,11 +33,13 @@ const GenerateOutfitPage = () => {
 
   const navigate = useNavigate();
 
-  const calcNextStep = () => {
-    if (steps[currIndex + 1].isAvailable) {
-      setCurrIndex((prev) => prev + 1);
-    } else {
-      setCurrIndex((prev) => prev + 2);
+  const changeStep = (direction: 1 | -1) => {
+    const nextIndex = currIndex + direction;
+
+    if (steps[nextIndex]?.isAvailable) setCurrIndex(nextIndex);
+    else {
+      const skipIndex = currIndex + 2 * direction;
+      if (steps[skipIndex]?.isAvailable) setCurrIndex(skipIndex);
     }
   };
 
@@ -45,7 +47,7 @@ const GenerateOutfitPage = () => {
     // TODO - check, have i got option from navigation - if not throw to main
 
     if (option) {
-      calcNextStep();
+      changeStep(1);
     } else {
       navigate(PATHS.MAIN);
     }
@@ -76,21 +78,13 @@ const GenerateOutfitPage = () => {
     { isAvailable: true, component: <Outfit /> },
   ];
 
-  const isGoingBackPossible = useMemo(
-    () =>
-      [1, 2].some(
-        (i) => currIndex - i >= 0 && steps[currIndex - i].isAvailable
-      ),
-    [currIndex, option]
-  );
+  const isGoingBackPossible = useMemo(() => {
+    const backwardsRange = [1, 2];
 
-  const goBack = () => {
-    if (steps[currIndex - 1].isAvailable) {
-      setCurrIndex((prev) => prev - 1);
-    } else {
-      setCurrIndex((prev) => prev - 2);
-    }
-  };
+    return backwardsRange.some(
+      (i) => currIndex - i >= 0 && steps[currIndex - i].isAvailable
+    );
+  }, [currIndex, option]);
 
   const handleClosePopup = () => setIsBackPopupShown(false);
 
@@ -101,9 +95,10 @@ const GenerateOutfitPage = () => {
           {steps[currIndex].component}
           <Box sx={styles.navigationLine}>
             <Button
-              sx={styles.genericButton}
+              variant="outlined"
+              sx={styles.backButton}
               onClick={() => {
-                if (isGoingBackPossible) goBack();
+                if (isGoingBackPossible) changeStep(-1);
                 else setIsBackPopupShown(true);
               }}
             >
@@ -111,7 +106,7 @@ const GenerateOutfitPage = () => {
             </Button>
             <Button
               disabled={steps[currIndex].isContinueDisable}
-              onClick={calcNextStep}
+              onClick={() => changeStep(1)}
               sx={styles.nextButton}
             >
               Next
@@ -121,7 +116,11 @@ const GenerateOutfitPage = () => {
       )}
 
       {isBackPopupShown && (
-        <Dialog open={isBackPopupShown} onClose={handleClosePopup}>
+        <Dialog
+          open={isBackPopupShown}
+          onClose={handleClosePopup}
+          sx={styles.dialogRoot}
+        >
           <DialogTitle>
             Are you sure you want to exit generate outfit?
           </DialogTitle>
@@ -130,21 +129,18 @@ const GenerateOutfitPage = () => {
               By clicking exit you will jump back to main page
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={styles.dialogActions}>
             <Button
               onClick={() => {
                 handleClosePopup();
                 navigate(PATHS.MAIN);
               }}
-              sx={styles.genericButton}
+              sx={styles.backButton}
+              variant="outlined"
             >
               Exit
             </Button>
-            <Button
-              onClick={handleClosePopup}
-              autoFocus
-              sx={styles.genericButton}
-            >
+            <Button onClick={handleClosePopup} sx={styles.nextButton}>
               Continue Generating
             </Button>
           </DialogActions>
