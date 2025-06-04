@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Card,
   TextField,
@@ -8,14 +7,13 @@ import {
   InputAdornment,
   CircularProgress,
 } from "@mui/material";
-import { Clear, Close, Logout, Search } from "@mui/icons-material";
+import { Clear, Close, Search } from "@mui/icons-material";
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./itemsPage.style";
 import { Item, ItemTag } from "../../types/tag.type";
 import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
-import { removeAuthHeader } from "../../services/axiosInstance";
-import { useUser } from "../../contexts/UserContext";
 import ItemsEmptyState from "../ItemsEmptyState/ItemsEmptyState";
+import Header from "../Header";
 
 type ItemsPageProps = {
   onItemClick?: (itemTag: Item) => void;
@@ -45,8 +43,6 @@ const ItemsPage = ({
     { tagId: string; categoryId: string }[]
   >([]);
 
-  const { setUser } = useUser();
-
   const tagsByCategory: ItemTag[] = useMemo(
     () => allItems?.flatMap((item) => item.tags) ?? [],
     [allItems]
@@ -63,12 +59,6 @@ const ItemsPage = ({
   }, [allItems]);
 
   useEffect(() => handleFilter(), [searchValue, checkedFilterBox]);
-
-  const handleLogout = () => {
-    removeAuthHeader();
-    localStorage.removeItem("token");
-    setUser(null);
-  };
 
   const handleFilter = () => {
     if (allItems?.length) {
@@ -126,12 +116,7 @@ const ItemsPage = ({
   return (
     <>
       <Box sx={styles.upperBar}>
-        <div style={styles.headerLine}>
-          <Avatar src={"logo.jpg"} sx={styles.logo} />
-          <IconButton onClick={handleLogout} sx={styles.logoutBtn}>
-            <Logout />
-          </IconButton>
-        </div>
+        <Header />
 
         <div style={styles.actionsLine}>
           <FilterSlidingDrawer

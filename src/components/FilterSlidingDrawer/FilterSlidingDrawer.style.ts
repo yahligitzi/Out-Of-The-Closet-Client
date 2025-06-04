@@ -19,7 +19,6 @@ const styles = {
   upperBar: {
     position: "sticky",
     top: 0,
-    zIndex: 10,
     background: "white",
     display: "flex",
     flexDirection: "column",

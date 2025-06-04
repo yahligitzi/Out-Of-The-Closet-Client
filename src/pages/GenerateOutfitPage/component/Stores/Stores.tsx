@@ -11,6 +11,7 @@ import {
 import storeService, { Store } from "../../../../services/store.service";
 import SelectButton from "../../../../components/SelectButton";
 import styles from "./stores.style";
+import Header from "../../../../components/Header";
 
 type StoresProps = {
   selectedStores: Store[];
@@ -26,6 +27,9 @@ const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
 
   return (
     <div style={styles.root as React.CSSProperties}>
+      <Box sx={styles.upperBar}>
+        <Header />
+      </Box>
       <Typography variant="h4" component="h1" sx={styles.title}>
         Choose Stores
       </Typography>

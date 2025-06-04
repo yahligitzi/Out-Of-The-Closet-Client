@@ -12,13 +12,6 @@ const styles = {
     justifyContent: "space-between",
     boxSizing: "border-box",
   },
-  headerLine: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    background: "#fffdf1",
-    width: "100%",
-  },
   actionsLine: {
     display: "flex",
     background: "white",
@@ -75,12 +68,6 @@ const styles = {
   image: {
     objectFit: "contain",
     margin: "auto",
-  },
-  logo: {
-    marginLeft: 2,
-  },
-  logoutBtn: {
-    marginRight: 2,
   },
   deleteButton: {
     position: "absolute",

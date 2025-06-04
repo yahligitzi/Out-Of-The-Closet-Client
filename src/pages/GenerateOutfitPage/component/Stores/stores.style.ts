@@ -8,6 +8,14 @@ const styles = {
     width: "100%",
     height: "100%",
   },
+  upperBar: {
+    position: "sticky",
+    top: 0,
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    boxSizing: "border-box",
+  },
   title: {
     fontWeight: "bold",
     margin: "5px 0",
