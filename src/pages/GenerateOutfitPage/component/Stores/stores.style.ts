@@ -32,6 +32,7 @@ const styles = {
     transition: "all 0.2s ease-in-out",
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
   },
   selectedImageCard: {
     border: `2px solid ${colors.lightBlue} `,

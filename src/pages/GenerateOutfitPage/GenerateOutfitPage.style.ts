@@ -18,9 +18,16 @@ const styles = {
   },
   backButton: {
     textTransform: "none",
-    borderColor: colors.lightBlue,
     color: colors.lightBlue,
     borderRadius: 10,
+    "&:hover": {
+      borderColor: colors.lightBlue,
+      outline: "none",
+    },
+    "&:focus": {
+      borderColor: colors.lightBlue,
+      outline: "none",
+    },
   },
   nextButton: {
     textTransform: "none",
@@ -31,6 +38,12 @@ const styles = {
     "&:disabled": {
       color: "white",
       background: colors.lightGray,
+    },
+    "&:hover": {
+      outline: "none",
+    },
+    "&:focus": {
+      outline: "none",
     },
   },
   dialogRoot: { textAlign: "center" },

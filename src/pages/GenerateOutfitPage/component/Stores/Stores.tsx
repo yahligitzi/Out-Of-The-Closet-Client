@@ -35,11 +35,12 @@ const Stores = ({ selectedStores, setSelectedStores }: StoresProps) => {
       </Typography>
       {isLoading ? (
         <Box display="grid" sx={styles.skeletonContainer}>
-          {[...Array(4)].map(() => (
+          {[...Array(4)].map((_, i) => (
             <Skeleton
               variant="rectangular"
               width="90%"
               height={100}
+              key={`skleton-${i}`}
               sx={{ margin: 2 }}
             />
           ))}

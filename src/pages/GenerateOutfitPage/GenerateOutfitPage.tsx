@@ -44,8 +44,6 @@ const GenerateOutfitPage = () => {
   };
 
   useEffect(() => {
-    // TODO - check, have i got option from navigation - if not throw to main
-
     if (option) {
       changeStep(1);
     } else {
