@@ -19,6 +19,7 @@ import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { Item, ItemTag } from "../../types/tag.type";
 import GeneratorModeDialog from "./GeneratorModeDialog";
+import { CheckedFilterBox } from "./MainPage.types";
 
 const MainPage = () => {
   const [displayedItems, setDisplayedItems] = useState<Item[]>([]);
@@ -26,9 +27,7 @@ const MainPage = () => {
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
-  const [checkedFilterBox, setCheckedFilterBox] = useState<
-    { tagId: string; categoryId: string }[]
-  >([]);
+  const [checkedFilterBox, setCheckedFilterBox] = useState<CheckedFilterBox[]>([]);
 
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialData"],

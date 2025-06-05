@@ -1,0 +1,1 @@
+export type CheckedFilterBox = { tagId: string; categoryId: string }
