@@ -1,9 +1,4 @@
 const styles = {
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh",
-  },
   upperBar: {
     position: "sticky",
     top: 0,
@@ -16,13 +11,6 @@ const styles = {
     width: "100%",
     justifyContent: "space-between",
     boxSizing: "border-box",
-  },
-  headerLine: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    background: "#fffdf1",
-    width: "100%",
   },
   actionsLine: {
     display: "flex",
@@ -68,6 +56,7 @@ const styles = {
     boxSizing: "border-box",
     borderRadius: 2,
     backgroundColor: "#fff",
+    position: "relative",
   },
   searchBar: {
     ".MuiOutlinedInput-root": {
@@ -80,11 +69,12 @@ const styles = {
     objectFit: "contain",
     margin: "auto",
   },
-  logo: {
-    marginLeft: 2,
-  },
-  logoutBtn: {
-    marginRight: 2,
+  deleteButton: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    zIndex: 10,
+    backgroundColor: "rgba(255,255,255,0.7)",
   },
 };
 

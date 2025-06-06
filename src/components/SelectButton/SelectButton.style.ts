@@ -7,6 +7,13 @@ const styles = {
     borderColor: colors.lightGray,
     color: "white",
     background: colors.darkGray,
+    "&:hover": {
+      outline: "none",
+      borderColor: colors.lightGray,
+    },
+    "&:focus": {
+      outline: "none",
+    },
   },
 };
 

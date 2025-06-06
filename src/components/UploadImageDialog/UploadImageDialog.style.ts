@@ -1,3 +1,5 @@
+import { colors } from "../../constants/styles";
+
 export const styles = {
   dialogBox: {
     display: "flex",
@@ -18,7 +20,7 @@ export const styles = {
     flexDirection: "column",
     width: "50%",
     padding: "10px",
-    border: "2px solid #71c9e5",
+    border: `2px solid ${colors.lightBlue}`,
     borderRadius: "10px",
   },
 

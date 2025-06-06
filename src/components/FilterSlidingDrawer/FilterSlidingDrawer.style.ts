@@ -19,7 +19,6 @@ const styles = {
   upperBar: {
     position: "sticky",
     top: 0,
-    zIndex: 10,
     background: "white",
     display: "flex",
     flexDirection: "column",
@@ -56,7 +55,7 @@ const styles = {
     textTransform: "none",
     flex: 2,
     color: colors.darkGray,
-    background: "#71c9e5",
+    background: colors.lightBlue,
     borderRadius: 0,
   },
   filterCount: {

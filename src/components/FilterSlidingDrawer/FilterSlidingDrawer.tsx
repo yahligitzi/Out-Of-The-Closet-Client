@@ -123,9 +123,8 @@ const FilterSlidingDrawer = ({
               <Box sx={styles.listContainer}>
                 <List sx={styles.list}>
                   {categories.map(({ categoryId, categoryName }) => (
-                    <>
+                    <div key={categoryId}>
                       <ListItem
-                        key={`list-item-${categoryId}`}
                         onClick={() => setSelectedCategoryId(categoryId)}
                         sx={{ background: colors.white, padding: 1 }}
                       >
@@ -140,11 +139,8 @@ const FilterSlidingDrawer = ({
                           <ArrowForwardIos />
                         </ListItemIcon>
                       </ListItem>
-                      <Divider
-                        key={`divider-${categoryId}`}
-                        sx={styles.divider}
-                      />
-                    </>
+                      <Divider sx={styles.divider} />
+                    </div>
                   ))}
                 </List>
               </Box>
