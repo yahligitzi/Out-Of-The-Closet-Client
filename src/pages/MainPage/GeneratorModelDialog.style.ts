@@ -1,3 +1,5 @@
+import { colors } from "../../constants/styles";
+
 const styles = {
     dialogContent: {
         width: "73vw",
@@ -5,7 +7,7 @@ const styles = {
         justifyContent: "space-between"
     },
     optionBox: {
-        border: "1px solid lightGray",
+        border: `2px solid ${colors.lightBlue}`,
         borderRadius: 4,
         marginTop: "1vh",
         width: "22vw",
