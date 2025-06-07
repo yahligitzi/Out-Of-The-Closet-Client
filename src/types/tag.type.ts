@@ -6,6 +6,13 @@ export type ItemTag = {
 };
 
 export type Item = {
+  id: string;
   imageUrl: string;
+  siteUrl?: string;
   tags: ItemTag[];
+};
+
+export type GenerateItem = {
+  imageUrl: string;
+  siteUrl?: string;
 };

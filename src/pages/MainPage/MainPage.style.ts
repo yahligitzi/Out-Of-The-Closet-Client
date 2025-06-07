@@ -4,9 +4,6 @@ const styles = {
     flexDirection: "column",
     height: "100vh",
   },
-  generateBtn: {
-    marginRight: "1vh"
-  },
 };
 
 export default styles;

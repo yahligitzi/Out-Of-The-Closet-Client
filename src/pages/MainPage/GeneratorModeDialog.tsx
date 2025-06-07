@@ -2,8 +2,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography }
 import styles from "./GeneratorModelDialog.style";
 import { GeneratorModeDialogProps } from "./GeneratorModeDialog.types";
 import { OPTIONS } from "./GeneratorModeDialog.consts";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../constants/routes";
 
 const GeneratorModeDialog = ({ open, setOpen }: GeneratorModeDialogProps) => {
+    const navigate = useNavigate();
     const handleClose = () => {
         setOpen(false);
     };
@@ -18,8 +21,7 @@ const GeneratorModeDialog = ({ open, setOpen }: GeneratorModeDialogProps) => {
             </DialogTitle>
             <DialogContent sx={styles.dialogContent}>
                 {OPTIONS.map(option =>
-                //ToDo add fuction after option pick 
-                    <Button sx={styles.optionBox} onClick={() => ""} key={option.type}>
+                    <Button sx={styles.optionBox} onClick={() => navigate(PATHS.GENERATE_OUTFIT, {state: {option: option.type}})} key={option.type}>
                         <Typography sx={styles.optionTitle}>{option.title}</Typography>
                         <Typography sx={styles.description}>{option.description}</Typography>
                     </Button>

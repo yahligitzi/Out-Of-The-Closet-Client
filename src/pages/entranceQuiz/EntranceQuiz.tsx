@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { QuizData, QuizStep } from "./entranceQuiz.types";
 import { submitQuiz } from "../../services/user.service";
 import { PATHS } from "../../constants/routes";
+import { UPLOAD_PHOTOS_COUNT } from "./components/uploadPhotos/uploadPhotos.consts";
 
 export const EntranceQuiz = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -123,6 +124,11 @@ export const EntranceQuiz = () => {
         <UploadPhotos
           photos={quizData?.photos}
           onPhotosChange={(photos) => handleChange("photos", photos)}
+          primaryText={`Please upload ${UPLOAD_PHOTOS_COUNT} photos of your favorite items in
+        your closet`}
+          secondryText={
+            "These photos will help establish your new digital closet"
+          }
         />
       ),
       isRequired: true,
