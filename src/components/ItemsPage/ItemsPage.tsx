@@ -14,6 +14,7 @@ import { Item, ItemTag } from "../../types/tag.type";
 import FilterSlidingDrawer from "../../components/FilterSlidingDrawer";
 import ItemsEmptyState from "../ItemsEmptyState/ItemsEmptyState";
 import Header from "../Header";
+import GeneratorModeDialog from "../../pages/MainPage/GeneratorModeDialog";
 
 type ItemsPageProps = {
   onItemClick?: (itemTag: Item) => void;
@@ -21,6 +22,8 @@ type ItemsPageProps = {
   children: React.ReactNode;
   allItems: Item[] | undefined;
   isLoadingItems: boolean;
+  isOpenDialog: boolean;
+  setIsOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
   selectedItems?: Item[];
   selectedStyle?: React.CSSProperties;
   handleDeleteItem?: (id: string) => void;
@@ -32,6 +35,8 @@ const ItemsPage = ({
   children,
   allItems,
   isLoadingItems,
+  isOpenDialog,
+  setIsOpenDialog,
   selectedItems = [],
   selectedStyle = {},
   handleDeleteItem,
@@ -167,6 +172,7 @@ const ItemsPage = ({
             <>
               {displayedItems?.length ? (
                 <Box display="grid" gap={2} sx={styles.itemsGrid}>
+                  <GeneratorModeDialog open={isOpenDialog} setOpen={setIsOpenDialog}/>
                   {displayedItems?.map(({ imageUrl, id, tags }) => {
                     const isSelected = selectedItems.find(
                       (item) => item.id === id

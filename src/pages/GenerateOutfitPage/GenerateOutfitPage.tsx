@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import UserItems from "./component/UserItems";
 import Stores from "./component/Stores";
 import { Item } from "../../types/tag.type";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "../../constants/routes";
 import {
   Box,
@@ -17,7 +17,7 @@ import Outfit from "./component/Outfit";
 import styles from "./GenerateOutfitPage.style";
 import { Store } from "./component/Stores/store.types";
 
-enum Option {
+export enum Option {
   OnlyStore = "OnlyStore",
   OnlyCloset = "OnlyCloset",
   Both = "Both",
@@ -28,8 +28,9 @@ const GenerateOutfitPage = () => {
   const [selectedStores, setSelectedStores] = useState<Store[]>([]);
   const [currIndex, setCurrIndex] = useState<number>(-1);
   const [isBackPopupShown, setIsBackPopupShown] = useState<boolean>(false);
+  const location = useLocation();
 
-  const option = Option.Both;
+  const option = location.state.option || Option.Both;
 
   const navigate = useNavigate();
 

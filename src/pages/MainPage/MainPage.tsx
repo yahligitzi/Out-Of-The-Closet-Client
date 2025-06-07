@@ -1,5 +1,5 @@
 import { Box, IconButton } from "@mui/material";
-import { AddCircleOutline } from "@mui/icons-material";
+import { AddCircleOutline, AutoAwesome } from "@mui/icons-material";
 import { useState } from "react";
 import UploadImageDialog from "../../components/UploadImageDialog/UploadImageDialog";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import styles from "./MainPage.style";
 
 const MainPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
   const { setSnackbar } = useSnackbar();
@@ -21,6 +22,10 @@ const MainPage = () => {
     queryFn: itemsService.getItems,
     refetchOnReconnect: false,
   });
+
+  const handleGenerateClicked = () => {
+    setIsOpenDialog(true);
+ }
 
   const { mutate: deleteItem } = useMutation({
     mutationFn: userItemsService.deleteItemById,
@@ -54,9 +59,14 @@ const MainPage = () => {
           isLoadingItems={isLoading}
           handleDeleteItem={deleteItem}
           setIsAddingItemsPopupOpen={setIsPopupOpen}
+          isOpenDialog={isOpenDialog}
+          setIsOpenDialog={setIsOpenDialog}
         >
           <IconButton onClick={() => setIsPopupOpen(true)}>
             <AddCircleOutline />
+          </IconButton>
+          <IconButton sx={styles.generateBtn} onClick={handleGenerateClicked}>
+              <AutoAwesome />
           </IconButton>
         </ItemsPage>
       </Box>
