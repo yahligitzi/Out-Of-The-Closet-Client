@@ -12,8 +12,14 @@ export default {
   getItems: async (): Promise<Item[]> =>
     (await apiClient.post(`${baseUrl}/by-user`)).data,
 
-  generateOutFit: async (): Promise<{ items: string[] }> => {
-    const { data } = await apiClient.get(`${baseUrl}/outfit`);
+  generateOutFit: async (
+    items: Item[],
+    stores: string[]
+  ): Promise<{ items: string[] }> => {
+    const { data } = await apiClient.post(`${baseUrl}/outfit`, {
+      items,
+      stores,
+    });
     return data;
   },
 
