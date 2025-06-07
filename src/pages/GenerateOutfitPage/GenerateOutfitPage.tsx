@@ -4,7 +4,6 @@ import Stores from "./component/Stores";
 import { Item } from "../../types/tag.type";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../constants/routes";
-import { Store } from "../../services/store.service";
 import {
   Box,
   Button,
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import Outfit from "./component/Outfit";
 import styles from "./GenerateOutfitPage.style";
+import { Store } from "./component/Stores/store.types";
 
 enum Option {
   OnlyStore = "OnlyStore",
@@ -73,7 +73,12 @@ const GenerateOutfitPage = () => {
       ),
       isContinueDisable: !selectedStores.length,
     },
-    { isAvailable: true, component: <Outfit /> },
+    {
+      isAvailable: true,
+      component: (
+        <Outfit selectedItems={selectedItems} selectedStores={selectedStores} />
+      ),
+    },
   ];
 
   const isGoingBackPossible = useMemo(() => {
@@ -85,6 +90,8 @@ const GenerateOutfitPage = () => {
   }, [currIndex, option]);
 
   const handleClosePopup = () => setIsBackPopupShown(false);
+
+  const exitGenerateMode = () => navigate(PATHS.MAIN);
 
   return (
     <>
@@ -104,7 +111,11 @@ const GenerateOutfitPage = () => {
             </Button>
             <Button
               disabled={steps[currIndex].isContinueDisable}
-              onClick={() => changeStep(1)}
+              onClick={() =>
+                currIndex === steps.length - 1
+                  ? exitGenerateMode()
+                  : changeStep(1)
+              }
               sx={styles.nextButton}
             >
               Next

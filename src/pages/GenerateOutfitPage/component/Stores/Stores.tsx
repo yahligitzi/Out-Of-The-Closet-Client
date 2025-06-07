@@ -8,10 +8,11 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import storeService, { Store } from "../../../../services/store.service";
+import storeService from "../../../../services/store.service";
 import SelectButton from "../../../../components/SelectButton";
 import styles from "./stores.style";
 import Header from "../../../../components/Header";
+import { Store } from "./store.types";
 
 type StoresProps = {
   selectedStores: Store[];
