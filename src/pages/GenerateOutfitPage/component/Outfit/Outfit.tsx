@@ -43,10 +43,10 @@ const Outfit = ({ selectedItems, selectedStores }: OutfitProps) => {
         <>
           <ImageList sx={styles.imageListContianer} gap={10}>
             {itemsForOutfits?.items ? (
-              itemsForOutfits.items.map((url) => (
-                <Card key={url} sx={styles.imageCard}>
+              itemsForOutfits.items.map(({ imageUrl }) => (
+                <Card key={imageUrl} sx={styles.imageCard}>
                   <ImageListItem>
-                    <img src={url} />
+                    <img src={imageUrl} />
                   </ImageListItem>
                 </Card>
               ))

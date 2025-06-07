@@ -15,7 +15,7 @@ export default {
   generateOutFit: async (
     items: Item[],
     stores: string[]
-  ): Promise<{ items: string[] }> => {
+  ): Promise<{ items: { imageUrl: string; siteUrl?: string }[] }> => {
     const { data } = await apiClient.post(`${baseUrl}/outfit`, {
       items,
       stores,
