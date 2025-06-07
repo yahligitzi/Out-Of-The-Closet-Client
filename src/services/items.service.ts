@@ -1,4 +1,4 @@
-import { Item } from "../types/tag.type";
+import { GenerateItem, Item } from "../types/tag.type";
 import apiClient from "./axiosInstance";
 
 const baseUrl = "/items";
@@ -15,7 +15,7 @@ export default {
   generateOutFit: async (
     items: Item[],
     stores: string[]
-  ): Promise<{ items: { imageUrl: string; siteUrl?: string }[] }> => {
+  ): Promise<{ items: GenerateItem[] }> => {
     const { data } = await apiClient.post(`${baseUrl}/outfit`, {
       items,
       stores,

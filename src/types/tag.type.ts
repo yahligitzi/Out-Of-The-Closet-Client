@@ -11,3 +11,8 @@ export type Item = {
   siteUrl?: string;
   tags: ItemTag[];
 };
+
+export type GenerateItem = {
+  imageUrl: string;
+  siteUrl?: string;
+};

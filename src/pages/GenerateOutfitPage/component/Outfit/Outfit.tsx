@@ -1,17 +1,12 @@
+import { FC } from "react";
 import { Box, Card, ImageList, ImageListItem, Skeleton } from "@mui/material";
-import { Item } from "../../../../types/tag.type";
-import { Store } from "../Stores/store.types";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
 import styles from "./outfit.style";
 import { useQuery } from "@tanstack/react-query";
+import { OutfitProps } from "./outfit.types";
 
-type OutfitProps = {
-  selectedItems: Item[];
-  selectedStores: Store[];
-};
-
-const Outfit = ({ selectedItems, selectedStores }: OutfitProps) => {
+const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
   const { isLoading, data: itemsForOutfits } = useQuery({
     queryKey: ["generateOutfit"],
     queryFn: () =>
@@ -20,6 +15,8 @@ const Outfit = ({ selectedItems, selectedStores }: OutfitProps) => {
         selectedStores.map(({ name }) => name)
       ),
     refetchOnReconnect: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   return (
