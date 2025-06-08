@@ -15,7 +15,6 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
         selectedStores.map(({ name }) => name)
       ),
     refetchOnReconnect: false,
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
