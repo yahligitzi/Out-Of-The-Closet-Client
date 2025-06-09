@@ -1,11 +1,13 @@
 import { FC } from "react";
-import { Box, Card, Skeleton } from "@mui/material";
+import { Box, Button, Card, Skeleton } from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
 import styles from "./outfit.style";
 import { useQuery } from "@tanstack/react-query";
 import { OutfitProps } from "./outfit.types";
 import { BufferToImageUrl } from "./Outfit.utils";
+import { PATHS } from "../../../../constants/routes";
+import { useNavigate } from "react-router-dom";
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
   const { isFetching, data: generatedOutFitData } = useQuery({
@@ -18,6 +20,8 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+
+  const navigate = useNavigate();
 
   return (
     <div style={styles.root as React.CSSProperties}>
@@ -126,6 +130,14 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
             </Box>
           </>
         )}
+        <Button
+          variant="contained"
+          color="primary"
+          sx={styles.backButton}
+          onClick={() => navigate(PATHS.MAIN)}
+        >
+          Back To Home Page
+        </Button>
       </Box>
     </div>
   );

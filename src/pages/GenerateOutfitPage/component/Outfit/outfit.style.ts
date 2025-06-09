@@ -1,6 +1,6 @@
 import { colors } from "../../../../constants/styles";
 
-const styles = {
+const styles: any = {
   root: {
     display: "flex",
     flexDirection: "column",
@@ -108,6 +108,22 @@ const styles = {
     flexDirection: "column",
     gap: 2,
   },
-} satisfies Record<string, React.CSSProperties>;
+  backButton: {
+    marginBottom: "10px",
+    textTransform: "none",
+    backgroundColor: colors.white,
+    color: colors.lightBlue,
+    border: `1px solid ${colors.lightBlue}`,
+    borderRadius: 10,
+    "&:hover": {
+      borderColor: colors.lightBlue,
+      outline: "none",
+    },
+    "&:focus": {
+      borderColor: colors.lightBlue,
+      outline: "none",
+    },
+  },
+};
 
 export default styles;

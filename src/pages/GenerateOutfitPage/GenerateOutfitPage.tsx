@@ -92,8 +92,6 @@ const GenerateOutfitPage = () => {
 
   const handleClosePopup = () => setIsBackPopupShown(false);
 
-  const exitGenerateMode = () => navigate(PATHS.MAIN);
-
   return (
     <>
       {currIndex >= 0 && (
