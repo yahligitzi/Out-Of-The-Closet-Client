@@ -15,9 +15,12 @@ const styles = {
     boxSizing: "border-box",
   },
   skeletonContainer: {
-    gridTemplateColumns: "repeat(2, 1fr)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 3,
+    padding: 2,
     width: "100%",
-    justifyItems: "center",
   },
   imageListContianer: {
     maxWidth: "600px",
@@ -28,6 +31,56 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
   },
-};
+  outfitContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 3,
+    padding: 2,
+    width: "90vw",
+    overflowY: "scroll",
+    overflowX: "hidden",
+  },
+  modelImageContainer: {
+    width: "300px",
+    height: "300px",
+  },
+  modelImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+  },
+  outfitTitle: {
+    alignSelf: "center",
+    fontSize: "1.5rem",
+    fontWeight: 600,
+  },
+  itemsContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: 2,
+  },
+  itemCard: {
+    display: "flex",
+    alignItems: "center",
+    padding: 2,
+    gap: 2,
+  },
+  itemImageContainer: {
+    flex: 1,
+    height: "40vw",
+  },
+  itemImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+  },
+  itemUrlContainer: {
+    flex: 1,
+    wordBreak: "break-all",
+    fontWeight: 600,
+  },
+} satisfies Record<string, React.CSSProperties>;
 
 export default styles;
