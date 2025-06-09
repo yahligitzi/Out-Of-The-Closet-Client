@@ -2,9 +2,10 @@ import { colors } from "../../constants/styles";
 
 const styles = {
   dialogContent: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
     textAlign: "center",
+    justifyItems: "center",
   },
   optionBox: {
     border: `2px solid ${colors.lightBlue}`,
@@ -16,6 +17,9 @@ const styles = {
     padding: "1vh",
     cursor: "pointer",
     gap: 2,
+  },
+  lastBox: {
+    gridColumn: "1 / -1",
   },
   title: {
     fontWeight: "bold",

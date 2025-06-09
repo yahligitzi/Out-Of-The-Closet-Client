@@ -23,9 +23,12 @@ const GeneratorModeDialog = ({ open, setOpen }: GeneratorModeDialogProps) => {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle sx={styles.title}>{"Generate An Outfit"}</DialogTitle>
       <DialogContent sx={styles.dialogContent}>
-        {OPTIONS.map((option) => (
+        {OPTIONS.map((option, index) => (
           <Box
-            sx={styles.optionBox}
+            sx={{
+              ...styles.optionBox,
+              ...(index === OPTIONS.length - 1 ? styles.lastBox : {}),
+            }}
             onClick={() =>
               navigate(PATHS.GENERATE_OUTFIT, {
                 state: { option: option.type },
