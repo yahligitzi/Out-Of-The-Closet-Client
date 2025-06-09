@@ -92,39 +92,41 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
             <Box sx={styles.sectionTitle}>What&apos;s Included</Box>
             <Box sx={styles.itemsContainer}>
               {generatedOutFitData?.items
-                ? generatedOutFitData.items.map(({ imageUrl, siteUrl }) => (
-                    <Card key={imageUrl} sx={styles.itemCard}>
-                      <Box sx={styles.itemThumb}>
-                        <img
-                          src={imageUrl}
-                          style={styles.itemImage}
-                          alt="Item"
-                        />
-                      </Box>
-                      <Box sx={styles.itemDetails}>
-                        <Box sx={styles.itemTitle}>
-                          {siteUrl
-                            ? new URL(siteUrl).hostname.split(".")[1]
-                            : "My Closet Item"}
+                ? generatedOutFitData.items.map(
+                    ({ imageUrl, siteUrl, name }) => (
+                      <Card key={imageUrl} sx={styles.itemCard}>
+                        <Box sx={styles.itemThumb}>
+                          <img
+                            src={imageUrl}
+                            style={styles.itemImage}
+                            alt="Item"
+                          />
                         </Box>
-                        <Box sx={styles.itemStore}>
-                          {siteUrl
-                            ? new URL(siteUrl).hostname.split(".")[1]
-                            : "My Closet"}
+                        <Box sx={styles.itemDetails}>
+                          <Box sx={styles.itemTitle}>
+                            {siteUrl
+                              ? name || "Store Item"
+                              : "Item From Closet"}
+                          </Box>
+                          {siteUrl && (
+                            <Box sx={styles.itemStore}>
+                              {new URL(siteUrl).hostname.split(".")[1]}
+                            </Box>
+                          )}
                         </Box>
-                      </Box>
-                      {siteUrl && (
-                        <a
-                          href={siteUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={styles.buyButton as React.CSSProperties}
-                        >
-                          Buy Now
-                        </a>
-                      )}
-                    </Card>
-                  ))
+                        {siteUrl && (
+                          <a
+                            href={siteUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={styles.buyButton as React.CSSProperties}
+                          >
+                            Buy Now
+                          </a>
+                        )}
+                      </Card>
+                    )
+                  )
                 : null}
             </Box>
           </>

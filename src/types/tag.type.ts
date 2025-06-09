@@ -15,4 +15,5 @@ export type Item = {
 export type GenerateItem = {
   imageUrl: string;
   siteUrl?: string;
+  name?: string;
 };
