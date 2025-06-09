@@ -109,7 +109,7 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
               <Box sx={styles.itemsContainer}>
                 {generatedOutFitData?.items
                   ? generatedOutFitData.items.map(
-                      ({ imageUrl, siteUrl, name }) => (
+                      ({ imageUrl, siteUrl, store, name }) => (
                         <Card key={imageUrl} sx={styles.itemCard}>
                           <Box sx={styles.itemThumb}>
                             <img
@@ -124,11 +124,7 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
                                 ? name || "Store Item"
                                 : "Item From Closet"}
                             </Box>
-                            {siteUrl && (
-                              <Box sx={styles.itemStore}>
-                                {new URL(siteUrl).hostname.split(".")[1]}
-                              </Box>
-                            )}
+                            {store && <Box sx={styles.itemStore}>{store}</Box>}
                           </Box>
                           {siteUrl && (
                             <a
