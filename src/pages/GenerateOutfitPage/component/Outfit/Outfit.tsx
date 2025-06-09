@@ -40,7 +40,7 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
               variant="text"
               width="200px"
               height={36}
-              sx={{ alignSelf: "flex-start", mb: 2 }}
+              sx={{ alignSelf: "flex-start" }}
             />
 
             <Box sx={styles.itemsContainer}>
