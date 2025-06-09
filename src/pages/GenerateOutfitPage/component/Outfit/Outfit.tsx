@@ -24,77 +24,112 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
       <Box sx={styles.upperBar}>
         <Header />
       </Box>
-      {isFetching ? (
-        <Box sx={styles.outfitContainer}>
-          <Skeleton variant="rectangular" width={"100%"} height={"40vw"} />
-          <Skeleton
-            variant="text"
-            width={300}
-            height={300}
-            sx={{ fontSize: "1.5rem" }}
-          />
-          <Box sx={styles.itemsContainer}>
-            {[...Array(4)].map((_, i) => (
-              <Card key={`skeleton-${i}`} sx={styles.itemCard}>
-                <Box sx={{ flex: 1 }}>
-                  <Skeleton
-                    variant="rectangular"
-                    width={"100%"}
-                    height={"40vw"}
-                  />
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <Skeleton variant="text" height={30} />
-                  <Skeleton variant="text" height={30} />
-                </Box>
-              </Card>
-            ))}
-          </Box>
+      <Box sx={styles.outfitContainer}>
+        <Box sx={styles.pageTitle}>Your Outfit is Ready!</Box>
+        <Box sx={styles.pageSubtitle}>
+          Here&apos;s your generated look, with all the pieces that make it up.
         </Box>
-      ) : (
-        <Box sx={styles.outfitContainer}>
-          {generatedOutFitData?.modelImage && (
+
+        {isFetching ? (
+          <>
             <Box sx={styles.modelImageContainer}>
-              <img
-                style={styles.modelImage}
-                src={BufferToImageUrl(generatedOutFitData.modelImage)}
-                alt="Model"
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="100%"
+                sx={{ borderRadius: "12px" }}
               />
             </Box>
-          )}
-          <Box sx={styles.outfitTitle}>Outfit Items</Box>
-          <Box sx={styles.itemsContainer}>
-            {generatedOutFitData?.items ? (
-              generatedOutFitData.items.map(({ imageUrl, siteUrl }) => (
-                <Card key={imageUrl} sx={styles.itemCard}>
-                  <Box sx={styles.itemImageContainer}>
-                    <img
-                      src={imageUrl}
-                      style={styles.itemImage}
-                      alt="Outfit item"
-                    />
+
+            <Skeleton
+              variant="text"
+              width="200px"
+              height={36}
+              sx={{ alignSelf: "flex-start", mb: 2 }}
+            />
+
+            <Box sx={styles.itemsContainer}>
+              {[...Array(4)].map((_, i) => (
+                <Card key={`skeleton-${i}`} sx={styles.itemCard}>
+                  <Skeleton
+                    variant="rectangular"
+                    width={60}
+                    height={60}
+                    sx={{ borderRadius: "8px" }}
+                  />
+                  <Box
+                    sx={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 1,
+                    }}
+                  >
+                    <Skeleton variant="text" width="140px" height={24} />
+                    <Skeleton variant="text" width="100px" height={21} />
                   </Box>
-                  <Box sx={styles.itemUrlContainer}>
-                    {siteUrl ? (
-                      <a
-                        href={siteUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {siteUrl}
-                      </a>
-                    ) : (
-                      <Box>My Closet</Box>
-                    )}
-                  </Box>
+                  <Skeleton
+                    variant="rectangular"
+                    width={80}
+                    height={35}
+                    sx={{ borderRadius: "8px" }}
+                  />
                 </Card>
-              ))
-            ) : (
-              <></>
+              ))}
+            </Box>
+          </>
+        ) : (
+          <>
+            {generatedOutFitData?.modelImage && (
+              <Box sx={styles.modelImageContainer}>
+                <img
+                  style={styles.modelImage}
+                  src={BufferToImageUrl(generatedOutFitData.modelImage)}
+                  alt="Generated Look"
+                />
+              </Box>
             )}
-          </Box>
-        </Box>
-      )}
+            <Box sx={styles.sectionTitle}>What&apos;s Included</Box>
+            <Box sx={styles.itemsContainer}>
+              {generatedOutFitData?.items
+                ? generatedOutFitData.items.map(({ imageUrl, siteUrl }) => (
+                    <Card key={imageUrl} sx={styles.itemCard}>
+                      <Box sx={styles.itemThumb}>
+                        <img
+                          src={imageUrl}
+                          style={styles.itemImage}
+                          alt="Item"
+                        />
+                      </Box>
+                      <Box sx={styles.itemDetails}>
+                        <Box sx={styles.itemTitle}>
+                          {siteUrl
+                            ? new URL(siteUrl).hostname.split(".")[1]
+                            : "My Closet Item"}
+                        </Box>
+                        <Box sx={styles.itemStore}>
+                          {siteUrl
+                            ? new URL(siteUrl).hostname.split(".")[1]
+                            : "My Closet"}
+                        </Box>
+                      </Box>
+                      {siteUrl && (
+                        <a
+                          href={siteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={styles.buyButton as React.CSSProperties}
+                        >
+                          Buy Now
+                        </a>
+                      )}
+                    </Card>
+                  ))
+                : null}
+            </Box>
+          </>
+        )}
+      </Box>
     </div>
   );
 };
