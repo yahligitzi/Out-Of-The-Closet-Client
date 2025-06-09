@@ -1,3 +1,5 @@
+import { colors } from "../../../../constants/styles";
+
 const styles = {
   root: {
     display: "flex",
@@ -6,7 +8,7 @@ const styles = {
     width: "100%",
     height: "100%",
     overflow: "hidden",
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.white,
   },
   upperBar: {
     position: "sticky",
@@ -15,23 +17,6 @@ const styles = {
     width: "100%",
     justifyContent: "space-between",
     boxSizing: "border-box",
-  },
-  skeletonContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 3,
-    padding: 2,
-    width: "100%",
-  },
-  imageListContianer: {
-    maxWidth: "600px",
-  },
-  imageCard: {
-    transition: "all 0.2s ease-in-out",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
   },
   outfitContainer: {
     display: "flex",
@@ -47,18 +32,16 @@ const styles = {
   pageTitle: {
     fontSize: "32px",
     fontWeight: "700",
-    color: "#000000",
+    color: "black",
   },
   pageSubtitle: {
     fontSize: "16px",
-    color: "#666666",
+    color: colors.gray,
     textAlign: "center",
   },
   modelImageContainer: {
     width: "100%",
     aspectRatio: "1",
-    borderRadius: "12px",
-    backgroundColor: "#f5f5f5",
   },
   modelImage: {
     width: "100%",
@@ -66,9 +49,9 @@ const styles = {
     objectFit: "contain",
   },
   sectionTitle: {
-    fontSize: "24px",
+    fontSize: "1.5rem",
     fontWeight: "600",
-    color: "#000000",
+    color: "black",
     alignSelf: "flex-start",
   },
   itemCard: {
@@ -77,7 +60,7 @@ const styles = {
     padding: "12px",
     gap: 3,
     borderRadius: "12px",
-    backgroundColor: "#FAFAFA",
+    backgroundColor: colors.lightBeige,
     boxShadow: "none",
     border: "none",
   },
@@ -85,7 +68,7 @@ const styles = {
     width: "60px",
     height: "60px",
     borderRadius: "8px",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: colors.softGray,
     overflow: "hidden",
   },
   itemImage: {
@@ -102,19 +85,19 @@ const styles = {
   itemTitle: {
     fontSize: "16px",
     fontWeight: "600",
-    color: "#000000",
+    color: "black",
   },
   itemStore: {
     fontSize: "14px",
-    color: "#666666",
+    color: "gray",
   },
   buyButton: {
     padding: "8px 16px",
     borderRadius: "8px",
-    backgroundColor: "#ffffff",
-    border: "1.5px solid #000000",
-    color: "#000000",
-    fontSize: "14px",
+    backgroundColor: colors.white,
+    border: "1px solid black",
+    color: "black",
+    fontSize: "0.925rem",
     fontWeight: "500",
     cursor: "pointer",
     transition: "all 0.2s ease",
