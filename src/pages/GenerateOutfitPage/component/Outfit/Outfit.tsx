@@ -10,7 +10,11 @@ import { PATHS } from "../../../../constants/routes";
 import { useNavigate } from "react-router-dom";
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
-  const { isFetching, data: generatedOutFitData } = useQuery({
+  const {
+    isFetching,
+    isLoading,
+    data: generatedOutFitData,
+  } = useQuery({
     queryKey: ["generateOutfit"],
     queryFn: () =>
       itemsService.generateOutFit(
@@ -23,16 +27,28 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
 
   const navigate = useNavigate();
 
+  const noOutfitGenerated =
+    !isLoading && !isFetching && !generatedOutFitData?.items?.length;
+
   return (
     <div style={styles.root as React.CSSProperties}>
       <Box sx={styles.upperBar}>
         <Header />
       </Box>
       <Box sx={styles.outfitContainer}>
-        <Box sx={styles.pageTitle}>Your Outfit is Ready!</Box>
-        <Box sx={styles.pageSubtitle}>
-          Here&apos;s your generated look, with all the pieces that make it up.
-        </Box>
+        <>
+          <Box sx={styles.pageTitle}>
+            {noOutfitGenerated
+              ? "No Outfit Generated"
+              : "Your Outfit is Ready!"}
+          </Box>
+          <Box sx={styles.pageSubtitle}>
+            {noOutfitGenerated
+              ? "Your selecton did not yield any outfit. Please try again with different items or stores."
+              : `Here's your generated look, with all the pieces that make it
+              up.`}
+          </Box>
+        </>
 
         {isFetching ? (
           <>
@@ -78,57 +94,59 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
             </Box>
           </>
         ) : (
-          <>
-            {generatedOutFitData?.modelImage && (
-              <Box sx={styles.modelImageContainer}>
-                <img
-                  style={styles.modelImage}
-                  src={BufferToImageUrl(generatedOutFitData.modelImage)}
-                  alt="Generated Look"
-                />
-              </Box>
-            )}
-            <Box sx={styles.sectionTitle}>What&apos;s Included</Box>
-            <Box sx={styles.itemsContainer}>
-              {generatedOutFitData?.items
-                ? generatedOutFitData.items.map(
-                    ({ imageUrl, siteUrl, name }) => (
-                      <Card key={imageUrl} sx={styles.itemCard}>
-                        <Box sx={styles.itemThumb}>
-                          <img
-                            src={imageUrl}
-                            style={styles.itemImage}
-                            alt="Item"
-                          />
-                        </Box>
-                        <Box sx={styles.itemDetails}>
-                          <Box sx={styles.itemTitle}>
-                            {siteUrl
-                              ? name || "Store Item"
-                              : "Item From Closet"}
+          !noOutfitGenerated && (
+            <>
+              {generatedOutFitData?.modelImage && (
+                <Box sx={styles.modelImageContainer}>
+                  <img
+                    style={styles.modelImage}
+                    src={BufferToImageUrl(generatedOutFitData.modelImage)}
+                    alt="Generated Look"
+                  />
+                </Box>
+              )}
+              <Box sx={styles.sectionTitle}>What&apos;s Included</Box>
+              <Box sx={styles.itemsContainer}>
+                {generatedOutFitData?.items
+                  ? generatedOutFitData.items.map(
+                      ({ imageUrl, siteUrl, name }) => (
+                        <Card key={imageUrl} sx={styles.itemCard}>
+                          <Box sx={styles.itemThumb}>
+                            <img
+                              src={imageUrl}
+                              style={styles.itemImage}
+                              alt="Item"
+                            />
+                          </Box>
+                          <Box sx={styles.itemDetails}>
+                            <Box sx={styles.itemTitle}>
+                              {siteUrl
+                                ? name || "Store Item"
+                                : "Item From Closet"}
+                            </Box>
+                            {siteUrl && (
+                              <Box sx={styles.itemStore}>
+                                {new URL(siteUrl).hostname.split(".")[1]}
+                              </Box>
+                            )}
                           </Box>
                           {siteUrl && (
-                            <Box sx={styles.itemStore}>
-                              {new URL(siteUrl).hostname.split(".")[1]}
-                            </Box>
+                            <a
+                              href={siteUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={styles.buyButton as React.CSSProperties}
+                            >
+                              Buy Now
+                            </a>
                           )}
-                        </Box>
-                        {siteUrl && (
-                          <a
-                            href={siteUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={styles.buyButton as React.CSSProperties}
-                          >
-                            Buy Now
-                          </a>
-                        )}
-                      </Card>
+                        </Card>
+                      )
                     )
-                  )
-                : null}
-            </Box>
-          </>
+                  : null}
+              </Box>
+            </>
+          )
         )}
         <Button
           variant="contained"
