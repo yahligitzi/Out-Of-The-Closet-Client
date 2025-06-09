@@ -25,7 +25,7 @@ const MainPage = () => {
 
   const handleGenerateClicked = () => {
     setIsOpenDialog(true);
- }
+  };
 
   const { mutate: deleteItem } = useMutation({
     mutationFn: userItemsService.deleteItemById,
@@ -65,8 +65,8 @@ const MainPage = () => {
           <IconButton onClick={() => setIsPopupOpen(true)}>
             <AddCircleOutline />
           </IconButton>
-          <IconButton sx={styles.generateBtn} onClick={handleGenerateClicked}>
-              <AutoAwesome />
+          <IconButton onClick={handleGenerateClicked}>
+            <AutoAwesome />
           </IconButton>
         </ItemsPage>
       </Box>

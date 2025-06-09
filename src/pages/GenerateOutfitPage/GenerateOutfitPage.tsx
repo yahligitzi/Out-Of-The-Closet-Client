@@ -92,36 +92,32 @@ const GenerateOutfitPage = () => {
 
   const handleClosePopup = () => setIsBackPopupShown(false);
 
-  const exitGenerateMode = () => navigate(PATHS.MAIN);
-
   return (
     <>
       {currIndex >= 0 && (
         <Box sx={styles.root}>
           {steps[currIndex].component}
-          <Box sx={styles.navigationLine}>
-            <Button
-              variant="outlined"
-              sx={styles.backButton}
-              onClick={() => {
-                if (isGoingBackPossible) changeStep(-1);
-                else setIsBackPopupShown(true);
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              disabled={steps[currIndex].isContinueDisable}
-              onClick={() =>
-                currIndex === steps.length - 1
-                  ? exitGenerateMode()
-                  : changeStep(1)
-              }
-              sx={styles.nextButton}
-            >
-              Next
-            </Button>
-          </Box>
+          {currIndex !== steps.length - 1 && (
+            <Box sx={styles.navigationLine}>
+              <Button
+                variant="outlined"
+                sx={styles.backButton}
+                onClick={() => {
+                  if (isGoingBackPossible) changeStep(-1);
+                  else setIsBackPopupShown(true);
+                }}
+              >
+                Back
+              </Button>
+              <Button
+                disabled={steps[currIndex].isContinueDisable}
+                onClick={() => changeStep(1)}
+                sx={styles.nextButton}
+              >
+                Next
+              </Button>
+            </Box>
+          )}
         </Box>
       )}
 

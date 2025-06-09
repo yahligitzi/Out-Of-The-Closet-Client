@@ -170,9 +170,12 @@ const ItemsPage = ({
             <CircularProgress sx={styles.loader} />
           ) : (
             <>
+              <GeneratorModeDialog
+                open={isOpenDialog}
+                setOpen={setIsOpenDialog}
+              />
               {displayedItems?.length ? (
                 <Box display="grid" gap={2} sx={styles.itemsGrid}>
-                  <GeneratorModeDialog open={isOpenDialog} setOpen={setIsOpenDialog}/>
                   {displayedItems?.map(({ imageUrl, id, tags }) => {
                     const isSelected = selectedItems.find(
                       (item) => item.id === id
