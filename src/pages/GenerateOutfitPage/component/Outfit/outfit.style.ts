@@ -33,6 +33,7 @@ const styles: any = {
     fontSize: "32px",
     fontWeight: "700",
     color: "black",
+    textAlign: "center",
   },
   pageSubtitle: {
     fontSize: "16px",
