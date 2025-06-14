@@ -3,6 +3,7 @@ import { colors } from "../../constants/styles";
 const styles = {
   dialogContent: {
     textAlign: "center",
+    padding: "24px !important",
   },
   title: {
     fontWeight: "bold",
