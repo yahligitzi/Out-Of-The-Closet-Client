@@ -34,7 +34,10 @@ const GeneratorModeDialog = ({ open, setOpen }: GeneratorModeDialogProps) => {
       <DialogContent sx={styles.dialogContent}>
         {OPTIONS.map((option) => (
           <Accordion
-            onChange={() => setSelectedOption(option.type)}
+            onChange={(_, isExpanded) =>
+              setSelectedOption(isExpanded ? option.type : null)
+            }
+            expanded={option.type === selectedOption}
             key={option.type}
             sx={{
               ...(selectedOption === option.type
