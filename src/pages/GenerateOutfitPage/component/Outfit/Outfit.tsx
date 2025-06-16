@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Box, Button, Card, Skeleton } from "@mui/material";
+import { FC, useEffect, useRef } from "react";
+import { Box, Button, Card, IconButton, Skeleton } from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
 import styles from "./outfit.style";
@@ -8,22 +8,32 @@ import { OutfitProps } from "./outfit.types";
 import { BufferToImageUrl } from "./Outfit.utils";
 import { PATHS } from "../../../../constants/routes";
 import { useNavigate } from "react-router-dom";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
+  const prevSelectedItemsRef = useRef<string[]>(['315fde40-d833-4721-8511-ebcd7ec490ad']);
   const {
     isFetching,
     isLoading,
     data: generatedOutFitData,
+    refetch
   } = useQuery({
     queryKey: ["generateOutfit"],
     queryFn: () =>
       itemsService.generateOutFit(
         selectedItems,
-        selectedStores.map(({ name }) => name)
+        selectedStores.map(({ name }) => name),
+        prevSelectedItemsRef.current
       ),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (generatedOutFitData) {
+      prevSelectedItemsRef.current = [...prevSelectedItemsRef.current, ...generatedOutFitData.items.map(item => item.id)];
+    }
+  }, [generatedOutFitData]);
 
   const navigate = useNavigate();
 
@@ -152,6 +162,9 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
         >
           Back To Home Page
         </Button>
+        <IconButton onClick={() => refetch()}>
+          <RefreshIcon/>
+        </IconButton>
       </Box>
     </div>
   );
