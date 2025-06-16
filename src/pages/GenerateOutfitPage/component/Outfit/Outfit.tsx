@@ -31,7 +31,8 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
 
   useEffect(() => {
     if (generatedOutFitData) {
-      prevSelectedItemsRef.current = [...prevSelectedItemsRef.current, ...generatedOutFitData.items.map(item => item.id)];
+      prevSelectedItemsRef.current = [...prevSelectedItemsRef.current,
+      ...generatedOutFitData.items.filter(item => item.store).map(item => item.id)];
     }
   }, [generatedOutFitData]);
 
@@ -119,52 +120,61 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
               <Box sx={styles.itemsContainer}>
                 {generatedOutFitData?.items
                   ? generatedOutFitData.items.map(
-                      ({ imageUrl, siteUrl, store, name }) => (
-                        <Card key={imageUrl} sx={styles.itemCard}>
-                          <Box sx={styles.itemThumb}>
-                            <img
-                              src={imageUrl}
-                              style={styles.itemImage}
-                              alt="Item"
-                            />
+                    ({ imageUrl, siteUrl, store, name }) => (
+                      <Card key={imageUrl} sx={styles.itemCard}>
+                        <Box sx={styles.itemThumb}>
+                          <img
+                            src={imageUrl}
+                            style={styles.itemImage}
+                            alt="Item"
+                          />
+                        </Box>
+                        <Box sx={styles.itemDetails}>
+                          <Box sx={styles.itemTitle}>
+                            {siteUrl
+                              ? name || "Store Item"
+                              : "Item From Closet"}
                           </Box>
-                          <Box sx={styles.itemDetails}>
-                            <Box sx={styles.itemTitle}>
-                              {siteUrl
-                                ? name || "Store Item"
-                                : "Item From Closet"}
-                            </Box>
-                            {store && <Box sx={styles.itemStore}>{store}</Box>}
-                          </Box>
-                          {siteUrl && (
-                            <a
-                              href={siteUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={styles.buyButton as React.CSSProperties}
-                            >
-                              Buy Now
-                            </a>
-                          )}
-                        </Card>
-                      )
+                          {store && <Box sx={styles.itemStore}>{store}</Box>}
+                        </Box>
+                        {siteUrl && (
+                          <a
+                            href={siteUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={styles.buyButton as React.CSSProperties}
+                          >
+                            Buy Now
+                          </a>
+                        )}
+                      </Card>
                     )
+                  )
                   : null}
               </Box>
             </>
           )
         )}
-        <Button
-          variant="contained"
-          color="primary"
-          sx={styles.backButton}
-          onClick={() => navigate(PATHS.MAIN)}
-        >
-          Back To Home Page
-        </Button>
-        <IconButton onClick={() => refetch()}>
-          <RefreshIcon/>
-        </IconButton>
+        <Box sx={styles.buttonContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={styles.backButton}
+            onClick={() => navigate(PATHS.MAIN)}
+          >
+            Back To Home Page
+          </Button>
+          {!!selectedStores.length &&
+            <Button
+              variant="contained"
+              color="primary"
+              sx={styles.backButton}
+              onClick={() => refetch()}
+              startIcon={<RefreshIcon />}
+            >
+              regenerate
+            </Button>}
+        </Box>
       </Box>
     </div>
   );
