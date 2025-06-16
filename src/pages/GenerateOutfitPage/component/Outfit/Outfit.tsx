@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from "react";
-import { Box, Button, Card, IconButton, Skeleton } from "@mui/material";
+import { Box, Button, Card, Skeleton } from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
 import styles from "./outfit.style";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
-  const prevSelectedItemsRef = useRef<string[]>(['315fde40-d833-4721-8511-ebcd7ec490ad']);
+  const prevSelectedItemsRef = useRef<string[]>(['00000000-0000-0000-0000-000000000000']);
   const {
     isFetching,
     isLoading,
