@@ -40,6 +40,7 @@ const GeneratorModeDialog = ({ open, setOpen }: GeneratorModeDialogProps) => {
             expanded={option.type === selectedOption}
             key={option.type}
             sx={{
+              ...styles.accordion,
               ...(selectedOption === option.type
                 ? styles.selectedAccordion
                 : {}),

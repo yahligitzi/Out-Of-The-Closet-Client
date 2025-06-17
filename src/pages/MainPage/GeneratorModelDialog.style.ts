@@ -31,6 +31,9 @@ const styles = {
       outline: "none",
     },
   },
+  accordion: {
+    padding: "5% 0",
+  },
   selectedAccordion: {
     border: `2px solid ${colors.lightBlue}`,
   },
