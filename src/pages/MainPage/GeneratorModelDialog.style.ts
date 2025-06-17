@@ -32,7 +32,7 @@ const styles = {
     },
   },
   accordion: {
-    padding: "5% 0",
+    margin: "5% 0",
   },
   selectedAccordion: {
     border: `2px solid ${colors.lightBlue}`,
