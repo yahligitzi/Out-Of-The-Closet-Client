@@ -1,5 +1,6 @@
 import { GenerateOutFitRes } from "../pages/GenerateOutfitPage/component/Outfit/outfit.types";
-import { GenerateItem, Item } from "../types/tag.type";
+import { Option } from "../pages/GenerateOutfitPage/GenerateOutfitPage";
+import { Item } from "../types/tag.type";
 import apiClient from "./axiosInstance";
 
 const baseUrl = "/items";
@@ -15,11 +16,13 @@ export default {
 
   generateOutFit: async (
     items: Item[],
-    stores: string[]
+    stores: string[],
+    mode: Option
   ): Promise<GenerateOutFitRes> => {
     const { data } = await apiClient.post(`${baseUrl}/outfit`, {
       items,
       stores,
+      mode,
     });
     return data;
   },
