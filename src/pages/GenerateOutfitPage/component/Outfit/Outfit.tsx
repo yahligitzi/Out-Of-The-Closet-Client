@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useState } from "react";
 import { Box, Button, Card, Skeleton } from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
-  const prevSelectedItemsRef = useRef<string[]>(['00000000-0000-0000-0000-000000000000']);
+  const [prevSelectedItemsRef, setPrevSelectedItemsRef] = useState<string[]>([]);
   const {
     isFetching,
     isLoading,
@@ -23,7 +23,7 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
       itemsService.generateOutFit(
         selectedItems,
         selectedStores.map(({ name }) => name),
-        prevSelectedItemsRef.current
+        prevSelectedItemsRef
       ),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -31,12 +31,14 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
 
   useEffect(() => {
     if (generatedOutFitData) {
-      prevSelectedItemsRef.current = [...prevSelectedItemsRef.current,
-      ...generatedOutFitData.items.filter(item => item.store).map(item => item.id)];
+      setPrevSelectedItemsRef([...prevSelectedItemsRef,
+      ...generatedOutFitData.items.filter(item => item.store).map(item => item.id)]);
     }
   }, [generatedOutFitData]);
 
   const navigate = useNavigate();
+
+  const showRegenerate = !!generatedOutFitData?.items.map(item => item.store).length && !isLoading && !isFetching;
 
   const noOutfitGenerated =
     !isLoading && !isFetching && !generatedOutFitData?.items?.length;
@@ -164,7 +166,7 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
           >
             Back To Home Page
           </Button>
-          {!!selectedStores.length &&
+          {showRegenerate &&
             <Button
               variant="contained"
               color="primary"
