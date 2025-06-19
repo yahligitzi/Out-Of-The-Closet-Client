@@ -9,7 +9,7 @@ import { BufferToImageUrl } from "./Outfit.utils";
 import { PATHS } from "../../../../constants/routes";
 import { useNavigate } from "react-router-dom";
 
-const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
+const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
   const {
     isFetching,
     isLoading,
@@ -19,7 +19,8 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
     queryFn: () =>
       itemsService.generateOutFit(
         selectedItems,
-        selectedStores.map(({ name }) => name)
+        selectedStores.map(({ name }) => name),
+        option
       ),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
