@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { Box, Button, Card, Skeleton } from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
@@ -10,7 +10,7 @@ import { PATHS } from "../../../../constants/routes";
 import { useNavigate } from "react-router-dom";
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
+const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
   const [prevSelectedItems, setPrevSelectedItems] = useState<string[]>([]);
   const {
     isFetching,
@@ -23,7 +23,8 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
       itemsService.generateOutFit(
         selectedItems,
         selectedStores.map(({ name }) => name),
-        prevSelectedItems
+        prevSelectedItems,
+        option
       ),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -43,6 +44,22 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
   const noOutfitGenerated =
     !isLoading && !isFetching && !generatedOutFitData?.items?.length;
 
+  const pageTitle = useMemo(() => {
+    if (isFetching) return "Getting Your Outfit Ready..";
+    if (noOutfitGenerated) return "No Outfit Generated";
+
+    return "Your Outfit is Ready!";
+  }, [noOutfitGenerated, isFetching]);
+
+  const pageSubTitle = useMemo(() => {
+    if (isFetching) return "We’re styling something just for you!";
+    if (noOutfitGenerated)
+      return "Your selecton did not yield any outfit. Please try again with different items or stores.";
+
+    return `Here's your generated look, with all the pieces that make it
+              up.`;
+  }, [noOutfitGenerated, isFetching]);
+
   return (
     <div style={styles.root as React.CSSProperties}>
       <Box sx={styles.upperBar}>
@@ -50,17 +67,8 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
       </Box>
       <Box sx={styles.outfitContainer}>
         <>
-          <Box sx={styles.pageTitle}>
-            {noOutfitGenerated
-              ? "No Outfit Generated"
-              : "Your Outfit is Ready!"}
-          </Box>
-          <Box sx={styles.pageSubtitle}>
-            {noOutfitGenerated
-              ? "Your selecton did not yield any outfit. Please try again with different items or stores."
-              : `Here's your generated look, with all the pieces that make it
-              up.`}
-          </Box>
+          <Box sx={styles.pageTitle}>{pageTitle}</Box>
+          <Box sx={styles.pageSubtitle}>{pageSubTitle}</Box>
         </>
 
         {isFetching ? (

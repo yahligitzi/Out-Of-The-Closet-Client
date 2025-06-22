@@ -6,11 +6,16 @@ import ItemsPage from "../../../../components/ItemsPage";
 import styles from "./userItems.style";
 
 type UserItemsProps = {
+  isMultiSelect: boolean;
   selectedItems: Item[];
   setSelectedItems: React.Dispatch<React.SetStateAction<Item[]>>;
 };
 
-const UserItems = ({ selectedItems, setSelectedItems }: UserItemsProps) => {
+const UserItems = ({
+  isMultiSelect,
+  selectedItems,
+  setSelectedItems,
+}: UserItemsProps) => {
   const { isLoading, data: allItems } = useQuery({
     queryKey: ["initialItems"],
     queryFn: itemsService.getItems,
@@ -22,7 +27,13 @@ const UserItems = ({ selectedItems, setSelectedItems }: UserItemsProps) => {
 
     if (isSelected)
       setSelectedItems((prev) => prev.filter((item) => item.id !== id));
-    else setSelectedItems((prev) => prev.concat({ imageUrl, id, tags }));
+    else {
+      setSelectedItems((prev) =>
+        isMultiSelect
+          ? prev.concat({ imageUrl, id, tags })
+          : [{ imageUrl, id, tags }]
+      );
+    }
   };
 
   return (
@@ -33,11 +44,13 @@ const UserItems = ({ selectedItems, setSelectedItems }: UserItemsProps) => {
       selectedItems={selectedItems}
       selectedStyle={styles.selectedItemStyle}
     >
-      <SelectButton
-        areAllSelected={selectedItems.length === allItems?.length}
-        selectAllFunc={() => allItems?.length && setSelectedItems(allItems)}
-        clearFunc={() => setSelectedItems([])}
-      />
+      {isMultiSelect && (
+        <SelectButton
+          areAllSelected={selectedItems.length === allItems?.length}
+          selectAllFunc={() => allItems?.length && setSelectedItems(allItems)}
+          clearFunc={() => setSelectedItems([])}
+        />
+      )}
     </ItemsPage>
   );
 };

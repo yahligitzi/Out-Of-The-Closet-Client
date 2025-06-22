@@ -57,12 +57,15 @@ const GenerateOutfitPage = () => {
       isAvailable: option !== Option.OnlyStore,
       component: (
         <UserItems
+          isMultiSelect={option !== Option.Both}
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
         />
       ),
-
-      isContinueDisable: !selectedItems.length,
+      isContinueDisable:
+        option === Option.Both
+          ? selectedItems.length !== 1
+          : !selectedItems.length,
     },
     {
       isAvailable: option !== Option.OnlyCloset,
@@ -77,7 +80,11 @@ const GenerateOutfitPage = () => {
     {
       isAvailable: true,
       component: (
-        <Outfit selectedItems={selectedItems} selectedStores={selectedStores} />
+        <Outfit
+          selectedItems={selectedItems}
+          selectedStores={selectedStores}
+          option={option}
+        />
       ),
     },
   ];
