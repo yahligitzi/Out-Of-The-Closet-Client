@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
-  const [prevSelectedItemsRef, setPrevSelectedItemsRef] = useState<string[]>([]);
+  const [prevSelectedItems, setPrevSelectedItems] = useState<string[]>([]);
   const {
     isFetching,
     isLoading,
@@ -23,7 +23,7 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
       itemsService.generateOutFit(
         selectedItems,
         selectedStores.map(({ name }) => name),
-        prevSelectedItemsRef
+        prevSelectedItems
       ),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
@@ -31,14 +31,14 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores }) => {
 
   useEffect(() => {
     if (generatedOutFitData) {
-      setPrevSelectedItemsRef([...prevSelectedItemsRef,
+      setPrevSelectedItems([...prevSelectedItems,
       ...generatedOutFitData.items.filter(item => item.store).map(item => item.id)]);
     }
   }, [generatedOutFitData]);
 
   const navigate = useNavigate();
 
-  const showRegenerate = !!generatedOutFitData?.items.map(item => item.store).length && !isLoading && !isFetching;
+  const showRegenerate = !!generatedOutFitData?.items.filter(item => item.store).length && !isLoading && !isFetching;
 
   const noOutfitGenerated =
     !isLoading && !isFetching && !generatedOutFitData?.items?.length;
