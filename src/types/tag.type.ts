@@ -13,6 +13,7 @@ export type Item = {
 };
 
 export type GenerateItem = {
+  id: string;
   imageUrl: string;
   siteUrl?: string;
   name?: string;

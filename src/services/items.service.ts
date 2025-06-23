@@ -17,11 +17,13 @@ export default {
   generateOutFit: async (
     items: Item[],
     stores: string[],
+    itemsToExclude: string[],
     mode: Option
   ): Promise<GenerateOutFitRes> => {
     const { data } = await apiClient.post(`${baseUrl}/outfit`, {
       items,
       stores,
+      itemsToExclude,
       mode,
     });
     return data;

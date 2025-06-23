@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { Box, Button, Card, Skeleton } from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
@@ -8,25 +8,38 @@ import { OutfitProps } from "./outfit.types";
 import { BufferToImageUrl } from "./Outfit.utils";
 import { PATHS } from "../../../../constants/routes";
 import { useNavigate } from "react-router-dom";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
+  const [prevSelectedItems, setPrevSelectedItems] = useState<string[]>([]);
   const {
     isFetching,
     isLoading,
     data: generatedOutFitData,
+    refetch
   } = useQuery({
     queryKey: ["generateOutfit"],
     queryFn: () =>
       itemsService.generateOutFit(
         selectedItems,
         selectedStores.map(({ name }) => name),
+        prevSelectedItems,
         option
       ),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    if (generatedOutFitData) {
+      setPrevSelectedItems([...prevSelectedItems,
+      ...generatedOutFitData.items.filter(item => item.store).map(item => item.id)]);
+    }
+  }, [generatedOutFitData]);
+
   const navigate = useNavigate();
+
+  const showRegenerate = !!generatedOutFitData?.items.filter(item => item.store).length && !isLoading && !isFetching;
 
   const noOutfitGenerated =
     !isLoading && !isFetching && !generatedOutFitData?.items?.length;
@@ -117,49 +130,61 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
               <Box sx={styles.itemsContainer}>
                 {generatedOutFitData?.items
                   ? generatedOutFitData.items.map(
-                      ({ imageUrl, siteUrl, store, name }) => (
-                        <Card key={imageUrl} sx={styles.itemCard}>
-                          <Box sx={styles.itemThumb}>
-                            <img
-                              src={imageUrl}
-                              style={styles.itemImage}
-                              alt="Item"
-                            />
+                    ({ imageUrl, siteUrl, store, name }) => (
+                      <Card key={imageUrl} sx={styles.itemCard}>
+                        <Box sx={styles.itemThumb}>
+                          <img
+                            src={imageUrl}
+                            style={styles.itemImage}
+                            alt="Item"
+                          />
+                        </Box>
+                        <Box sx={styles.itemDetails}>
+                          <Box sx={styles.itemTitle}>
+                            {siteUrl
+                              ? name || "Store Item"
+                              : "Item From Closet"}
                           </Box>
-                          <Box sx={styles.itemDetails}>
-                            <Box sx={styles.itemTitle}>
-                              {siteUrl
-                                ? name || "Store Item"
-                                : "Item From Closet"}
-                            </Box>
-                            {store && <Box sx={styles.itemStore}>{store}</Box>}
-                          </Box>
-                          {siteUrl && (
-                            <a
-                              href={siteUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={styles.buyButton as React.CSSProperties}
-                            >
-                              Buy Now
-                            </a>
-                          )}
-                        </Card>
-                      )
+                          {store && <Box sx={styles.itemStore}>{store}</Box>}
+                        </Box>
+                        {siteUrl && (
+                          <a
+                            href={siteUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={styles.buyButton as React.CSSProperties}
+                          >
+                            Buy Now
+                          </a>
+                        )}
+                      </Card>
                     )
+                  )
                   : null}
               </Box>
             </>
           )
         )}
-        <Button
-          variant="contained"
-          color="primary"
-          sx={styles.backButton}
-          onClick={() => navigate(PATHS.MAIN)}
-        >
-          Back To Home Page
-        </Button>
+        <Box sx={styles.buttonContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={styles.backButton}
+            onClick={() => navigate(PATHS.MAIN)}
+          >
+            Back To Home Page
+          </Button>
+          {showRegenerate &&
+            <Button
+              variant="contained"
+              color="primary"
+              sx={styles.backButton}
+              onClick={() => refetch()}
+              startIcon={<RefreshIcon />}
+            >
+              regenerate
+            </Button>}
+        </Box>
       </Box>
     </div>
   );

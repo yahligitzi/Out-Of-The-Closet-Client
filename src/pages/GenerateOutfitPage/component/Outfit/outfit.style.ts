@@ -125,6 +125,11 @@ const styles: any = {
       outline: "none",
     },
   },
+  buttonContainer: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-around"
+  }
 };
 
 export default styles;
