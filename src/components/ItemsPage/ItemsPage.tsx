@@ -6,6 +6,11 @@ import {
   ImageListItem,
   InputAdornment,
   CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import { Clear, Close, Search } from "@mui/icons-material";
 import React, { useEffect, useMemo, useState } from "react";
@@ -47,6 +52,7 @@ const ItemsPage = ({
   const [checkedFilterBox, setCheckedFilterBox] = useState<
     { tagId: string; categoryId: string }[]
   >([]);
+  const [deleteItem, setDeleteItem] = useState<string | null>(null);
 
   const tagsByCategory: ItemTag[] = useMemo(
     () => allItems?.flatMap((item) => item.tags) ?? [],
@@ -196,7 +202,7 @@ const ItemsPage = ({
                           <IconButton
                             size="small"
                             sx={styles.deleteButton}
-                            onClick={() => handleDeleteItem(id)}
+                            onClick={() => setDeleteItem(id)}
                           >
                             <Close fontSize="small" />
                           </IconButton>
@@ -217,6 +223,37 @@ const ItemsPage = ({
             </>
           )}
         </div>
+        <Dialog open={!!deleteItem} onClose={() => setDeleteItem(null)}>
+          <DialogTitle sx={styles.dialogText}>
+            {"Got tired with of item?"}
+          </DialogTitle>
+          <DialogContent sx={styles.dialogText}>
+            are you sure you want to delete this item? this action cant be
+            undone
+          </DialogContent>
+          <DialogActions sx={styles.dialogActions}>
+            <Button
+              variant="outlined"
+              sx={styles.dialogButton}
+              onClick={() => setDeleteItem(null)}
+            >
+              no
+            </Button>
+            <Button
+              sx={styles.dialogButton}
+              variant="contained"
+              onClick={() => {
+                if (deleteItem) {
+                  handleDeleteItem?.(deleteItem);
+                }
+
+                setDeleteItem(null);
+              }}
+            >
+              yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </>
   );

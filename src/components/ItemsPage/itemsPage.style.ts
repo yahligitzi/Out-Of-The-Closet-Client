@@ -76,6 +76,16 @@ const styles = {
     zIndex: 10,
     backgroundColor: "rgba(255,255,255,0.7)",
   },
+  dialogText: {
+    textAlign: "center",
+  },
+  dialogActions: {
+    justifyContent: "space-between",
+    padding: "10px 20px",
+  },
+  dialogButton: {
+    borderRadius: "15px",
+  },
 };
 
 export default styles;
