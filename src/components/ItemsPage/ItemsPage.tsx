@@ -225,7 +225,7 @@ const ItemsPage = ({
         </div>
         <Dialog open={!!deleteItem} onClose={() => setDeleteItem(null)}>
           <DialogTitle sx={styles.dialogText}>
-            {"Got tired with of item?"}
+            {"Got tired of the item?"}
           </DialogTitle>
           <DialogContent sx={styles.dialogText}>
             are you sure you want to delete this item? this action cant be

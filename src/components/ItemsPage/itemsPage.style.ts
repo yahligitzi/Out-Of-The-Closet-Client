@@ -70,6 +70,9 @@ const styles = {
     margin: "auto",
   },
   deleteButton: {
+    "&:focus": {
+      outline: "none",
+    },
     position: "absolute",
     top: 8,
     left: 8,
