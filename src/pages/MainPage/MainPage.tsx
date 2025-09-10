@@ -8,7 +8,7 @@ import userItemsService from "../../services/userItems.service";
 import ItemsPage from "../../components/ItemsPage";
 import { Item } from "../../types/tag.type";
 import { useSnackbar } from "../../contexts/SnackbarContext";
-import styles from "./MainPage.style";
+import styles from "./mainPage.style";
 
 const MainPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);

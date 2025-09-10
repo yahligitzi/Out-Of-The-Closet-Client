@@ -70,11 +70,24 @@ const styles = {
     margin: "auto",
   },
   deleteButton: {
+    "&:focus": {
+      outline: "none",
+    },
     position: "absolute",
     top: 8,
     left: 8,
     zIndex: 10,
     backgroundColor: "rgba(255,255,255,0.7)",
+  },
+  dialogText: {
+    textAlign: "center",
+  },
+  dialogActions: {
+    justifyContent: "space-between",
+    padding: "10px 20px",
+  },
+  dialogButton: {
+    borderRadius: "15px",
   },
 };
 
