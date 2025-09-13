@@ -1,14 +1,24 @@
 import { FC, useEffect, useState, useMemo } from "react";
-import { Box, Button, Card, Skeleton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Skeleton,
+} from "@mui/material";
 import Header from "../../../../components/Header";
 import itemsService from "../../../../services/items.service";
 import styles from "./outfit.style";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { OutfitProps } from "./outfit.types";
 import { BufferToImageUrl } from "./Outfit.utils";
 import { PATHS } from "../../../../constants/routes";
 import { useNavigate } from "react-router-dom";
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
   const [prevSelectedItems, setPrevSelectedItems] = useState<string[]>([]);
@@ -16,7 +26,8 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
     isFetching,
     isLoading,
     data: generatedOutFitData,
-    refetch
+    error,
+    refetch,
   } = useQuery({
     queryKey: ["generateOutfit"],
     queryFn: () =>
@@ -26,20 +37,37 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
         prevSelectedItems,
         option
       ),
+    gcTime: 0,
+    retry: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+  const [isFailedRegen, setIsFailedRegen] = useState(false);
 
   useEffect(() => {
     if (generatedOutFitData) {
-      setPrevSelectedItems([...prevSelectedItems,
-      ...generatedOutFitData.items.filter(item => item.store).map(item => item.id)]);
+      setPrevSelectedItems([
+        ...prevSelectedItems,
+        ...generatedOutFitData.items
+          .filter((item) => item.store)
+          .map((item) => item.id),
+      ]);
     }
   }, [generatedOutFitData]);
 
+  useEffect(() => {
+    setIsFailedRegen(!!error && !!generatedOutFitData);
+  }, [error, generatedOutFitData]);
+
   const navigate = useNavigate();
 
-  const showRegenerate = !!generatedOutFitData?.items.filter(item => item.store).length && !isLoading && !isFetching;
+  const showRegenerate = useMemo(() => {
+    return (
+      !!generatedOutFitData?.items?.filter((item) => item.store)?.length &&
+      !isLoading &&
+      !isFetching
+    );
+  }, [generatedOutFitData, isLoading, isFetching]);
 
   const noOutfitGenerated =
     !isLoading && !isFetching && !generatedOutFitData?.items?.length;
@@ -130,36 +158,36 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
               <Box sx={styles.itemsContainer}>
                 {generatedOutFitData?.items
                   ? generatedOutFitData.items.map(
-                    ({ imageUrl, siteUrl, store, name }) => (
-                      <Card key={imageUrl} sx={styles.itemCard}>
-                        <Box sx={styles.itemThumb}>
-                          <img
-                            src={imageUrl}
-                            style={styles.itemImage}
-                            alt="Item"
-                          />
-                        </Box>
-                        <Box sx={styles.itemDetails}>
-                          <Box sx={styles.itemTitle}>
-                            {siteUrl
-                              ? name || "Store Item"
-                              : "Item From Closet"}
+                      ({ imageUrl, siteUrl, store, name }) => (
+                        <Card key={imageUrl} sx={styles.itemCard}>
+                          <Box sx={styles.itemThumb}>
+                            <img
+                              src={imageUrl}
+                              style={styles.itemImage}
+                              alt="Item"
+                            />
                           </Box>
-                          {store && <Box sx={styles.itemStore}>{store}</Box>}
-                        </Box>
-                        {siteUrl && (
-                          <a
-                            href={siteUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={styles.buyButton as React.CSSProperties}
-                          >
-                            Buy Now
-                          </a>
-                        )}
-                      </Card>
+                          <Box sx={styles.itemDetails}>
+                            <Box sx={styles.itemTitle}>
+                              {siteUrl
+                                ? name || "Store Item"
+                                : "Item From Closet"}
+                            </Box>
+                            {store && <Box sx={styles.itemStore}>{store}</Box>}
+                          </Box>
+                          {siteUrl && (
+                            <a
+                              href={siteUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={styles.buyButton as React.CSSProperties}
+                            >
+                              Buy Now
+                            </a>
+                          )}
+                        </Card>
+                      )
                     )
-                  )
                   : null}
               </Box>
             </>
@@ -174,18 +202,30 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
           >
             Back To Home Page
           </Button>
-          {showRegenerate &&
+          {showRegenerate && (
             <Button
               variant="contained"
               color="primary"
               sx={styles.backButton}
-              onClick={() => refetch()}
+              onClick={() => {
+                refetch();
+              }}
               startIcon={<RefreshIcon />}
             >
               regenerate
-            </Button>}
+            </Button>
+          )}
         </Box>
       </Box>
+      <Dialog open={isFailedRegen}>
+        <DialogTitle>Oh no</DialogTitle>
+        <DialogContent>
+          <DialogContentText>We couldn't find another match</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsFailedRegen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

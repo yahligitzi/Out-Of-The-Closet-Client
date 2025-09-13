@@ -61,7 +61,7 @@ const ItemsPage = ({
 
   useEffect(() => {
     if (allItems) {
-      if (displayedItems?.length) {
+      if (allItems?.length) {
         handleFilter();
       } else {
         setDisplayedItems(allItems);
