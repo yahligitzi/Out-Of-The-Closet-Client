@@ -170,7 +170,9 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
                           <Box sx={styles.itemDetails}>
                             <Box sx={styles.itemTitle}>
                               {siteUrl
-                                ? name || "Store Item"
+                                ? !name || name?.toLowerCase() === "null"
+                                  ? "Store Item"
+                                  : name
                                 : "Item From Closet"}
                             </Box>
                             {store && <Box sx={styles.itemStore}>{store}</Box>}
