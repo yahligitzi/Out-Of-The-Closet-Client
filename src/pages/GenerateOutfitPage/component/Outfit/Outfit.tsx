@@ -61,10 +61,13 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
 
   const navigate = useNavigate();
 
-  const showRegenerate =
-    !!generatedOutFitData?.items.filter((item) => item.store).length &&
-    !isLoading &&
-    !isFetching;
+  const showRegenerate = useMemo(() => {
+    return (
+      !!generatedOutFitData?.items?.filter((item) => item.store)?.length &&
+      !isLoading &&
+      !isFetching
+    );
+  }, [generatedOutFitData, isLoading, isFetching]);
 
   const noOutfitGenerated =
     !isLoading && !isFetching && !generatedOutFitData?.items?.length;
