@@ -16,5 +16,5 @@ export interface MeasurementField {
 
 export interface MeasurementsProps {
   measurements?: Partial<MeasurementOptions>;
-  onMeasurementChange: (field: MeasurementName, value: string) => void;
+  onMeasurementChange: (field: MeasurementName, value?: string) => void;
 }

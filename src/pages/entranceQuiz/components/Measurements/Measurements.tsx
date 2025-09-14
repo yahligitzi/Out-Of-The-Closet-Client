@@ -11,7 +11,7 @@ export const Measurements: FC<MeasurementsProps> = ({
   const handleInputChange = (field: MeasurementName, value: string) => {
     // Only allow numbers
     if (value === "" || /^\d+$/.test(value)) {
-      onMeasurementChange(field, value);
+      onMeasurementChange(field, value === "" ? undefined : value);
     }
   };
 

@@ -29,7 +29,7 @@ export const EntranceQuiz = () => {
 
   const handleChange = (
     field: string,
-    value: File[] | string | Object,
+    value?: File[] | string | Object,
     parentField?: keyof QuizData
   ) => {
     setQuizData((prev) => ({
