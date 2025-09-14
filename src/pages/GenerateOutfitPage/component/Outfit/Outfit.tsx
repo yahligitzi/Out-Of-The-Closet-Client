@@ -84,6 +84,10 @@ const Outfit: FC<OutfitProps> = ({ selectedItems, selectedStores, option }) => {
     if (noOutfitGenerated)
       return "Your selecton did not yield any outfit. Please try again with different items or stores.";
 
+    
+    if (!generatedOutFitData?.modelImage)
+      return `We coludn't generate your look, but here are all the pieces!`;
+
     return `Here's your generated look, with all the pieces that make it
               up.`;
   }, [noOutfitGenerated, isFetching]);
