@@ -3,19 +3,11 @@ import axios from "axios";
 const apiClient = axios.create({ baseURL: import.meta.env.VITE_BACKEND_URL });
 
 export const addAuthHeader = (token: string) => {
-  apiClient.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${token}`;
-
-    return config;
-  });
+  apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
 export const removeAuthHeader = () => {
-  apiClient.interceptors.request.use((config) => {
-    config.headers.Authorization = null;
-
-    return config;
-  });
+  delete apiClient.defaults.headers.common["Authorization"];
 };
 
 export default apiClient;

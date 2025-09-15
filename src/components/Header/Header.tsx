@@ -5,12 +5,16 @@ import { removeAuthHeader } from "../../services/axiosInstance";
 import { useUser } from "../../contexts/UserContext";
 import { PATHS } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Header = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   const handleLogout = () => {
+    queryClient.clear();
     removeAuthHeader();
     localStorage.removeItem("token");
     setUser(null);
